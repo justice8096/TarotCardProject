@@ -1,0 +1,235 @@
+{
+  "81": {
+    "inputs": {
+      "vae_name": "ae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "82": {
+    "inputs": {
+      "clip_name1": "clip_l_hidream.safetensors",
+      "clip_name2": "clip_g_hidream.safetensors",
+      "clip_name3": "t5xxl_fp8_e4m3fn_scaled.safetensors",
+      "clip_name4": "llama_3.1_8b_instruct_fp8_scaled.safetensors"
+    },
+    "class_type": "QuadrupleCLIPLoader",
+    "_meta": {
+      "title": "QuadrupleCLIPLoader"
+    }
+  },
+  "84": {
+    "inputs": {
+      "shift": 3,
+      "model": [
+        "94",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingSD3",
+    "_meta": {
+      "title": "ModelSamplingSD3"
+    }
+  },
+  "86": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptySD3LatentImage",
+    "_meta": {
+      "title": "EmptySD3LatentImage"
+    }
+  },
+  "89": {
+    "inputs": {
+      "samples": [
+        "93",
+        0
+      ],
+      "vae": [
+        "81",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "93": {
+    "inputs": {
+      "seed": 745931716286685,
+      "steps": 40,
+      "cfg": 5,
+      "sampler_name": "uni_pc",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "84",
+        0
+      ],
+      "positive": [
+        "98",
+        0
+      ],
+      "negative": [
+        "99",
+        0
+      ],
+      "latent_image": [
+        "86",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "94": {
+    "inputs": {
+      "unet_name": "hidream_i1_full_fp8.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Load Diffusion Model"
+    }
+  },
+  "95": {
+    "inputs": {
+      "images": [
+        "89",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "98": {
+    "inputs": {
+      "text": [
+        "107",
+        0
+      ],
+      "clip": [
+        "82",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "99": {
+    "inputs": {
+      "text": [
+        "100",
+        0
+      ],
+      "clip": [
+        "82",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "100": {
+    "inputs": {
+      "value": "cartoon anime deformed ugly mutated extra limbs poorly drawn face lowres blurry text watermark overexposed underexposed artifacts modern clothes"
+    },
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "Negative Prompt"
+    }
+  },
+  "101": {
+    "inputs": {
+      "output_path": [
+        "105",
+        0
+      ],
+      "filename_prefix": "IMG",
+      "filename_delimiter": "_",
+      "filename_suffix": [
+        "102",
+        0
+      ],
+      "extension": "png",
+      "filename_number_padding": 2,
+      "filename_number": "start",
+      "embeded_workflow": true,
+      "images": [
+        "89",
+        0
+      ]
+    },
+    "class_type": "ImageBatchSaver",
+    "_meta": {
+      "title": "Image Batch Saver"
+    }
+  },
+  "102": {
+    "inputs": {
+      "string_a": [
+        "103",
+        0
+      ],
+      "string_b": [
+        "104",
+        0
+      ],
+      "delimiter": "_"
+    },
+    "class_type": "StringConcatenate",
+    "_meta": {
+      "title": "Concatenate"
+    }
+  },
+  "103": {
+    "inputs": {
+      "value": "The_Fool"
+    },
+    "class_type": "PrimitiveString",
+    "_meta": {
+      "title": "Card"
+    }
+  },
+  "104": {
+    "inputs": {
+      "value": "Upright"
+    },
+    "class_type": "PrimitiveString",
+    "_meta": {
+      "title": "Orientation"
+    }
+  },
+  "105": {
+    "inputs": {
+      "value": "D:\\data\\Full_Images"
+    },
+    "class_type": "PrimitiveString",
+    "_meta": {
+      "title": "Directory"
+    }
+  },
+  "107": {
+    "inputs": {
+      "value": "Photorealistic Odysseus departing Ithaca on adventure, rugged muscular Greek hero short dark beard simple wool tunic leather sandals knapsack stick shoulder, standing cliff edge gazing bright sea horizon with sails distant, carefree optimistic smile wind tousled hair, golden dawn light warm skin tones crashing waves mountains backdrop, high detail fabric texture pores dynamic pose, 8k ultra realistic TarotSpreadsheet2.xlsx​"
+    },
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "Positive Prompt"
+    }
+  }
+}
