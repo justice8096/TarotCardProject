@@ -1,235 +1,818 @@
 {
-  "81": {
-    "inputs": {
-      "vae_name": "ae.safetensors"
+  "id": "00000000-0000-0000-0000-000000000000",
+  "revision": 0,
+  "last_node_id": 107,
+  "last_link_id": 34,
+  "nodes": [
+    {
+      "id": 81,
+      "type": "VAELoader",
+      "pos": [
+        100,
+        130
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            20
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "ae.safetensors"
+      ]
     },
-    "class_type": "VAELoader",
-    "_meta": {
-      "title": "Load VAE"
-    }
-  },
-  "82": {
-    "inputs": {
-      "clip_name1": "clip_l_hidream.safetensors",
-      "clip_name2": "clip_g_hidream.safetensors",
-      "clip_name3": "t5xxl_fp8_e4m3fn_scaled.safetensors",
-      "clip_name4": "llama_3.1_8b_instruct_fp8_scaled.safetensors"
+    {
+      "id": 82,
+      "type": "QuadrupleCLIPLoader",
+      "pos": [
+        100,
+        318
+      ],
+      "size": [
+        270,
+        130
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            27,
+            29
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "QuadrupleCLIPLoader"
+      },
+      "widgets_values": [
+        "clip_l_hidream.safetensors",
+        "clip_g_hidream.safetensors",
+        "t5xxl_fp8_e4m3fn_scaled.safetensors",
+        "llama_3.1_8b_instruct_fp8_scaled.safetensors"
+      ]
     },
-    "class_type": "QuadrupleCLIPLoader",
-    "_meta": {
-      "title": "QuadrupleCLIPLoader"
-    }
-  },
-  "84": {
-    "inputs": {
-      "shift": 3,
-      "model": [
-        "94",
+    {
+      "id": 84,
+      "type": "ModelSamplingSD3",
+      "pos": [
+        600,
+        130
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 18
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            21
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ModelSamplingSD3"
+      },
+      "widgets_values": [
+        3
+      ]
+    },
+    {
+      "id": 86,
+      "type": "EmptySD3LatentImage",
+      "pos": [
+        100,
+        578
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            24
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptySD3LatentImage"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        1
+      ]
+    },
+    {
+      "id": 89,
+      "type": "VAEDecode",
+      "pos": [
+        1470,
+        130
+      ],
+      "size": [
+        140,
+        46
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 19
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 20
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            25,
+            32
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 93,
+      "type": "KSampler",
+      "pos": [
+        1100,
+        130
+      ],
+      "size": [
+        270,
+        262
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 21
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 22
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 23
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 24
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            19
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        368970894877705,
+        "randomize",
+        40,
+        5,
+        "uni_pc",
+        "simple",
+        1
+      ]
+    },
+    {
+      "id": 94,
+      "type": "UNETLoader",
+      "pos": [
+        100,
+        814
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            18
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoader"
+      },
+      "widgets_values": [
+        "hidream_i1_full_fp8.safetensors",
+        "default"
+      ]
+    },
+    {
+      "id": 98,
+      "type": "CLIPTextEncode",
+      "pos": [
+        600,
+        978
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 27
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 26
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            22
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 99,
+      "type": "CLIPTextEncode",
+      "pos": [
+        600,
+        318
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 29
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 28
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            23
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 101,
+      "type": "ImageBatchSaver",
+      "pos": [
+        1710,
+        286
+      ],
+      "size": [
+        314.15234375,
+        318
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 32
+        },
+        {
+          "name": "contents",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "output_path",
+          "shape": 7,
+          "type": "STRING",
+          "widget": {
+            "name": "output_path"
+          },
+          "link": 30
+        },
+        {
+          "name": "filename_suffix",
+          "shape": 7,
+          "type": "STRING",
+          "widget": {
+            "name": "filename_suffix"
+          },
+          "link": 31
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "ImageBatchSaver"
+      },
+      "widgets_values": [
+        "",
+        "IMG",
+        "_",
+        "",
+        "png",
+        2,
+        "start",
+        true,
+        false,
+        0,
         0
       ]
     },
-    "class_type": "ModelSamplingSD3",
-    "_meta": {
-      "title": "ModelSamplingSD3"
-    }
-  },
-  "86": {
-    "inputs": {
-      "width": 1024,
-      "height": 1024,
-      "batch_size": 1
-    },
-    "class_type": "EmptySD3LatentImage",
-    "_meta": {
-      "title": "EmptySD3LatentImage"
-    }
-  },
-  "89": {
-    "inputs": {
-      "samples": [
-        "93",
-        0
+    {
+      "id": 102,
+      "type": "StringConcatenate",
+      "pos": [
+        600,
+        648
       ],
-      "vae": [
-        "81",
-        0
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "string_a",
+          "type": "STRING",
+          "widget": {
+            "name": "string_a"
+          },
+          "link": 33
+        },
+        {
+          "name": "string_b",
+          "type": "STRING",
+          "widget": {
+            "name": "string_b"
+          },
+          "link": 34
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            31
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "StringConcatenate"
+      },
+      "widgets_values": [
+        "",
+        "",
+        "_"
       ]
     },
-    "class_type": "VAEDecode",
-    "_meta": {
-      "title": "VAE Decode"
-    }
-  },
-  "93": {
-    "inputs": {
-      "seed": 745931716286685,
-      "steps": 40,
-      "cfg": 5,
-      "sampler_name": "uni_pc",
-      "scheduler": "simple",
-      "denoise": 1,
-      "model": [
-        "84",
-        0
+    {
+      "id": 100,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        -281.68000662207197,
+        1034.5053966589228
       ],
-      "positive": [
-        "98",
-        0
+      "size": [
+        400,
+        200
       ],
-      "negative": [
-        "99",
-        0
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            28
+          ]
+        }
       ],
-      "latent_image": [
-        "86",
-        0
+      "title": "Negative Prompt",
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "widgets_values": [
+        "cartoon anime deformed ugly mutated extra limbs poorly drawn face lowres blurry text watermark overexposed underexposed artifacts modern clothes"
       ]
     },
-    "class_type": "KSampler",
-    "_meta": {
-      "title": "KSampler"
-    }
-  },
-  "94": {
-    "inputs": {
-      "unet_name": "hidream_i1_full_fp8.safetensors",
-      "weight_dtype": "default"
-    },
-    "class_type": "UNETLoader",
-    "_meta": {
-      "title": "Load Diffusion Model"
-    }
-  },
-  "95": {
-    "inputs": {
-      "images": [
-        "89",
-        0
+    {
+      "id": 103,
+      "type": "PrimitiveString",
+      "pos": [
+        -276.36416108617294,
+        1285.8304106449505
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            33
+          ]
+        }
+      ],
+      "title": "Card",
+      "properties": {
+        "Node name for S&R": "PrimitiveString"
+      },
+      "widgets_values": [
+        "The_Fool"
       ]
     },
-    "class_type": "PreviewImage",
-    "_meta": {
-      "title": "Preview Image"
-    }
-  },
-  "98": {
-    "inputs": {
-      "text": [
-        "107",
-        0
+    {
+      "id": 104,
+      "type": "PrimitiveString",
+      "pos": [
+        -276.36416108617414,
+        1399.408086459203
       ],
-      "clip": [
-        "82",
-        0
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            34
+          ]
+        }
+      ],
+      "title": "Orientation",
+      "properties": {
+        "Node name for S&R": "PrimitiveString"
+      },
+      "widgets_values": [
+        "Upright"
       ]
     },
-    "class_type": "CLIPTextEncode",
-    "_meta": {
-      "title": "CLIP Text Encode (Prompt)"
-    }
-  },
-  "99": {
-    "inputs": {
-      "text": [
-        "100",
-        0
+    {
+      "id": 105,
+      "type": "PrimitiveString",
+      "pos": [
+        -275.30095304434013,
+        1512.98581094177
       ],
-      "clip": [
-        "82",
-        0
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            30
+          ]
+        }
+      ],
+      "title": "Directory",
+      "properties": {
+        "Node name for S&R": "PrimitiveString"
+      },
+      "widgets_values": [
+        "D:\\data\\Full_Images"
       ]
     },
-    "class_type": "CLIPTextEncode",
-    "_meta": {
-      "title": "CLIP Text Encode (Prompt)"
-    }
-  },
-  "100": {
-    "inputs": {
-      "value": "cartoon anime deformed ugly mutated extra limbs poorly drawn face lowres blurry text watermark overexposed underexposed artifacts modern clothes"
-    },
-    "class_type": "PrimitiveStringMultiline",
-    "_meta": {
-      "title": "Negative Prompt"
-    }
-  },
-  "101": {
-    "inputs": {
-      "output_path": [
-        "105",
-        0
+    {
+      "id": 107,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        -274.23784233914046,
+        1629.7530622132065
       ],
-      "filename_prefix": "IMG",
-      "filename_delimiter": "_",
-      "filename_suffix": [
-        "102",
-        0
+      "size": [
+        400,
+        200
       ],
-      "extension": "png",
-      "filename_number_padding": 2,
-      "filename_number": "start",
-      "embeded_workflow": true,
-      "images": [
-        "89",
-        0
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            26
+          ]
+        }
+      ],
+      "title": "Positive Prompt",
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "widgets_values": [
+        "Photorealistic Odysseus departing Ithaca on adventure, rugged muscular Greek hero short dark beard simple wool tunic leather sandals knapsack stick shoulder, standing cliff edge gazing bright sea horizon with sails distant, carefree optimistic smile wind tousled hair, golden dawn light warm skin tones crashing waves mountains backdrop, high detail fabric texture pores dynamic pose, 8k ultra realistic TarotSpreadsheet2.xlsx​"
       ]
     },
-    "class_type": "ImageBatchSaver",
-    "_meta": {
-      "title": "Image Batch Saver"
-    }
-  },
-  "102": {
-    "inputs": {
-      "string_a": [
-        "103",
-        0
+    {
+      "id": 95,
+      "type": "PreviewImage",
+      "pos": [
+        1653.8243798968572,
+        -124.5827987972024
       ],
-      "string_b": [
-        "104",
-        0
+      "size": [
+        965.8999926308261,
+        373.8103025820934
       ],
-      "delimiter": "_"
-    },
-    "class_type": "StringConcatenate",
-    "_meta": {
-      "title": "Concatenate"
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 25
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
     }
+  ],
+  "links": [
+    [
+      18,
+      94,
+      0,
+      84,
+      0,
+      "MODEL"
+    ],
+    [
+      19,
+      93,
+      0,
+      89,
+      0,
+      "LATENT"
+    ],
+    [
+      20,
+      81,
+      0,
+      89,
+      1,
+      "VAE"
+    ],
+    [
+      21,
+      84,
+      0,
+      93,
+      0,
+      "MODEL"
+    ],
+    [
+      22,
+      98,
+      0,
+      93,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      23,
+      99,
+      0,
+      93,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      24,
+      86,
+      0,
+      93,
+      3,
+      "LATENT"
+    ],
+    [
+      25,
+      89,
+      0,
+      95,
+      0,
+      "IMAGE"
+    ],
+    [
+      26,
+      107,
+      0,
+      98,
+      1,
+      "STRING"
+    ],
+    [
+      27,
+      82,
+      0,
+      98,
+      0,
+      "CLIP"
+    ],
+    [
+      28,
+      100,
+      0,
+      99,
+      1,
+      "STRING"
+    ],
+    [
+      29,
+      82,
+      0,
+      99,
+      0,
+      "CLIP"
+    ],
+    [
+      30,
+      105,
+      0,
+      101,
+      2,
+      "STRING"
+    ],
+    [
+      31,
+      102,
+      0,
+      101,
+      3,
+      "STRING"
+    ],
+    [
+      32,
+      89,
+      0,
+      101,
+      0,
+      "IMAGE"
+    ],
+    [
+      33,
+      103,
+      0,
+      102,
+      0,
+      "STRING"
+    ],
+    [
+      34,
+      104,
+      0,
+      102,
+      1,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.45,
+      "offset": [
+        -416.77437621227,
+        879.8998697283779
+      ]
+    },
+    "workflowRendererVersion": "LG",
+    "frontendVersion": "1.36.13"
   },
-  "103": {
-    "inputs": {
-      "value": "The_Fool"
-    },
-    "class_type": "PrimitiveString",
-    "_meta": {
-      "title": "Card"
-    }
-  },
-  "104": {
-    "inputs": {
-      "value": "Upright"
-    },
-    "class_type": "PrimitiveString",
-    "_meta": {
-      "title": "Orientation"
-    }
-  },
-  "105": {
-    "inputs": {
-      "value": "D:\\data\\Full_Images"
-    },
-    "class_type": "PrimitiveString",
-    "_meta": {
-      "title": "Directory"
-    }
-  },
-  "107": {
-    "inputs": {
-      "value": "Photorealistic Odysseus departing Ithaca on adventure, rugged muscular Greek hero short dark beard simple wool tunic leather sandals knapsack stick shoulder, standing cliff edge gazing bright sea horizon with sails distant, carefree optimistic smile wind tousled hair, golden dawn light warm skin tones crashing waves mountains backdrop, high detail fabric texture pores dynamic pose, 8k ultra realistic TarotSpreadsheet2.xlsx​"
-    },
-    "class_type": "PrimitiveStringMultiline",
-    "_meta": {
-      "title": "Positive Prompt"
-    }
-  }
+  "version": 0.4
 }
