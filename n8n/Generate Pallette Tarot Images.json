@@ -1,0 +1,393 @@
+{
+  "name": "Generate Pallette Tarot Images",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1408,
+        -80
+      ],
+      "id": "a0a62021-5ef9-441f-99bb-8580be4f9924",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "=POST",
+        "url": "=http://127.0.0.1:8188/prompt",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \"prompt\": {\n  \"128\": {\n    \"inputs\": {\n      \"value\": \"{{$json.InputDirectory}}\"\n    },\n    \"class_type\": \"PrimitiveString\",\n    \"_meta\": {\n      \"title\": \"INPUT Input Directory\"\n    }\n  },\n  \"130\": {\n    \"inputs\": {\n      \"value\": \"{{$json.UprightInputImage}}\"\n    },\n    \"class_type\": \"PrimitiveString\",\n    \"_meta\": {\n      \"title\": \"INPUT Upright Input Filename\"\n    }\n  },\n  \"133\": {\n    \"inputs\": {\n      \"value\": \"PALLETTE{{$json.UprightInputImage}}\"\n    },\n    \"class_type\": \"PrimitiveString\",\n    \"_meta\": {\n      \"title\": \"INPUT Upright Output Filename\"\n    }\n  },\n  \"135\": {\n    \"inputs\": {\n      \"value\": \"{{$json.BetweenInputImage}}\"\n    },\n    \"class_type\": \"PrimitiveString\",\n    \"_meta\": {\n      \"title\": \"INPUT Between Input Filename\"\n    }\n  },\n  \"143\": {\n    \"inputs\": {\n      \"value\": \"PALLETTE{{$json.ReversedInputImage}}\"\n    },\n    \"class_type\": \"PrimitiveString\",\n    \"_meta\": {\n      \"title\": \"INPUT Reverse Output Filename\"\n    }\n  },\n  \"144\": {\n    \"inputs\": {\n      \"value\": \"{{$json.ReversedInputImage}}\"\n    },\n    \"class_type\": \"PrimitiveString\",\n    \"_meta\": {\n      \"title\": \"INPUT Reverse Input Filename\"\n    }\n  },\n  \"146\": {\n    \"inputs\": {\n      \"image_path\": [\n        \"163:162\",\n        0\n      ]\n    },\n    \"class_type\": \"LoadImageFromPath_\",\n    \"_meta\": {\n      \"title\": \"Load Image From Path\"\n    }\n  },\n  \"152\": {\n    \"inputs\": {\n      \"value\": \"{{$json.OutputDirectory}}\"\n    },\n    \"class_type\": \"PrimitiveString\",\n    \"_meta\": {\n      \"title\": \"INPUT Output Directory\"\n    }\n  },\n  \"153\": {\n    \"inputs\": {\n      \"output_path\": [\n        \"152\",\n        0\n      ],\n      \"filename_prefix\": [\n        \"133\",\n        0\n      ],\n      \"filename_delimiter\": \"_\",\n      \"filename_suffix\": \"\",\n      \"extension\": \"png\",\n      \"filename_number_padding\": 1,\n      \"filename_number\": \"off\",\n      \"embeded_workflow\": true,\n      \"append_frames\": false,\n      \"start_index\": 0,\n      \"end_index\": 0,\n      \"images\": [\n        \"173\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageBatchSaver\",\n    \"_meta\": {\n      \"title\": \"Image Batch Saver\"\n    }\n  },\n  \"154\": {\n    \"inputs\": {\n      \"output_path\": [\n        \"152\",\n        0\n      ],\n      \"filename_prefix\": [\n        \"156\",\n        0\n      ],\n      \"filename_delimiter\": \"_\",\n      \"filename_suffix\": \"\",\n      \"extension\": \"png\",\n      \"filename_number_padding\": 1,\n      \"filename_number\": \"off\",\n      \"embeded_workflow\": true,\n      \"append_frames\": false,\n      \"start_index\": 0,\n      \"end_index\": 0,\n      \"images\": [\n        \"172\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageBatchSaver\",\n    \"_meta\": {\n      \"title\": \"Image Batch Saver\"\n    }\n  },\n  \"155\": {\n    \"inputs\": {\n      \"output_path\": [\n        \"152\",\n        0\n      ],\n      \"filename_prefix\": [\n        \"143\",\n        0\n      ],\n      \"filename_delimiter\": \"_\",\n      \"filename_suffix\": \"\",\n      \"extension\": \"png\",\n      \"filename_number_padding\": 1,\n      \"filename_number\": \"off\",\n      \"embeded_workflow\": true,\n      \"append_frames\": false,\n      \"start_index\": 0,\n      \"end_index\": 0,\n      \"images\": [\n        \"171\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageBatchSaver\",\n    \"_meta\": {\n      \"title\": \"Image Batch Saver\"\n    }\n  },\n  \"156\": {\n    \"inputs\": {\n      \"value\": \"PALLETTE{{$json.BetweenInputImage}}\"\n    },\n    \"class_type\": \"PrimitiveString\",\n    \"_meta\": {\n      \"title\": \"INPUT Between Output Filename\"\n    }\n  },\n  \"169\": {\n    \"inputs\": {\n      \"color_palette\": \"[(32, 99, 162), (151, 101, 202), (202, 179, 121), (222, 111, 144), (0, 125, 242), (181, 121, 242), (182, 156, 91), (222, 88, 128), (121, 242, 227), (127, 72, 182), (182, 109, 131), (222, 133, 159), (96, 172, 242), (141, 80, 202), (182, 127, 143), (222, 191, 111), (121, 184, 242), (99, 56, 142), (182, 166, 127), (242, 48, 106), (24, 242, 216), (113, 85, 142), (162, 143, 97), (202, 60, 103), (80, 202, 187), (85, 114, 142), (142, 114, 42), (202, 40, 88), (36, 182, 164), (97, 73, 122), (202, 156, 40), (142, 0, 42), (0, 222, 195), (101, 0, 202), (182, 136, 18), (102, 0, 30), (22, 126, 222), (121, 0, 242), (142, 106, 14), (162, 64, 94), (24, 137, 242), (78, 14, 142), (122, 104, 61), (162, 81, 105), (81, 162, 152), (61, 20, 102), (202, 141, 159), (202, 141, 159), (48, 122, 113), (20, 62, 102), (162, 113, 128), (222, 44, 97), (12, 122, 108), (0, 53, 102), (142, 130, 99), (222, 0, 66), (12, 69, 122), (42, 94, 142), (122, 0, 36), (154, 127, 182), (133, 222, 211), (42, 142, 130), (109, 147, 182), (216, 172, 140), (180, 182, 124), (242, 216, 197), (66, 50, 32), (247, 200, 193), (139, 140, 95), (69, 55, 34), (228, 205, 191), (117, 116, 76), (101, 77, 41), (243, 217, 209), (143, 142, 106), (120, 81, 53), (228, 197, 187), (136, 129, 93), (72, 51, 32), (229, 215, 211), (149, 140, 95), (117, 98, 68), (239, 228, 227), (165, 159, 113), (93, 78, 60), (223, 185, 169), (132, 129, 93), (104, 73, 51), (226, 209, 205), (126, 123, 84), (201, 174, 132), (219, 214, 186), (178, 158, 127), (219, 208, 168), (192, 155, 129), (227, 212, 160), (194, 155, 120), (229, 222, 189), (188, 167, 136), (192, 183, 150), (180, 147, 109), (221, 213, 157), (184, 133, 105), (204, 196, 162), (215, 182, 159), (234, 232, 185), (0, 0, 0)]\\n\"\n    },\n    \"class_type\": \"ColorPalette\",\n    \"_meta\": {\n      \"title\": \"ColorPalette\"\n    }\n  },\n  \"171\": {\n    \"inputs\": {\n      \"palette_extension_method\": \"None\",\n      \"palette_extension_points\": 5,\n      \"gaussian_blur\": 5,\n      \"image\": [\n        \"146\",\n        0\n      ],\n      \"target_colors\": [\n        \"169\",\n        0\n      ]\n    },\n    \"class_type\": \"PalleteTransferClustering\",\n    \"_meta\": {\n      \"title\": \"PalleteTransferClustering\"\n    }\n  },\n  \"172\": {\n    \"inputs\": {\n      \"palette_extension_method\": \"None\",\n      \"palette_extension_points\": 5,\n      \"gaussian_blur\": 5,\n      \"image\": [\n        \"167:138\",\n        0\n      ],\n      \"target_colors\": [\n        \"169\",\n        0\n      ]\n    },\n    \"class_type\": \"PalleteTransferClustering\",\n    \"_meta\": {\n      \"title\": \"PalleteTransferClustering\"\n    }\n  },\n  \"173\": {\n    \"inputs\": {\n      \"palette_extension_method\": \"None\",\n      \"palette_extension_points\": 5,\n      \"gaussian_blur\": 5,\n      \"image\": [\n        \"161:131\",\n        0\n      ],\n      \"target_colors\": [\n        \"169\",\n        0\n      ]\n    },\n    \"class_type\": \"PalleteTransferClustering\",\n    \"_meta\": {\n      \"title\": \"PalleteTransferClustering\"\n    }\n  },\n  \"159:129\": {\n    \"inputs\": {\n      \"string_a\": [\n        \"128\",\n        0\n      ],\n      \"string_b\": [\n        \"130\",\n        0\n      ],\n      \"delimiter\": \"/\"\n    },\n    \"class_type\": \"StringConcatenate\",\n    \"_meta\": {\n      \"title\": \"Input File\"\n    }\n  },\n  \"164:137\": {\n    \"inputs\": {\n      \"string_a\": [\n        \"128\",\n        0\n      ],\n      \"string_b\": [\n        \"135\",\n        0\n      ],\n      \"delimiter\": \"/\"\n    },\n    \"class_type\": \"StringConcatenate\",\n    \"_meta\": {\n      \"title\": \"Input File\"\n    }\n  },\n  \"163:162\": {\n    \"inputs\": {\n      \"string_a\": [\n        \"128\",\n        0\n      ],\n      \"string_b\": [\n        \"144\",\n        0\n      ],\n      \"delimiter\": \"/\"\n    },\n    \"class_type\": \"StringConcatenate\",\n    \"_meta\": {\n      \"title\": \"Input File\"\n    }\n  },\n  \"161:131\": {\n    \"inputs\": {\n      \"image_path\": [\n        \"159:129\",\n        0\n      ]\n    },\n    \"class_type\": \"LoadImageFromPath_\",\n    \"_meta\": {\n      \"title\": \"Load Image From Path\"\n    }\n  },\n  \"167:138\": {\n    \"inputs\": {\n      \"image_path\": [\n        \"164:137\",\n        0\n      ]\n    },\n    \"class_type\": \"LoadImageFromPath_\",\n    \"_meta\": {\n      \"title\": \"Load Image From Path\"\n    }\n  }\n}\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -736,
+        -64
+      ],
+      "id": "c7ca0398-4a5e-41da-bf9a-9f3061bbd066",
+      "name": "Send to ComfyUI Individual Image Prompts",
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "=GET",
+        "url": "=http://127.0.0.1:8188/history/{{$json.prompt_id}}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -720,
+        432
+      ],
+      "id": "05d6500e-91c0-4cd4-b6cf-1a8e97a6aff1",
+      "name": "Get Image Status",
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -720,
+        208
+      ],
+      "id": "ab45faad-1aef-49ad-b7f8-5c903733a116",
+      "name": "Wait",
+      "webhookId": "065fa554-bef9-4b51-b734-14ccf6d3c513",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "fileSelector": "D:\\data\\Cards\\Deck.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1280,
+        48
+      ],
+      "id": "68224bda-3587-4a10-b5a1-2c0d48ea42e0",
+      "name": "Read/Write Files from Disk1"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1280,
+        272
+      ],
+      "id": "dde40da4-86aa-4ccb-8c7b-451131ee3a28",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.Cards",
+        "include": "selectedOtherFields",
+        "fieldsToInclude": "data.Directory",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1296,
+        496
+      ],
+      "id": "d6ac38ec-fb49-4e87-83cd-2ad043f0a974",
+      "name": "Seperate Into Cards"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "854afc2d-d6f1-464c-acf8-bb0154a34016",
+              "name": "inputDirectory",
+              "value": "=D:\\\\data\\\\Full_Images",
+              "type": "string"
+            },
+            {
+              "id": "de29f13e-a293-49b5-a000-72c92557c918",
+              "name": "OutputDirectory",
+              "value": "D:\\\\data\\\\Card_Part_Images",
+              "type": "string"
+            },
+            {
+              "id": "389ef80b-b096-41db-94a7-c3d0e2cc43b4",
+              "name": "record1",
+              "value": "={{ $json['data.Cards'].records[0] }}",
+              "type": "object"
+            },
+            {
+              "id": "9706a867-5611-4771-b73f-8264056f43f6",
+              "name": "record2",
+              "value": "={{ $json['data.Cards'].records[1] }}",
+              "type": "object"
+            },
+            {
+              "id": "82fe8891-0d0c-4f4d-8589-72789d0458dc",
+              "name": "record3",
+              "value": "={{ $json['data.Cards'].records[2] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1056,
+        -80
+      ],
+      "id": "41e9666b-cab1-4326-97f9-1eba976574a3",
+      "name": "Get Each Tarot Image on  Card"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7acb2a4f-21a6-4970-b785-f5869db94b36",
+              "name": "InputDirectory",
+              "value": "=D:/data/Full_Images",
+              "type": "string"
+            },
+            {
+              "id": "6cc7e58f-3264-4796-9320-f67fd73093ec",
+              "name": "OutputDirectory",
+              "value": "=D:/data/Card_Part_Images",
+              "type": "string"
+            },
+            {
+              "id": "111ad608-10a0-4413-a247-77c8cab4e2ef",
+              "name": "UprightInputImage",
+              "value": "={{ $json.record1.Image }}",
+              "type": "string"
+            },
+            {
+              "id": "c8d74cc8-cc2a-4065-a394-a28852b7f3f4",
+              "name": "ReversedInputImage",
+              "value": "={{ $json.record2.Image }}",
+              "type": "string"
+            },
+            {
+              "id": "0d5475c6-5ff1-4238-ac94-74a08bc1b6ff",
+              "name": "BetweenInputImage",
+              "value": "={{ $json.record3.Image }}",
+              "type": "string"
+            },
+            {
+              "id": "e395cfde-eb1a-48c2-838e-86de0e3ac02d",
+              "name": "UprightOutputImage",
+              "value": "={{ $json.record1.CardImage }}",
+              "type": "string"
+            },
+            {
+              "id": "5bba58ac-5d6c-439b-bb7d-72cb4fd331a1",
+              "name": "ReversedOutputImage",
+              "value": "={{ $json.record2.CardImage }}",
+              "type": "string"
+            },
+            {
+              "id": "e2a95f87-373f-45c8-9de1-30c39804f1f8",
+              "name": "BetweenOutputImage",
+              "value": "={{ $json.record3.CardImage }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1056,
+        160
+      ],
+      "id": "ee9bee5f-f887-4c5f-8fae-5a37230874df",
+      "name": "Filter to Only What is Needed"
+    },
+    {
+      "parameters": {
+        "jsCode": "const allItems = $input.all(); // Get all incoming items [web:18][web:31]\n\nconst start = 0;  // inclusive\nconst end = 12;     // exclusive\n//51\n\nreturn allItems.slice(start, end);\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1056,
+        368
+      ],
+      "id": "c221fb9f-0f28-491d-856e-f9980b8636ab",
+      "name": "Choose Which Cards to Send"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to ComfyUI Individual Image Prompts": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Get Image Status": {
+      "main": [
+        [],
+        []
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Image Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Seperate Into Cards",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Seperate Into Cards": {
+      "main": [
+        [
+          {
+            "node": "Get Each Tarot Image on  Card",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Each Tarot Image on  Card": {
+      "main": [
+        [
+          {
+            "node": "Filter to Only What is Needed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter to Only What is Needed": {
+      "main": [
+        [
+          {
+            "node": "Choose Which Cards to Send",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Choose Which Cards to Send": {
+      "main": [
+        [
+          {
+            "node": "Send to ComfyUI Individual Image Prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "0497fa2c-5eb9-405f-9c7b-b48b72a9e0af",
+  "meta": {
+    "instanceId": "d7f41a3bc4c9824ed68d95186cb055000c790e15bf2666fbda9ebc1cffc1c54a"
+  },
+  "id": "InVXfknOLlf7UHxW",
+  "tags": [
+    {
+      "updatedAt": "2026-01-23T21:09:18.585Z",
+      "createdAt": "2026-01-23T21:09:18.585Z",
+      "id": "CSFhVsi3S6tzgPL2",
+      "name": "Downsample"
+    },
+    {
+      "updatedAt": "2026-01-14T00:16:28.711Z",
+      "createdAt": "2026-01-14T00:16:28.711Z",
+      "id": "e2i1eEmoJPwC44Dc",
+      "name": "ComfyUI"
+    },
+    {
+      "updatedAt": "2026-01-06T23:17:18.501Z",
+      "createdAt": "2026-01-06T23:17:18.501Z",
+      "id": "m8CyFbu2Pe5sniJX",
+      "name": "Tarot"
+    },
+    {
+      "updatedAt": "2026-01-23T21:09:38.946Z",
+      "createdAt": "2026-01-23T21:09:38.946Z",
+      "id": "ytKMhAxGqucmtLUB",
+      "name": "Rotate"
+    }
+  ]
+}
