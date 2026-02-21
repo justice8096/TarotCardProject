@@ -55,13 +55,25 @@
         },
         {
             "parameters": {
-                "jsCode": "const fs = require('fs');\nconst params = $input.first().json;\nconst raw = fs.readFileSync(params.DeckJsonPath, 'utf8');\nconst deck = JSON.parse(raw);\nreturn [{ json: deck }];\n"
+                "fileSelector": "={{ $json.DeckJsonPath }}",
+                "options": {}
             },
-            "type": "n8n-nodes-base.code",
-            "typeVersion": 2,
+            "type": "n8n-nodes-base.readWriteFile",
+            "typeVersion": 1.1,
             "position": [-1320, 0],
             "id": "sm0001-0003-4000-8000-000000000003",
             "name": "Read Deck.json"
+        },
+        {
+            "parameters": {
+                "operation": "json",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.extractFromFile",
+            "typeVersion": 1.1,
+            "position": [-1080, 0],
+            "id": "sm0001-0003b-4000-8000-000000000003",
+            "name": "Parse Deck.json"
         },
         {
             "parameters": {
@@ -69,7 +81,7 @@
             },
             "type": "n8n-nodes-base.code",
             "typeVersion": 2,
-            "position": [-1080, 0],
+            "position": [-840, 0],
             "id": "sm0001-0004-4000-8000-000000000004",
             "name": "Build Keyframe Job List"
         },
@@ -258,6 +270,9 @@
             "main": [[{"node": "Read Deck.json", "type": "main", "index": 0}]]
         },
         "Read Deck.json": {
+            "main": [[{"node": "Parse Deck.json", "type": "main", "index": 0}]]
+        },
+        "Parse Deck.json": {
             "main": [[{"node": "Build Keyframe Job List", "type": "main", "index": 0}]]
         },
         "Build Keyframe Job List": {
