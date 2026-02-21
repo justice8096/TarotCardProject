@@ -1,0 +1,322 @@
+{
+    "name": "Generate Dealer Stop Motion",
+    "nodes": [
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.manualTrigger",
+            "typeVersion": 1,
+            "position": [-1800, 0],
+            "id": "sm0001-0001-4000-8000-000000000001",
+            "name": "When clicking 'Execute workflow'"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "sm0002-0001-4000-8000-000000000001",
+                            "name": "DeckJsonPath",
+                            "value": "D:/data/cards/Standard/Deck.json",
+                            "type": "string"
+                        },
+                        {
+                            "id": "sm0002-0002-4000-8000-000000000002",
+                            "name": "ComfyUIInputDir",
+                            "value": "D:/ComfyUI_windows_portable/ComfyUI/input",
+                            "type": "string"
+                        },
+                        {
+                            "id": "sm0002-0003-4000-8000-000000000003",
+                            "name": "ComfyUIOutputDir",
+                            "value": "D:/ComfyUI_windows_portable/ComfyUI/output",
+                            "type": "string"
+                        },
+                        {
+                            "id": "sm0002-0004-4000-8000-000000000004",
+                            "name": "ComfyUIAPI",
+                            "value": "http://127.0.0.1:8188",
+                            "type": "string"
+                        },
+                        {
+                            "id": "sm0002-0005-4000-8000-000000000005",
+                            "name": "AnimationTypes",
+                            "value": "Cut,Fan,Merge,Rotate",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [-1560, 0],
+            "id": "sm0001-0002-4000-8000-000000000002",
+            "name": "Set Global Parameters"
+        },
+        {
+            "parameters": {
+                "url": "=file:///{{ $json.DeckJsonPath }}",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [-1320, 0],
+            "id": "sm0001-0003-4000-8000-000000000003",
+            "name": "Read Deck.json"
+        },
+        {
+            "parameters": {
+                "jsCode": "const params = $('Set Global Parameters').first().json;\nconst deck = $input.first().json;\nconst animTypes = params.AnimationTypes.split(',');\n\nconst jobs = [];\n\nfor (const animType of animTypes) {\n  const animPrompts = deck.Prompts[animType];\n  const keyframeDir = deck.Assets.AnimationKeyframes;\n  const outputDir = deck.Assets.Directory;\n  const width = deck.Geometries.Animation.Width;\n  const height = deck.Geometries.Animation.Height;\n  const fps = deck.Geometries.Animation.FrameRate;\n  const interpFrames = deck.Geometries.Animation.InterpolationFrames;\n  const negativePrompt = animPrompts.Negative;\n  const keyframes = animPrompts.Keyframes;\n\n  // One job per keyframe (txt2img)\n  keyframes.forEach((prompt, idx) => {\n    jobs.push({\n      Phase: 'keyframe',\n      AnimationType: animType,\n      KeyframeIndex: idx,\n      KeyframeCount: keyframes.length,\n      PositivePrompt: prompt,\n      NegativePrompt: negativePrompt,\n      OutputPrefix: `KF_${animType}_${idx}`,\n      KeyframeDir: keyframeDir,\n      OutputDir: outputDir,\n      Width: width,\n      Height: height,\n      FPS: fps,\n      InterpFrames: interpFrames,\n      FinalOutput: deck.Assets[animType]\n    });\n  });\n}\n\nreturn jobs.map(j => ({ json: j }));\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [-1080, 0],
+            "id": "sm0001-0004-4000-8000-000000000004",
+            "name": "Build Keyframe Job List"
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "={{ $('Set Global Parameters').first().json.ComfyUIAPI }}/prompt",
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "={\n  \"prompt\": {\n    \"1\": {\n      \"class_type\": \"CheckpointLoaderSimple\",\n      \"inputs\": { \"ckpt_name\": \"dreamshaper_8.safetensors\" }\n    },\n    \"2\": {\n      \"class_type\": \"CLIPTextEncode\",\n      \"inputs\": {\n        \"text\": \"{{ $json.PositivePrompt }}\",\n        \"clip\": [\"1\", 1]\n      }\n    },\n    \"3\": {\n      \"class_type\": \"CLIPTextEncode\",\n      \"inputs\": {\n        \"text\": \"{{ $json.NegativePrompt }}\",\n        \"clip\": [\"1\", 1]\n      }\n    },\n    \"4\": {\n      \"class_type\": \"EmptyLatentImage\",\n      \"inputs\": {\n        \"width\": {{ $json.Width }},\n        \"height\": {{ $json.Height }},\n        \"batch_size\": 1\n      }\n    },\n    \"5\": {\n      \"class_type\": \"KSampler\",\n      \"inputs\": {\n        \"seed\": {{ Math.floor(Math.random() * 999999999) }},\n        \"steps\": 20,\n        \"cfg\": 7.0,\n        \"sampler_name\": \"dpmpp_2m\",\n        \"scheduler\": \"karras\",\n        \"denoise\": 1.0,\n        \"model\": [\"1\", 0],\n        \"positive\": [\"2\", 0],\n        \"negative\": [\"3\", 0],\n        \"latent_image\": [\"4\", 0]\n      }\n    },\n    \"6\": {\n      \"class_type\": \"VAEDecode\",\n      \"inputs\": {\n        \"samples\": [\"5\", 0],\n        \"vae\": [\"1\", 2]\n      }\n    },\n    \"7\": {\n      \"class_type\": \"SaveImage\",\n      \"inputs\": {\n        \"images\": [\"6\", 0],\n        \"filename_prefix\": \"{{ $json.OutputPrefix }}\"\n      }\n    }\n  }\n}",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [-840, 0],
+            "id": "sm0001-0005-4000-8000-000000000005",
+            "name": "Submit Keyframe to ComfyUI",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "jsCode": "const item = $input.first().json;\nconst promptId = item.prompt_id;\nreturn [{ json: { ...($('Build Keyframe Job List').item.json), PromptId: promptId } }];\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [-600, 0],
+            "id": "sm0001-0006-4000-8000-000000000006",
+            "name": "Capture Keyframe Prompt ID"
+        },
+        {
+            "parameters": {
+                "amount": 30,
+                "unit": "seconds"
+            },
+            "type": "n8n-nodes-base.wait",
+            "typeVersion": 1.1,
+            "position": [-360, 0],
+            "id": "sm0001-0007-4000-8000-000000000007",
+            "name": "Wait for Keyframe"
+        },
+        {
+            "parameters": {
+                "url": "={{ $('Set Global Parameters').first().json.ComfyUIAPI }}/history/{{ $json.PromptId }}",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [-120, 0],
+            "id": "sm0001-0008-4000-8000-000000000008",
+            "name": "Poll Keyframe Status"
+        },
+        {
+            "parameters": {
+                "jsCode": "// Extract the saved filename from ComfyUI history response\nconst history = $input.first().json;\nconst jobData = $('Capture Keyframe Prompt ID').item.json;\nconst promptId = jobData.PromptId;\n\nconst entry = history[promptId];\nif (!entry || !entry.outputs) {\n  throw new Error(`No output found for prompt ${promptId}`);\n}\n\n// SaveImage node outputs under node \"7\"\nconst images = entry.outputs['7']?.images || [];\nif (images.length === 0) {\n  throw new Error(`No images in output for prompt ${promptId}`);\n}\n\nconst savedFilename = images[0].filename;\nconst comfyOutputDir = $('Set Global Parameters').first().json.ComfyUIOutputDir;\nconst fullPath = `${comfyOutputDir}/${savedFilename}`;\n\nreturn [{ json: {\n  ...jobData,\n  SavedFilename: savedFilename,\n  SavedPath: fullPath\n}}];\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [120, 0],
+            "id": "sm0001-0009-4000-8000-000000000009",
+            "name": "Extract Keyframe Path"
+        },
+        {
+            "parameters": {
+                "jsCode": "// After all keyframes are done, group them by AnimationType and build interpolation jobs.\n// This node aggregates all completed keyframe results.\nconst allItems = $input.all();\n\n// Group by AnimationType\nconst byType = {};\nfor (const item of allItems) {\n  const d = item.json;\n  if (!byType[d.AnimationType]) byType[d.AnimationType] = [];\n  byType[d.AnimationType].push(d);\n}\n\n// Sort each group by KeyframeIndex and build adjacent-pair interpolation jobs\nconst interpJobs = [];\nfor (const [animType, frames] of Object.entries(byType)) {\n  frames.sort((a, b) => a.KeyframeIndex - b.KeyframeIndex);\n\n  for (let i = 0; i < frames.length - 1; i++) {\n    const frameA = frames[i];\n    const frameB = frames[i + 1];\n    const comfyInputDir = $('Set Global Parameters').first().json.ComfyUIInputDir;\n\n    // Filenames as they appear in ComfyUI input dir (must be copied there)\n    const filenameA = frameA.SavedFilename;\n    const filenameB = frameB.SavedFilename;\n\n    interpJobs.push({\n      Phase: 'interpolate',\n      AnimationType: animType,\n      PairIndex: i,\n      FrameAPath: frameA.SavedPath,\n      FrameBPath: frameB.SavedPath,\n      FrameAFilename: filenameA,\n      FrameBFilename: filenameB,\n      PositivePrompt: frameA.PositivePrompt,\n      NegativePrompt: frameA.NegativePrompt,\n      OutputPrefix: `INTERP_${animType}_${i}_${i + 1}`,\n      OutputDir: frameA.OutputDir,\n      FPS: frameA.FPS,\n      InterpFrames: frameA.InterpFrames,\n      FinalOutput: frameA.FinalOutput,\n      KeyframeDir: frameA.KeyframeDir,\n      Width: frameA.Width,\n      Height: frameA.Height\n    });\n  }\n}\n\nreturn interpJobs.map(j => ({ json: j }));\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [360, 0],
+            "id": "sm0001-0010-4000-8000-000000000010",
+            "name": "Build Interpolation Job List"
+        },
+        {
+            "parameters": {
+                "jsCode": "// Copy keyframe images from ComfyUI output to ComfyUI input so LoadImage can find them.\n// This is a placeholder — actual file copy is done via the Execute Command node below.\nconst d = $input.first().json;\nreturn [{ json: d }];\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [600, 0],
+            "id": "sm0001-0011-4000-8000-000000000011",
+            "name": "Prepare Copy Command"
+        },
+        {
+            "parameters": {
+                "command": "=copy \"{{ $('Set Global Parameters').first().json.ComfyUIOutputDir.replace(/\\//g, '\\\\') }}\\\\{{ $json.FrameAFilename }}\" \"{{ $('Set Global Parameters').first().json.ComfyUIInputDir.replace(/\\//g, '\\\\') }}\\\\{{ $json.FrameAFilename }}\" /Y && copy \"{{ $('Set Global Parameters').first().json.ComfyUIOutputDir.replace(/\\//g, '\\\\') }}\\\\{{ $json.FrameBFilename }}\" \"{{ $('Set Global Parameters').first().json.ComfyUIInputDir.replace(/\\//g, '\\\\') }}\\\\{{ $json.FrameBFilename }}\" /Y"
+            },
+            "type": "n8n-nodes-base.executeCommand",
+            "typeVersion": 1,
+            "position": [840, 0],
+            "id": "sm0001-0012-4000-8000-000000000012",
+            "name": "Copy Keyframes to ComfyUI Input"
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "={{ $('Set Global Parameters').first().json.ComfyUIAPI }}/prompt",
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "={\n  \"prompt\": {\n    \"1\": {\n      \"class_type\": \"UNETLoader\",\n      \"inputs\": {\n        \"unet_name\": \"wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors\",\n        \"weight_dtype\": \"default\"\n      }\n    },\n    \"2\": {\n      \"class_type\": \"CLIPLoader\",\n      \"inputs\": {\n        \"clip_name\": \"umt5_xxl_fp8_e4m3fn_scaled.safetensors\",\n        \"type\": \"wan\"\n      }\n    },\n    \"3\": {\n      \"class_type\": \"VAELoader\",\n      \"inputs\": { \"vae_name\": \"wan_2.1_vae.safetensors\" }\n    },\n    \"4\": {\n      \"class_type\": \"CLIPTextEncode\",\n      \"inputs\": {\n        \"text\": \"{{ $json.PositivePrompt }}\",\n        \"clip\": [\"2\", 0]\n      }\n    },\n    \"5\": {\n      \"class_type\": \"CLIPTextEncode\",\n      \"inputs\": {\n        \"text\": \"{{ $json.NegativePrompt }}\",\n        \"clip\": [\"2\", 0]\n      }\n    },\n    \"6\": {\n      \"class_type\": \"LoadImage\",\n      \"inputs\": {\n        \"image\": \"{{ $json.FrameAFilename }}\",\n        \"upload\": \"image\"\n      }\n    },\n    \"13\": {\n      \"class_type\": \"LoadImage\",\n      \"inputs\": {\n        \"image\": \"{{ $json.FrameBFilename }}\",\n        \"upload\": \"image\"\n      }\n    },\n    \"7\": {\n      \"class_type\": \"WanImageToVideo\",\n      \"inputs\": {\n        \"width\": {{ $json.Width }},\n        \"height\": {{ $json.Height }},\n        \"length\": {{ $json.InterpFrames }},\n        \"batch_size\": 1,\n        \"positive\": [\"4\", 0],\n        \"negative\": [\"5\", 0],\n        \"vae\": [\"3\", 0],\n        \"start_image\": [\"6\", 0],\n        \"end_image\": [\"13\", 0]\n      }\n    },\n    \"9\": {\n      \"class_type\": \"ModelSamplingSD3\",\n      \"inputs\": {\n        \"shift\": 3.0,\n        \"model\": [\"1\", 0]\n      }\n    },\n    \"10\": {\n      \"class_type\": \"KSampler\",\n      \"inputs\": {\n        \"seed\": {{ Math.floor(Math.random() * 999999999) }},\n        \"steps\": 20,\n        \"cfg\": 7.0,\n        \"sampler_name\": \"uni_pc_bh2\",\n        \"scheduler\": \"sgm_uniform\",\n        \"denoise\": 1.0,\n        \"model\": [\"9\", 0],\n        \"positive\": [\"7\", 0],\n        \"negative\": [\"7\", 1],\n        \"latent_image\": [\"7\", 2]\n      }\n    },\n    \"11\": {\n      \"class_type\": \"VAEDecode\",\n      \"inputs\": {\n        \"samples\": [\"10\", 0],\n        \"vae\": [\"3\", 0]\n      }\n    },\n    \"12\": {\n      \"class_type\": \"VHS_VideoCombine\",\n      \"inputs\": {\n        \"frame_rate\": {{ $json.FPS }},\n        \"loop_count\": 0,\n        \"filename_prefix\": \"{{ $json.OutputPrefix }}\",\n        \"format\": \"video/h264-mp4\",\n        \"pix_fmt\": \"yuv420p\",\n        \"crf\": 19,\n        \"save_metadata\": true,\n        \"trim_to_audio\": false,\n        \"pingpong\": false,\n        \"save_output\": true,\n        \"images\": [\"11\", 0]\n      }\n    }\n  }\n}",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [1080, 0],
+            "id": "sm0001-0013-4000-8000-000000000013",
+            "name": "Submit Interpolation to ComfyUI",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "jsCode": "const item = $input.first().json;\nconst promptId = item.prompt_id;\nreturn [{ json: { ...($('Build Interpolation Job List').item.json), InterpPromptId: promptId } }];\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [1320, 0],
+            "id": "sm0001-0014-4000-8000-000000000014",
+            "name": "Capture Interp Prompt ID"
+        },
+        {
+            "parameters": {
+                "amount": 120,
+                "unit": "seconds"
+            },
+            "type": "n8n-nodes-base.wait",
+            "typeVersion": 1.1,
+            "position": [1560, 0],
+            "id": "sm0001-0015-4000-8000-000000000015",
+            "name": "Wait for Interpolation"
+        },
+        {
+            "parameters": {
+                "url": "={{ $('Set Global Parameters').first().json.ComfyUIAPI }}/history/{{ $json.InterpPromptId }}",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [1800, 0],
+            "id": "sm0001-0016-4000-8000-000000000016",
+            "name": "Poll Interpolation Status"
+        },
+        {
+            "parameters": {
+                "jsCode": "const history = $input.first().json;\nconst jobData = $('Capture Interp Prompt ID').item.json;\nconst promptId = jobData.InterpPromptId;\n\nconst entry = history[promptId];\nif (!entry || !entry.outputs) {\n  throw new Error(`No output for prompt ${promptId}`);\n}\n\n// VHS_VideoCombine output is under node \"12\"\nconst gifs = entry.outputs['12']?.gifs || [];\nif (gifs.length === 0) {\n  throw new Error(`No video in output for prompt ${promptId}`);\n}\n\nconst savedFilename = gifs[0].filename;\nconst comfyOutputDir = $('Set Global Parameters').first().json.ComfyUIOutputDir;\nconst fullPath = `${comfyOutputDir}/${savedFilename}`;\n\nreturn [{ json: {\n  ...jobData,\n  ClipFilename: savedFilename,\n  ClipPath: fullPath\n}}];\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [2040, 0],
+            "id": "sm0001-0017-4000-8000-000000000017",
+            "name": "Extract Clip Path"
+        },
+        {
+            "parameters": {
+                "jsCode": "// Group all clips by AnimationType and build FFmpeg concat commands.\nconst allItems = $input.all();\n\nconst byType = {};\nfor (const item of allItems) {\n  const d = item.json;\n  if (!byType[d.AnimationType]) byType[d.AnimationType] = [];\n  byType[d.AnimationType].push(d);\n}\n\nconst concatJobs = [];\nfor (const [animType, clips] of Object.entries(byType)) {\n  clips.sort((a, b) => a.PairIndex - b.PairIndex);\n\n  // Build a temporary concat list file path\n  const concatListPath = `${clips[0].KeyframeDir}\\\\${animType}_concat.txt`;\n  const clipPaths = clips.map(c => c.ClipPath.replace(/\\//g, '\\\\'));\n  const finalOutput = clips[0].FinalOutput.replace(/\\//g, '\\\\');\n\n  // Write concat list content (one line per clip)\n  const concatContent = clipPaths.map(p => `file '${p}'`).join('\\n');\n\n  concatJobs.push({\n    AnimationType: animType,\n    ConcatListPath: concatListPath,\n    ConcatContent: concatContent,\n    FinalOutput: finalOutput,\n    ClipPaths: clipPaths\n  });\n}\n\nreturn concatJobs.map(j => ({ json: j }));\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [2280, 0],
+            "id": "sm0001-0018-4000-8000-000000000018",
+            "name": "Build FFmpeg Concat Commands"
+        },
+        {
+            "parameters": {
+                "command": "=mkdir \"{{ $json.ConcatListPath.split('\\\\').slice(0,-1).join('\\\\') }}\" 2>nul & (for %f in ({{ $json.ClipPaths.map(p => '\"' + p + '\"').join(' ') }}) do @echo file '%f') > \"{{ $json.ConcatListPath }}\" && ffmpeg -y -f concat -safe 0 -i \"{{ $json.ConcatListPath }}\" -c copy \"{{ $json.FinalOutput }}\""
+            },
+            "type": "n8n-nodes-base.executeCommand",
+            "typeVersion": 1,
+            "position": [2520, 0],
+            "id": "sm0001-0019-4000-8000-000000000019",
+            "name": "FFmpeg Concat Clips"
+        },
+        {
+            "parameters": {
+                "jsCode": "const results = $input.all().map(item => ({\n  AnimationType: item.json.AnimationType,\n  FinalOutput: item.json.FinalOutput,\n  Status: 'Complete'\n}));\nconsole.log('Stop-motion generation complete:', JSON.stringify(results, null, 2));\nreturn results.map(r => ({ json: r }));\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [2760, 0],
+            "id": "sm0001-0020-4000-8000-000000000020",
+            "name": "Report Results"
+        }
+    ],
+    "connections": {
+        "When clicking 'Execute workflow'": {
+            "main": [[{"node": "Set Global Parameters", "type": "main", "index": 0}]]
+        },
+        "Set Global Parameters": {
+            "main": [[{"node": "Read Deck.json", "type": "main", "index": 0}]]
+        },
+        "Read Deck.json": {
+            "main": [[{"node": "Build Keyframe Job List", "type": "main", "index": 0}]]
+        },
+        "Build Keyframe Job List": {
+            "main": [[{"node": "Submit Keyframe to ComfyUI", "type": "main", "index": 0}]]
+        },
+        "Submit Keyframe to ComfyUI": {
+            "main": [[{"node": "Capture Keyframe Prompt ID", "type": "main", "index": 0}]]
+        },
+        "Capture Keyframe Prompt ID": {
+            "main": [[{"node": "Wait for Keyframe", "type": "main", "index": 0}]]
+        },
+        "Wait for Keyframe": {
+            "main": [[{"node": "Poll Keyframe Status", "type": "main", "index": 0}]]
+        },
+        "Poll Keyframe Status": {
+            "main": [[{"node": "Extract Keyframe Path", "type": "main", "index": 0}]]
+        },
+        "Extract Keyframe Path": {
+            "main": [[{"node": "Build Interpolation Job List", "type": "main", "index": 0}]]
+        },
+        "Build Interpolation Job List": {
+            "main": [[{"node": "Prepare Copy Command", "type": "main", "index": 0}]]
+        },
+        "Prepare Copy Command": {
+            "main": [[{"node": "Copy Keyframes to ComfyUI Input", "type": "main", "index": 0}]]
+        },
+        "Copy Keyframes to ComfyUI Input": {
+            "main": [[{"node": "Submit Interpolation to ComfyUI", "type": "main", "index": 0}]]
+        },
+        "Submit Interpolation to ComfyUI": {
+            "main": [[{"node": "Capture Interp Prompt ID", "type": "main", "index": 0}]]
+        },
+        "Capture Interp Prompt ID": {
+            "main": [[{"node": "Wait for Interpolation", "type": "main", "index": 0}]]
+        },
+        "Wait for Interpolation": {
+            "main": [[{"node": "Poll Interpolation Status", "type": "main", "index": 0}]]
+        },
+        "Poll Interpolation Status": {
+            "main": [[{"node": "Extract Clip Path", "type": "main", "index": 0}]]
+        },
+        "Extract Clip Path": {
+            "main": [[{"node": "Build FFmpeg Concat Commands", "type": "main", "index": 0}]]
+        },
+        "Build FFmpeg Concat Commands": {
+            "main": [[{"node": "FFmpeg Concat Clips", "type": "main", "index": 0}]]
+        },
+        "FFmpeg Concat Clips": {
+            "main": [[{"node": "Report Results", "type": "main", "index": 0}]]
+        }
+    },
+    "pinData": {},
+    "settings": {
+        "executionOrder": "v1"
+    },
+    "staticData": null,
+    "tags": [],
+    "triggerCount": 0,
+    "updatedAt": "2026-02-20T00:00:00.000Z",
+    "versionId": "sm0001-vers-4000-8000-000000000001"
+}
