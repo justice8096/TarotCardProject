@@ -312,3 +312,190 @@ Set Global Parameters
                                 └─ Report Results
 ```
 
+---
+
+## n8n Internal API — Authentication & Triggering
+
+The n8n public API (`/api/v1/`) accepts `X-N8N-API-KEY` from the `user_api_keys` table but **cannot trigger manual executions** (405 Method Not Allowed).
+
+The internal REST API (`/rest/workflows/{id}/run`) requires a **session JWT cookie** (`n8n-auth`).
+
+### Deriving the JWT secret
+
+```python
+import hashlib, base64, jwt
+
+# encryptionKey is in ~/.n8n/config  →  {"encryptionKey": "..."}
+enc_key = 'gCCaoBEhmsTnlQ3BLfwV2iFL1VUBV5Pt'      # from ~/.n8n/config
+base_key = ''.join(enc_key[i] for i in range(0, len(enc_key), 2))   # every other char
+jwt_secret = hashlib.sha256(base_key.encode()).hexdigest()
+```
+
+### Deriving the `hash` field
+
+```python
+# email and password (bcrypt hash) come from the `user` table in ~/.n8n/database.sqlite
+payload_str = f'{email}:{bcrypt_password_hash}'
+hash_b64 = base64.b64encode(hashlib.sha256(payload_str.encode()).digest()).decode()
+jwt_hash = hash_b64[:10]   # first 10 chars of base64(SHA256(email:bcrypt_hash))
+```
+
+### Building and using the token
+
+```python
+token = jwt.encode({'id': user_id, 'hash': jwt_hash, 'usedMfa': False},
+                   jwt_secret, algorithm='HS256')
+# Use as:  Cookie: n8n-auth=<token>
+```
+
+### Triggering a manual-trigger workflow
+
+The `/rest/workflows/{id}/run` body must include `workflowData` (full workflow object with `id`).
+Use `triggerToStartFrom` to select the manual trigger node — this hits the `isFullExecutionFromKnownTrigger` branch and avoids the partial-execution `destinationNode.nodeName` access:
+
+```python
+run_payload = {
+    'workflowData': wf_data,   # full object from GET /rest/workflows/{id}
+    'pinData': {},
+    'triggerToStartFrom': {
+        'name': 'When clicking \'Execute workflow\'',
+        'data': {'main': [[{'json': {}}]]}
+    }
+}
+```
+
+**Do NOT include `runData` or `destinationNode: null`** — that routes into the partial-execution
+code path which crashes with `Cannot read properties of null (reading 'nodeName')`.
+
+### n8n PUT workflow restriction
+
+`PUT /api/v1/workflows/{id}` only accepts these fields in `settings`:
+```json
+{ "settings": { "executionOrder": "v1" } }
+```
+Adding `binaryMode` or `availableInMCP` causes HTTP 400:
+`"request/body/settings must NOT have additional properties"`.
+
+---
+
+## Wan 2.2 I2V Model Selection Guide
+
+| Use case | Model | Shift |
+|----------|-------|-------|
+| Generating video from scratch (no start image) | `wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors` | 3.0 |
+| Interpolating between two anchor frames | `wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors` | 1.0 |
+
+**Why this matters:** The high-noise model is trained for near-pure-noise starting conditions. When used for frame-to-frame interpolation (where start and end frames are provided), it treats the images as weak hints and generates mostly from noise — producing blurry, unrecognisable results.
+
+The low-noise model stays close to the input images. Combined with `Shift=1.0` (keeps the ModelSamplingSD3 sampler away from the high-noise regime), the interpolated frames maintain the visual design of the anchor images throughout.
+
+**In Deck.json:**
+```json
+"Models": {
+  "InterpolationUNet": "wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors"
+},
+"Samplers": {
+  "Interpolation": { "Steps": 20, "CFG": 7.0, "Shift": 1.0,
+                     "Sampler": "uni_pc_bh2", "Scheduler": "sgm_uniform" }
+}
+```
+
+`Shift` tuning: `0.5` = very rigid (hugs input frames), `2.0` = more creative motion.
+
+---
+
+## Stop-Motion Keyframe Compositing (Python PIL)
+
+### The problem solved
+
+If only some keyframe positions have manual inserts, the AI generates the rest without access to the real card design. Since WanFirstLastFrameToVideo anchors **both ends** of a segment, ALL keyframe positions must use real card images for the design to be visible throughout the full animation.
+
+The "random person/girl appears in Merge" bug was caused by dreamshaper_8 misinterpreting the riffle-shuffle prompt. Replacing ALL keyframes with composites bypasses dreamshaper entirely.
+
+### Convention
+
+- Keyframe images: `D:/data/cards/Standard/Keyframes/KF_{AnimType}_{Index}.png`
+- Canvas size: **832 × 480 px** (matches `Geometries.Animation.Width/Height`)
+- Background: dark green felt `#0F3C14` = `(15, 60, 20)`
+- Source images: `IMAGE_Deck_Back.png` (680×1088 RGBA), `IMAGE_Deck_Front.png` (680×1096 RGBA)
+
+### Reference keyframe layouts (Standard deck)
+
+| File | Contents |
+|------|----------|
+| `KF_Cut_0.png` | Complete deck stack (10 cards, card back) centred |
+| `KF_Cut_1.png` | Two half-stacks of 5 separated (top half left/raised, bottom half right/lower) |
+| `KF_Cut_2.png` | Reassembled deck stack (same as frame 0) |
+| `KF_Fan_0.png` | Deck stack (card back) |
+| `KF_Fan_1.png` | Partial fan — 12 cards, −28° to +28°, pivot 280px below canvas |
+| `KF_Fan_2.png` | Full fan — 22 cards, −58° to +58°, pivot 280px below canvas |
+| `KF_Merge_0.png` | Two stacks of 5 at W/4 and 3W/4 (far apart) |
+| `KF_Merge_1.png` | Two stacks of 5 at W/2±80 (about to interleave) |
+| `KF_Merge_2.png` | Single merged deck stack of 10 |
+| `KF_Rotate_0.png` | Single large card (255px wide) face-down (card back) |
+| `KF_Rotate_1.png` | Card squeezed to ~12% width (edge-on, mid-flip) |
+| `KF_Rotate_2.png` | Single large card face-up (card front) |
+
+### Core Python functions
+
+```python
+from PIL import Image
+import math, os
+
+W, H = 832, 480
+FELT = (15, 60, 20, 255)
+
+def scale_card(img, w):
+    return img.resize((w, int(img.height * w / img.width)), Image.LANCZOS)
+
+def make_canvas():
+    return Image.new('RGBA', (W, H), FELT)
+
+def clip_paste(canvas, img, cx, cy):
+    """Alpha-composite img centred at (cx,cy), clipping to canvas."""
+    px, py = cx - img.width//2, cy - img.height//2
+    sx0,sy0 = max(0,-px), max(0,-py)
+    sx1,sy1 = min(img.width,W-px), min(img.height,H-py)
+    dx, dy = max(0,px), max(0,py)
+    if sx0 < sx1 and sy0 < sy1:
+        canvas.alpha_composite(img.crop((sx0,sy0,sx1,sy1)), (dx,dy))
+
+def darken(img, f):
+    r,g,b,a = img.split()
+    return Image.merge('RGBA', (r.point(lambda p:int(p*f)),
+                                g.point(lambda p:int(p*f)),
+                                b.point(lambda p:int(p*f)), a))
+
+def draw_stack(canvas, card, cx, cy, n, dx=2, dy=-1):
+    """n-card stack. Top card at (cx,cy); deeper cards offset by (dx,dy).
+    Draw order: bottom→top so top card is on top visually."""
+    for i in range(n-1, -1, -1):   # i=0 → top, i=n-1 → bottom
+        clip_paste(canvas, darken(card, max(0.60, 1.0 - i*0.038)), cx+i*dx, cy+i*dy)
+
+def draw_fan(canvas, card, pivot_x, pivot_y, n, a0, a1, radius):
+    """n cards in an arc; centres at `radius` from (pivot_x, pivot_y)."""
+    for i in range(n):
+        t = i / max(n-1, 1)
+        angle = a0 + t*(a1-a0)
+        ar = math.radians(angle)
+        cx = int(pivot_x + radius * math.sin(ar))
+        cy = int(pivot_y - radius * math.cos(ar))
+        rot = card.rotate(-angle, expand=True, resample=Image.BICUBIC)
+        clip_paste(canvas, rot, cx, cy)
+```
+
+### Recommended card sizes
+
+| Usage | Width | Approx height |
+|-------|-------|---------------|
+| Stack cards (Cut/Merge) | 95 px | 152 px |
+| Fan cards | 60 px | 96 px |
+| Single large card (Rotate) | 255 px | 408 px |
+
+### Fan geometry note
+
+With `pivot_y = H + 280 = 760` and `radius = 340`:
+- Angle 0°: card centre at y = 760−340 = 420 (near bottom of canvas) ✓
+- Angle ±58°: card centre at x ≈ 128 or 704 (within 832px canvas) ✓
+- Extreme-angle cards clip at bottom edge naturally — this looks realistic.
+
