@@ -1,0 +1,323 @@
+{
+  "name": "Generate Dealer Stop Motion",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "838e89a6-c6ab-4d6e-b39c-d71dafe85f39",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "sm0002-0001-4000-8000-000000000001",
+              "name": "DeckJsonPath",
+              "value": "D:/data/cards/Standard/Deck.json",
+              "type": "string"
+            },
+            {
+              "id": "sm0002-0002-4000-8000-000000000002",
+              "name": "ComfyUIInputDir",
+              "value": "D:/ComfyUI_windows_portable/ComfyUI/input",
+              "type": "string"
+            },
+            {
+              "id": "sm0002-0003-4000-8000-000000000003",
+              "name": "ComfyUIOutputDir",
+              "value": "D:/ComfyUI_windows_portable/ComfyUI/output",
+              "type": "string"
+            },
+            {
+              "id": "sm0002-0004-4000-8000-000000000004",
+              "name": "ComfyUIAPI",
+              "value": "http://127.0.0.1:8188",
+              "type": "string"
+            },
+            {
+              "id": "sm0002-0005-4000-8000-000000000005",
+              "name": "AnimationTypes",
+              "value": "Cut,Fan,Merge,Rotate",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        0
+      ],
+      "id": "f77375a1-7bae-4c09-94d6-9df392568867",
+      "name": "Set Global Parameters"
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $json.DeckJsonPath }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        480,
+        0
+      ],
+      "id": "eff9fa7d-8bed-4de8-ac95-25cd284997c8",
+      "name": "Read Deck.json"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        720,
+        0
+      ],
+      "id": "3b6e9b58-cb7c-4441-9244-53ab5630fe8e",
+      "name": "Parse Deck.json"
+    },
+    {
+      "parameters": {
+        "jsCode": "const params = $('Set Global Parameters').first().json;\nconst deck   = $input.first().json.data;\n\n// Parse animation types (comma-separated, trims whitespace)\nconst animTypes = params.AnimationTypes.split(',').map(s => s.trim()).filter(Boolean);\n\n// Read optional model and sampler config from Deck.json.\n// All fields have safe defaults so the flow works even if the deck author\n// only fills in the required Prompts / Assets / Geometries sections.\nconst models  = deck.Models   || {};\nconst samplers = deck.Samplers || {};\nconst kfSamp  = samplers.Keyframe || {};\n\nconst jobs = [];\n\nfor (const animType of animTypes) {\n  const animPrompts = deck.Prompts?.[animType];\n  if (!animPrompts) {\n    console.warn(`[Build Keyframe Job List] Deck.json is missing Prompts.${animType} \u2014 skipping.`);\n    continue;\n  }\n\n  const keyframes = animPrompts.Keyframes;\n  if (!Array.isArray(keyframes) || keyframes.length === 0) {\n    console.warn(`[Build Keyframe Job List] Prompts.${animType}.Keyframes is empty \u2014 skipping.`);\n    continue;\n  }\n\n  keyframes.forEach((prompt, idx) => {\n    jobs.push({\n      // Identity\n      Phase:         'keyframe',\n      AnimationType: animType,\n      KeyframeIndex: idx,\n      KeyframeCount: keyframes.length,\n\n      // Prompts  (art-team owned \u2014 edit in Deck.json)\n      PositivePrompt: prompt,\n      NegativePrompt: animPrompts.Negative || '',\n\n      // Output locations (from Deck.json)\n      OutputPrefix: `KF_${animType}_${idx}`,\n      KeyframeDir:  deck.Assets.AnimationKeyframes,\n      OutputDir:    deck.Assets.Directory,\n      FinalOutput:  deck.Assets[animType],\n\n      // Geometry (from Deck.json)\n      Width:        deck.Geometries.Animation.Width,\n      Height:       deck.Geometries.Animation.Height,\n      FPS:          deck.Geometries.Animation.FrameRate,\n      InterpFrames: deck.Geometries.Animation.InterpolationFrames,\n\n      // Keyframe model + sampler  (Deck.json -> Models / Samplers.Keyframe)\n      // To swap the model, add Models.KeyframeCheckpoint to your Deck.json.\n      Checkpoint: models.KeyframeCheckpoint || 'dreamshaper_8.safetensors',\n      Steps:      kfSamp.Steps    ?? 20,\n      CFG:        kfSamp.CFG      ?? 7.0,\n      Sampler:    kfSamp.Sampler  || 'dpmpp_2m',\n      Scheduler:  kfSamp.Scheduler || 'karras',\n      Denoise:    kfSamp.Denoise  ?? 1.0\n    });\n  });\n}\n\nif (jobs.length === 0) {\n  throw new Error(\n    '[Build Keyframe Job List] No jobs created. ' +\n    'Check that AnimationTypes matches keys in Deck.json Prompts, ' +\n    'and that each Prompts.<Type>.Keyframes array is non-empty.'\n  );\n}\n\nreturn jobs.map(j => ({ json: j }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        0
+      ],
+      "id": "9ce39925-dfaf-4b4c-87f8-f7bd93dde07b",
+      "name": "Build Keyframe Job List"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Receives all completed keyframe results from Loop Keyframes (output 1).\n// Groups by AnimationType, sorts by KeyframeIndex, creates adjacent-pair\n// jobs for the image-to-video interpolation step.\nconst allItems = $input.all();\n\n// Read interpolation model + sampler config directly from the parsed deck.\n// Keeping this here (not in keyframe nodes) maintains clean separation of concerns.\nconst deck    = $('Parse Deck.json').first().json.data;\nconst models  = deck.Models   || {};\nconst samplers = deck.Samplers || {};\nconst ipSamp  = samplers.Interpolation || {};\n\nconst byType = {};\nfor (const item of allItems) {\n  const d = item.json;\n  if (!byType[d.AnimationType]) byType[d.AnimationType] = [];\n  byType[d.AnimationType].push(d);\n}\n\nconst interpJobs = [];\n\nfor (const [animType, frames] of Object.entries(byType)) {\n  frames.sort((a, b) => a.KeyframeIndex - b.KeyframeIndex);\n\n  if (frames.length < 2) {\n    console.warn(\n      `[Build Interpolation Job List] ${animType} has only ${frames.length} ` +\n      `keyframe(s) \u2014 need >= 2 to interpolate. Skipping.`\n    );\n    continue;\n  }\n\n  for (let i = 0; i < frames.length - 1; i++) {\n    const frameA = frames[i];\n    const frameB = frames[i + 1];\n\n    interpJobs.push({\n      // Identity\n      Phase:         'interpolate',\n      AnimationType: animType,\n      PairIndex:     i,\n\n      // Source frames\n      FrameAPath:     frameA.SavedPath,\n      FrameBPath:     frameB.SavedPath,\n      FrameAFilename: frameA.SavedFilename,\n      FrameBFilename: frameB.SavedFilename,\n\n      // Prompts & output\n      PositivePrompt: frameA.PositivePrompt,\n      NegativePrompt: frameA.NegativePrompt,\n      OutputPrefix:   `INTERP_${animType}_${i}_${i + 1}`,\n      OutputDir:      frameA.OutputDir,\n      KeyframeDir:    frameA.KeyframeDir,\n      FinalOutput:    frameA.FinalOutput,\n\n      // Geometry\n      Width:        frameA.Width,\n      Height:       frameA.Height,\n      FPS:          frameA.FPS,\n      InterpFrames: frameA.InterpFrames,\n\n      // Interp model + sampler  (Deck.json -> Models / Samplers.Interpolation)\n      // To swap models, add Models.InterpolationUNet / CLIPName / VAEName to Deck.json.\n      UNetName:        models.InterpolationUNet      || 'wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors',\n      CLIPName:        models.InterpolationCLIP      || 'umt5_xxl_fp8_e4m3fn_scaled.safetensors',\n      VAEName:         models.InterpolationVAE       || 'wan_2.1_vae.safetensors',\n      InterpSteps:     ipSamp.Steps      ?? 20,\n      InterpCFG:       ipSamp.CFG        ?? 7.0,\n      InterpSampler:   ipSamp.Sampler    || 'uni_pc_bh2',\n      InterpScheduler: ipSamp.Scheduler  || 'sgm_uniform',\n      InterpDenoise:   ipSamp.Denoise    ?? 1.0,\n      InterpShift:     ipSamp.Shift      ?? 3.0\n    });\n  }\n}\n\nif (interpJobs.length === 0) {\n  throw new Error(\n    '[Build Interpolation Job List] No interpolation jobs created. ' +\n    'Each animation type needs at least 2 entries in Deck.json Prompts.<Type>.Keyframes.'\n  );\n}\n\nreturn interpJobs.map(j => ({ json: j }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2160,
+        0
+      ],
+      "id": "434d85d8-b990-4aeb-81b3-455915d8d37e",
+      "name": "Build Interpolation Job List"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Group all clips by AnimationType and build FFmpeg concat commands.\nconst allItems = $input.all();\n\nconst byType = {};\nfor (const item of allItems) {\n  const d = item.json;\n  if (!byType[d.AnimationType]) byType[d.AnimationType] = [];\n  byType[d.AnimationType].push(d);\n}\n\nconst concatJobs = [];\nfor (const [animType, clips] of Object.entries(byType)) {\n  clips.sort((a, b) => a.PairIndex - b.PairIndex);\n\n  // Build a temporary concat list file path\n  const concatListPath = `${clips[0].KeyframeDir}\\\\${animType}_concat.txt`;\n  const clipPaths = clips.map(c => c.ClipPath.replace(/\\//g, '\\\\'));\n  const finalOutput = clips[0].FinalOutput.replace(/\\//g, '\\\\');\n\n  // Write concat list content (one line per clip)\n  const concatContent = clipPaths.map(p => `file '${p}'`).join('\\n');\n\n  concatJobs.push({\n    AnimationType: animType,\n    ConcatListPath: concatListPath,\n    ConcatContent: concatContent,\n    FinalOutput: finalOutput,\n    ClipPaths: clipPaths\n  });\n}\n\nreturn concatJobs.map(j => ({ json: j }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4080,
+        0
+      ],
+      "id": "1c5e9548-df4b-4a80-99c9-9f6a96b767f9",
+      "name": "Build FFmpeg Concat Commands"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst fs            = require('fs');\nconst path          = require('path');\nconst { execSync }  = require('child_process');\nconst allJobs       = $input.all().map(function(item) { return item.json; });\nconst results       = [];\n\nfor (const job of allJobs) {\n  // Ensure output directory exists\n  const outDir = path.dirname(job.FinalOutput);\n  fs.mkdirSync(outDir, { recursive: true });\n\n  // Ensure concat-list directory exists and write the list file\n  const listDir = path.dirname(job.ConcatListPath);\n  fs.mkdirSync(listDir, { recursive: true });\n  fs.writeFileSync(job.ConcatListPath, job.ConcatContent, 'utf8');\n\n  // Run ffmpeg\n  const cmd = `ffmpeg -y -f concat -safe 0 -i \"${job.ConcatListPath}\" -c copy \"${job.FinalOutput}\"`;\n  let stdout = '', stderr = '';\n  try {\n    stdout = execSync(cmd, { encoding: 'utf8', stdio: ['pipe','pipe','pipe'] });\n  } catch (e) {\n    stderr = e.stderr || e.message || String(e);\n    throw new Error('[FFmpeg Concat Clips] ffmpeg failed for ' + job.AnimationType + ':\\n' + stderr);\n  }\n\n  results.push({\n    AnimationType: job.AnimationType,\n    FinalOutput:   job.FinalOutput,\n    Status:        'done'\n  });\n}\n\nif (results.length === 0) throw new Error('[FFmpeg Concat Clips] No concat jobs were processed');\nreturn results.map(function(r) { return { json: r }; });\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4320,
+        0
+      ],
+      "id": "214b41c5-7e0f-40f5-a4b5-789d4c5817b3",
+      "name": "FFmpeg Concat Clips"
+    },
+    {
+      "parameters": {
+        "jsCode": "const results = $input.all().map(item => ({\n  AnimationType: item.json.AnimationType,\n  FinalOutput: item.json.FinalOutput,\n  Status: 'Complete'\n}));\nconsole.log('Stop-motion generation complete:', JSON.stringify(results, null, 2));\nreturn results.map(r => ({ json: r }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4560,
+        0
+      ],
+      "id": "373b9490-96f5-431e-b2c8-8e5e3327c2e5",
+      "name": "Report Results"
+    },
+    {
+      "parameters": {
+        "content": "## Generate Dealer Stop Motion \u2014 Deck.json Schema\n\nSet the deck path in **Set Global Parameters -> DeckJsonPath**.\nEverything else is read from Deck.json \u2014 no hardcoded values in this flow.\n\n---\n\n### Required sections\n\n```json\n{\n  \"Assets\": {\n    \"Directory\":          \"D:/data/cards/MyDeck\",\n    \"AnimationKeyframes\": \"D:/data/cards/MyDeck/keyframes\",\n    \"Cut\":    \"D:/data/cards/MyDeck/animations/cut.mp4\",\n    \"Fan\":    \"D:/data/cards/MyDeck/animations/fan.mp4\",\n    \"Merge\":  \"D:/data/cards/MyDeck/animations/merge.mp4\",\n    \"Rotate\": \"D:/data/cards/MyDeck/animations/rotate.mp4\"\n  },\n  \"Geometries\": {\n    \"Animation\": {\n      \"Width\": 512, \"Height\": 896,\n      \"FrameRate\": 24, \"InterpolationFrames\": 25\n    }\n  },\n  \"Prompts\": {\n    \"Cut\": {\n      \"Negative\": \"bad quality, blurry, distorted\",\n      \"Keyframes\": [\"frame 1 positive prompt\", \"frame 2 positive prompt\"]\n    },\n    \"Fan\":    { \"Negative\": \"...\", \"Keyframes\": [\"...\", \"...\"] },\n    \"Merge\":  { \"Negative\": \"...\", \"Keyframes\": [\"...\", \"...\"] },\n    \"Rotate\": { \"Negative\": \"...\", \"Keyframes\": [\"...\", \"...\"] }\n  }\n}\n```\n\n---\n\n### Optional \u2014 safe defaults built-in\n\n```json\n{\n  \"Models\": {\n    \"KeyframeCheckpoint\": \"dreamshaper_8.safetensors\",\n    \"InterpolationUNet\":  \"wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors\",\n    \"InterpolationCLIP\":  \"umt5_xxl_fp8_e4m3fn_scaled.safetensors\",\n    \"InterpolationVAE\":   \"wan_2.1_vae.safetensors\"\n  },\n  \"Samplers\": {\n    \"Keyframe\": {\n      \"Steps\": 20, \"CFG\": 7.0, \"Denoise\": 1.0,\n      \"Sampler\": \"dpmpp_2m\", \"Scheduler\": \"karras\"\n    },\n    \"Interpolation\": {\n      \"Steps\": 20, \"CFG\": 7.0, \"Denoise\": 1.0, \"Shift\": 3.0,\n      \"Sampler\": \"uni_pc_bh2\", \"Scheduler\": \"sgm_uniform\"\n    }\n  }\n}\n```\n\n---\n\n**AnimationTypes** (Set Global Parameters) must match the top-level keys\nlisted under Prompts in the deck file.  Default: `Cut,Fan,Merge,Rotate`\n\n**To use a different model**: add the Models section to Deck.json \u2014 no\nchanges to the flow are required.\n\n**To insert a hand-crafted image**: place it in the ComfyUI output\ndirectory named exactly `KF_<AnimType>_<Index>.png` before running;\nthe Poll node detects it and skips generation automatically.",
+        "height": 780,
+        "width": 700,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        -820
+      ],
+      "id": "00000000-0000-4000-8000-000000000001",
+      "name": "Deck.json Schema Reference"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst axios = require('axios');\nconst fs   = require('fs');\nconst path = require('path');\nconst params         = $('Set Global Parameters').first().json;\nconst comfyUIAPI     = params.ComfyUIAPI;\nconst comfyOutputDir = params.ComfyUIOutputDir;\nconst allJobs        = $input.all().map(function(item) { return item.json; });\nconst sleep = function(ms) { return new Promise(function(r) { setTimeout(r, ms); }); };\nconst results = [];\n\nfor (const job of allJobs) {\n  // --- Insertable keyframe check ---\n  // If KF_<AnimType>_<Index>.png exists in the deck's keyframe dir, use it directly\n  // instead of generating. Drop it there to override any keyframe with a hand-crafted image.\n  const insertableSrc = path.join(job.KeyframeDir, job.OutputPrefix + '.png');\n  if (fs.existsSync(insertableSrc)) {\n    const destFilename = job.OutputPrefix + '_manual.png';\n    fs.copyFileSync(insertableSrc, path.join(comfyOutputDir, destFilename));\n    console.warn('[Generate All Keyframes] Using insertable keyframe for ' + job.OutputPrefix);\n    results.push(Object.assign({}, job, {\n      PromptId: 'manual',\n      SavedFilename: destFilename,\n      SavedPath: comfyOutputDir + '/' + destFilename\n    }));\n    continue;\n  }\n\n  const comfyPrompt = {\n    \"1\": { \"class_type\": \"CheckpointLoaderSimple\", \"inputs\": { \"ckpt_name\": job.Checkpoint } },\n    \"2\": { \"class_type\": \"CLIPTextEncode\", \"inputs\": { \"text\": job.PositivePrompt, \"clip\": [\"1\", 1] } },\n    \"3\": { \"class_type\": \"CLIPTextEncode\", \"inputs\": { \"text\": job.NegativePrompt, \"clip\": [\"1\", 1] } },\n    \"4\": { \"class_type\": \"EmptyLatentImage\", \"inputs\": { \"width\": job.Width, \"height\": job.Height, \"batch_size\": 1 } },\n    \"5\": { \"class_type\": \"KSampler\", \"inputs\": {\n        \"seed\": Math.floor(Math.random() * 999999999),\n        \"steps\": job.Steps, \"cfg\": job.CFG,\n        \"sampler_name\": job.Sampler, \"scheduler\": job.Scheduler, \"denoise\": job.Denoise,\n        \"model\": [\"1\",0], \"positive\": [\"2\",0], \"negative\": [\"3\",0], \"latent_image\": [\"4\",0]\n      }\n    },\n    \"6\": { \"class_type\": \"VAEDecode\", \"inputs\": { \"samples\": [\"5\", 0], \"vae\": [\"1\", 2] } },\n    \"7\": { \"class_type\": \"SaveImage\", \"inputs\": { \"images\": [\"6\", 0], \"filename_prefix\": job.OutputPrefix } }\n  };\n\n  const submitRes = await axios.post(comfyUIAPI + '/prompt', { prompt: comfyPrompt });\n  const promptId = submitRes.data.prompt_id;\n\n  let done = false;\n  for (let attempt = 0; attempt < 60 && !done; attempt++) {\n    await sleep(3000);\n    const historyRes = await axios.get(comfyUIAPI + '/history/' + promptId);\n    const entry = historyRes.data[promptId];\n    if (entry && entry.outputs && entry.outputs['7'] &&\n        entry.outputs['7'].images && entry.outputs['7'].images.length > 0) {\n      const filename = entry.outputs['7'].images[0].filename;\n      results.push(Object.assign({}, job, {\n        PromptId: promptId,\n        SavedFilename: filename,\n        SavedPath: comfyOutputDir + '/' + filename\n      }));\n      done = true;\n    }\n  }\n  if (!done) throw new Error('[Generate All Keyframes] Timeout: ' + job.OutputPrefix + ' did not finish within 3 min');\n}\n\nif (results.length === 0) throw new Error('[Generate All Keyframes] No keyframes generated successfully');\nreturn results.map(function(r) { return { json: r }; });\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        0
+      ],
+      "id": "22222222-2222-4222-8222-222222222201",
+      "name": "Generate All Keyframes"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst axios = require('axios');\nconst fs   = require('fs');\nconst path = require('path');\nconst params         = $('Set Global Parameters').first().json;\nconst comfyUIAPI     = params.ComfyUIAPI;\nconst comfyOutputDir = params.ComfyUIOutputDir;\nconst comfyInputDir  = params.ComfyUIInputDir;\nconst allJobs        = $input.all().map(function(item) { return item.json; });\nconst sleep = function(ms) { return new Promise(function(r) { setTimeout(r, ms); }); };\nconst results = [];\n\nfor (const job of allJobs) {\n  fs.copyFileSync(path.join(comfyOutputDir, job.FrameAFilename), path.join(comfyInputDir, job.FrameAFilename));\n  fs.copyFileSync(path.join(comfyOutputDir, job.FrameBFilename), path.join(comfyInputDir, job.FrameBFilename));\n\n  const comfyPrompt = {\n    \"1\":  { \"class_type\": \"UNETLoader\",     \"inputs\": { \"unet_name\": job.UNetName, \"weight_dtype\": \"default\" } },\n    \"2\":  { \"class_type\": \"CLIPLoader\",     \"inputs\": { \"clip_name\": job.CLIPName, \"type\": \"wan\" } },\n    \"3\":  { \"class_type\": \"VAELoader\",      \"inputs\": { \"vae_name\": job.VAEName } },\n    \"4\":  { \"class_type\": \"CLIPTextEncode\", \"inputs\": { \"text\": job.PositivePrompt, \"clip\": [\"2\",0] } },\n    \"5\":  { \"class_type\": \"CLIPTextEncode\", \"inputs\": { \"text\": job.NegativePrompt, \"clip\": [\"2\",0] } },\n    \"6\":  { \"class_type\": \"LoadImage\",      \"inputs\": { \"image\": job.FrameAFilename, \"upload\": \"image\" } },\n    \"13\": { \"class_type\": \"LoadImage\",      \"inputs\": { \"image\": job.FrameBFilename, \"upload\": \"image\" } },\n    \"7\":  { \"class_type\": \"WanFirstLastFrameToVideo\",\"inputs\": {\n        \"width\": job.Width, \"height\": job.Height, \"length\": job.InterpFrames, \"batch_size\": 1,\n        \"positive\": [\"4\",0], \"negative\": [\"5\",0], \"vae\": [\"3\",0],\n        \"start_image\": [\"6\",0], \"end_image\": [\"13\",0]\n      }\n    },\n    \"9\":  { \"class_type\": \"ModelSamplingSD3\",\"inputs\": { \"shift\": job.InterpShift, \"model\": [\"1\",0] } },\n    \"10\": { \"class_type\": \"KSampler\",\"inputs\": {\n        \"seed\": Math.floor(Math.random() * 999999999),\n        \"steps\": job.InterpSteps, \"cfg\": job.InterpCFG,\n        \"sampler_name\": job.InterpSampler, \"scheduler\": job.InterpScheduler, \"denoise\": job.InterpDenoise,\n        \"model\": [\"9\",0], \"positive\": [\"7\",0], \"negative\": [\"7\",1], \"latent_image\": [\"7\",2]\n      }\n    },\n    \"11\": { \"class_type\": \"VAEDecode\",        \"inputs\": { \"samples\": [\"10\",0], \"vae\": [\"3\",0] } },\n    \"12\": { \"class_type\": \"VHS_VideoCombine\", \"inputs\": {\n        \"frame_rate\": job.FPS, \"loop_count\": 0, \"filename_prefix\": job.OutputPrefix,\n        \"format\": \"video/h264-mp4\", \"pix_fmt\": \"yuv420p\", \"crf\": 19,\n        \"save_metadata\": true, \"trim_to_audio\": false, \"pingpong\": false, \"save_output\": true,\n        \"images\": [\"11\",0]\n      }\n    }\n  };\n\n  const submitRes = await axios.post(comfyUIAPI + '/prompt', { prompt: comfyPrompt });\n  const promptId = submitRes.data.prompt_id;\n\n  let done = false;\n  for (let attempt = 0; attempt < 600 && !done; attempt++) {\n    await sleep(3000);\n    const historyRes = await axios.get(comfyUIAPI + '/history/' + promptId);\n    const entry = historyRes.data[promptId];\n    if (entry && entry.outputs && entry.outputs['12'] &&\n        entry.outputs['12'].gifs && entry.outputs['12'].gifs.length > 0) {\n      const filename = entry.outputs['12'].gifs[0].filename;\n      results.push(Object.assign({}, job, {\n        InterpPromptId: promptId,\n        ClipFilename: filename,\n        ClipPath: comfyOutputDir + '/' + filename\n      }));\n      done = true;\n    }\n  }\n  if (!done) throw new Error('[Generate All Interpolations] Timeout: ' + job.OutputPrefix + ' did not finish within 30 min');\n}\n\nif (results.length === 0) throw new Error('[Generate All Interpolations] No interpolation clips generated successfully');\nreturn results.map(function(r) { return { json: r }; });\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        0
+      ],
+      "id": "22222222-2222-4222-8222-222222222202",
+      "name": "Generate All Interpolations"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Set Global Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Global Parameters": {
+      "main": [
+        [
+          {
+            "node": "Read Deck.json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Deck.json": {
+      "main": [
+        [
+          {
+            "node": "Parse Deck.json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Deck.json": {
+      "main": [
+        [
+          {
+            "node": "Build Keyframe Job List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Keyframe Job List": {
+      "main": [
+        [
+          {
+            "node": "Generate All Keyframes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate All Keyframes": {
+      "main": [
+        [
+          {
+            "node": "Build Interpolation Job List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Interpolation Job List": {
+      "main": [
+        [
+          {
+            "node": "Generate All Interpolations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate All Interpolations": {
+      "main": [
+        [
+          {
+            "node": "Build FFmpeg Concat Commands",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build FFmpeg Concat Commands": {
+      "main": [
+        [
+          {
+            "node": "FFmpeg Concat Clips",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FFmpeg Concat Clips": {
+      "main": [
+        [
+          {
+            "node": "Report Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "eb655162-1791-48dc-b8b4-ae48dc739c3d",
+  "meta": {
+    "instanceId": "d7f41a3bc4c9824ed68d95186cb055000c790e15bf2666fbda9ebc1cffc1c54a"
+  },
+  "id": "xPagSccjmoVxSx4H",
+  "tags": []
+}

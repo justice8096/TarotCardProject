@@ -1,0 +1,43 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "n8n",
+      "runtimeExecutable": "D:/n8n/node_modules/.bin/n8n",
+      "runtimeArgs": ["start"],
+      "env": {
+        "NODE_FUNCTION_ALLOW_BUILTIN": "*",
+        "NODE_FUNCTION_ALLOW_EXTERNAL": "*",
+        "N8N_RUNNERS_TASK_TIMEOUT": "28800",
+        "N8N_RESTRICT_FILE_ACCESS_TO": "D:\\data\\",
+        "N8N_ENABLE_LOCAL_FILE_NODE": "true"
+      },
+      "port": 5678
+    },
+    {
+      "name": "ComfyUI (Nvidia GPU)",
+      "runtimeExecutable": "D:/ComfyUI_windows_portable/python_embeded/python.exe",
+      "runtimeArgs": [
+        "-s",
+        "D:/ComfyUI_windows_portable/ComfyUI/main.py",
+        "--windows-standalone-build"
+      ],
+      "port": 8188
+    },
+    {
+      "name": "Ollama",
+      "runtimeExecutable": "ollama",
+      "runtimeArgs": ["serve"],
+      "port": 11434
+    },
+    {
+      "name": "Text Generation Web UI",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "C:/Users/justi/text-generation-webui-main/text-generation-webui-main/start_windows.bat"
+      ],
+      "port": 7860
+    }
+  ]
+}
