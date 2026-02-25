@@ -1,0 +1,248 @@
+{
+  "89": {
+    "inputs": {
+      "text": "{{$json.data.Prompts.FrontImage.Positive}}",
+      "strip_whitespace": true,
+      "remove_empty_lines": false
+    },
+    "class_type": "MultilineText",
+    "_meta": {
+      "title": "Prompt"
+    }
+  },
+  "90": {
+    "inputs": {
+      "clip_name": "qwen_3_4b.safetensors",
+      "type": "lumina2",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Load CLIP"
+    }
+  },
+  "91": {
+    "inputs": {
+      "vae_name": "ae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "92": {
+    "inputs": {
+      "width": [
+        "101",
+        0
+      ],
+      "height": [
+        "130",
+        0
+      ],
+      "batch_size": 1
+    },
+    "class_type": "EmptySD3LatentImage",
+    "_meta": {
+      "title": "EmptySD3LatentImage (Half Height)"
+    }
+  },
+  "93": {
+    "inputs": {
+      "conditioning": [
+        "95",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "94": {
+    "inputs": {
+      "seed": 519211770618279,
+      "steps": 40,
+      "cfg": 1,
+      "sampler_name": "euler_ancestral",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "96",
+        0
+      ],
+      "positive": [
+        "95",
+        0
+      ],
+      "negative": [
+        "93",
+        0
+      ],
+      "latent_image": [
+        "92",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "95": {
+    "inputs": {
+      "text": [
+        "89",
+        0
+      ],
+      "clip": [
+        "90",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "96": {
+    "inputs": {
+      "unet_name": "z_image_turbo_bf16.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Load Diffusion Model"
+    }
+  },
+  "98": {
+    "inputs": {
+      "samples": [
+        "94",
+        0
+      ],
+      "vae": [
+        "91",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "101": {
+    "inputs": {
+      "number_int": "{{ $json.data.Geometries.Size.Width }}"
+    },
+    "class_type": "chaosaiart_Number",
+    "_meta": {
+      "title": "Full Width"
+    }
+  },
+  "104": {
+    "inputs": {
+      "number_int": "{{ $json.data.Geometries.Size.Height }}"
+    },
+    "class_type": "chaosaiart_Number",
+    "_meta": {
+      "title": "Height"
+    }
+  },
+  "130": {
+    "inputs": {
+      "number_int": "{{ Math.floor($json.data.Geometries.Size.Height / 2) }}"
+    },
+    "class_type": "chaosaiart_Number",
+    "_meta": {
+      "title": "Half Height"
+    }
+  },
+  "131": {
+    "inputs": {
+      "image": [
+        "98",
+        0
+      ],
+      "flip_method": "x-axis: vertically"
+    },
+    "class_type": "ImageFlip",
+    "_meta": {
+      "title": "Flip Top Half → Bottom Half"
+    }
+  },
+  "132": {
+    "inputs": {
+      "image1": [
+        "98",
+        0
+      ],
+      "image2": [
+        "131",
+        0
+      ],
+      "direction": "down",
+      "match_image_size": false
+    },
+    "class_type": "ImageConcanateOfUtils",
+    "_meta": {
+      "title": "Join Top + Bottom"
+    }
+  },
+  "120": {
+    "inputs": {
+      "image": [
+        "132",
+        0
+      ],
+      "rounded_rect_radius": 30,
+      "anti_aliasing": 4,
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0,
+      "detect": "mask_area",
+      "obj_ext_top": 0,
+      "obj_ext_bottom": 0,
+      "obj_ext_left": 0,
+      "obj_ext_right": 0
+    },
+    "class_type": "LayerUtility: RoundedRectangle",
+    "_meta": {
+      "title": "Rounded Rectangle Mask"
+    }
+  },
+  "111": {
+    "inputs": {
+      "path": "{{$json.data.Assets.FrontImage.replaceAll('\\\\','\\\\\\\\')}}",
+      "format": "png",
+      "quality": 95,
+      "invert_mask": true,
+      "create_dirs": true,
+      "images": [
+        "120",
+        0
+      ],
+      "mask": [
+        "120",
+        1
+      ]
+    },
+    "class_type": "Basic data handling: PathSaveImageRGBA",
+    "_meta": {
+      "title": "Save Transparent PNG (RGBA)"
+    }
+  },
+  "113": {
+    "inputs": {
+      "image": [
+        "120",
+        0
+      ]
+    },
+    "class_type": "AILab_ImagePreview",
+    "_meta": {
+      "title": "Image Preview 🖼️"
+    }
+  }
+}
