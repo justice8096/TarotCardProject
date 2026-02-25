@@ -637,11 +637,30 @@ Drop a hand-crafted MP3 into `Assets.NarrationDirectory` matching the filename i
 
 Convention: `NARRATION_{CardName}_{orientation}.mp3` (e.g. `NARRATION_Ace_of_Cups_upright.mp3`)
 
+### HuggingFace Authentication (required)
+
+`canopylabs/orpheus-3b-0.1-ft` is a **gated model** — HuggingFace authentication is required even if the model is already in the local cache (`~/.cache/huggingface/hub/`).
+
+**Setup (one-time):**
+1. Create a free account at https://huggingface.co
+2. Accept the model terms at https://huggingface.co/canopylabs/orpheus-3b-0.1-ft
+3. Create an access token at https://huggingface.co/settings/tokens
+4. Set the token before starting ComfyUI **and** n8n:
+
+```cmd
+set HF_TOKEN=hf_xxxxxxxxxxxxxxxxxxxx
+```
+
+Add this line to `start_n8n.bat` (the token check is already there — just fill in your token). ComfyUI also needs the token set in its startup environment.
+
+**Without HF_TOKEN:** Every `OrpheusModelLoader` call fails instantly with `GatedRepoError`. The poll loop detects this immediately (via `status_str === 'error'`) and moves to the next card — it does **not** wait out the full timeout per failure.
+
 ### Performance Notes
 
 - Orpheus 3B on 6GB VRAM: ~30–120s per card reading
 - 246 jobs (82 cards × 3 orientations) = ~2–8 hours total
 - Model stays in VRAM across consecutive ComfyUI queue items (no reload penalty)
 - n8n Code node timeout must be ≥ 28800s — set via `N8N_RUNNERS_TASK_TIMEOUT=28800`
-- Orpheus downloads models from HuggingFace on first run; subsequent runs use cached weights
+- First run downloads ~6GB of model weights (requires HF_TOKEN + accepted model terms)
+- Subsequent runs use cached weights (HF_TOKEN still required for the auth check)
 
