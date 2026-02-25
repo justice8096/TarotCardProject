@@ -499,3 +499,149 @@ With `pivot_y = H + 280 = 760` and `radius = 340`:
 - Angle ±58°: card centre at x ≈ 128 or 704 (within 832px canvas) ✓
 - Extreme-angle cards clip at bottom edge naturally — this looks realistic.
 
+---
+
+## Card Narration — Local TTS via ComfyUI Orpheus
+
+### Architecture
+
+```
+Set Global Parameters
+  └─ Read Deck.json → Parse Deck.json → Build Narration Job List (N items per card×orientation)
+       └─ Generate All Narrations (Code: axios loop, submit+poll each job, copy to NarrationDirectory)
+            └─ Report Results
+```
+
+**n8n workflow**: `n8n/Generate Card Narrations.json`
+
+### TTS Engine: Orpheus TTS
+
+| Node | Class | Purpose |
+|------|-------|---------|
+| `OrpheusModelLoader` | `OrpheusModelLoader` | Loads 3B LLM + SNAC 24kHz decoder |
+| `OrpheusGenerate` | `OrpheusGenerate` | Generates speech → ComfyUI `AUDIO` |
+| `SaveAudioMP3` | `SaveAudioMP3` | Saves to `output/<subfolder>/<filename>.mp3` |
+
+History polling key: `outputs['3'].audio[0]` (has `.filename` and `.subfolder`).
+
+**Why Orpheus over TTS Audio Suite:** Orpheus is self-contained (no reference audio files needed), uses named voices that map naturally to card personalities, and supports emotional elements (sigh, gasp) suited to tarot narration.
+
+### Deck.json Narration Schema
+
+#### Required (add to `Prompts.Narration`)
+```json
+{
+  "Prompts": {
+    "Narration": {
+      "Voice": "Female",
+      "Tone": "Mysterious and Kind",
+      "DefaultVoice": "tara",
+      "DefaultElement": "none",
+      "VoiceMap": {
+        "Female": "tara",   "Male": "leo",        "Neutral": "zac",
+        "Young Female": "jess", "Young Male": "dan",
+        "Mature Female": "leah", "Mature Male": "bob",
+        "Warm Female": "mia",    "Mystical": "tara",  "Authoritative": "leo"
+      },
+      "ElementMap": {
+        "Warm and uplifting": "none",  "Mysterious and Kind": "none",
+        "Somber and reflective": "sigh", "Warning": "sigh", "Grief": "sigh",
+        "Joyful": "none",  "Contemplative": "none",  "Surprised": "gasp"
+      }
+    }
+  }
+}
+```
+
+#### Required (add to `Models`)
+```json
+{
+  "Models": {
+    "NarrationTTS":  "canopylabs/orpheus-3b-0.1-ft",
+    "NarrationSNAC": "hubertsiuzdak/snac_24khz"
+  }
+}
+```
+
+#### Required (add to `Samplers`)
+```json
+{
+  "Samplers": {
+    "Narration": {
+      "Temperature": 0.6,
+      "TopP": 0.95,
+      "RepetitionPenalty": 1.1,
+      "MaxNewTokens": 2700,
+      "Quality": "128k"
+    }
+  }
+}
+```
+
+#### Required (add to `Assets`)
+```json
+{
+  "Assets": {
+    "NarrationDirectory": "D:/data/cards/Standard/Narration"
+  }
+}
+```
+
+### Card JSON Structure
+
+Each card JSON (e.g. `Cards/Ace_of_Cups.json`) has `data.Cards.records[]`. Each record has:
+- `Orientation`: `"upright"`, `"reversed"`, or `"between"`
+- `Description`: prose card meaning (used as narration body)
+- `Advice`: actionable advice sentence
+- `Affirmation`: affirmation text (multiline — newlines replaced with spaces)
+- `Assets.Narration`: output filename e.g. `"NARRATION_Ace_of_Cups_upright.mp3"`
+- `Prompts.Narration.Voice`: voice descriptor (e.g. `"Female"`) → VoiceMap → Orpheus voice
+- `Prompts.Narration.Tone`: tone descriptor (e.g. `"Warm and uplifting"`) → ElementMap → element
+- `Prompts.Narration.Content`: **LLM prompt guidance** (NOT the narration script; describes what to say)
+
+### Script Assembly
+
+The narration script is assembled from structured fields — **not** from `Prompts.Narration.Content` (which is LLM guidance, not spoken text):
+
+```javascript
+const script = [
+  `${cardName}, ${orientation} position.`,
+  record.Description,
+  record.Advice ? `Advice: ${record.Advice}` : null,
+  record.Affirmation ? record.Affirmation.replace(/\n/g, ' ') : null
+].filter(Boolean).join(' ');
+```
+
+### Orpheus Voice Reference
+
+| Voice | Character |
+|-------|-----------|
+| `tara` | Default female narrator — warm, clear |
+| `leah` | Mature female — grounded, wise |
+| `jess` | Young female — bright, energetic |
+| `leo`  | Male narrator — authoritative |
+| `dan`  | Young male — approachable |
+| `mia`  | Warm female — nurturing |
+| `zac`  | Neutral — balanced |
+| `zoe`  | Female — expressive |
+| `bob`  | Mature male — deep |
+| `rebeca` | Female — dynamic |
+| `lisa` | Female — calm |
+
+Emotional elements: `none`, `laugh`, `chuckle`, `sigh`, `cough`, `sniffle`, `groan`, `yawn`, `gasp`
+Element position: `none` (no element), `append` (after text), `prepend` (before text), `pipe` (replaces `|` chars in text)
+
+### Insertable Narration Files
+
+Drop a hand-crafted MP3 into `Assets.NarrationDirectory` matching the filename in `Assets.Narration` and the workflow will skip that card entirely.
+
+Convention: `NARRATION_{CardName}_{orientation}.mp3` (e.g. `NARRATION_Ace_of_Cups_upright.mp3`)
+
+### Performance Notes
+
+- Orpheus 3B on 6GB VRAM: ~30–120s per card reading
+- 246 jobs (82 cards × 3 orientations) = ~2–8 hours total
+- Model stays in VRAM across consecutive ComfyUI queue items (no reload penalty)
+- n8n Code node timeout must be ≥ 28800s — set via `N8N_RUNNERS_TASK_TIMEOUT=28800`
+- Orpheus downloads models from HuggingFace on first run; subsequent runs use cached weights
+
