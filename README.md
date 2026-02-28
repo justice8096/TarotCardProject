@@ -21,14 +21,76 @@ A tarot card layout, spread and reader system. Differs from Rider-Waite by havin
 - [Ollama](https://ollama.com) — local small language model runtime and model repository
 - TypeScript
 
-## Licensing
+---
 
-| What | License |
+## Directory Structure
+
+```
+config.json        Machine-specific path configuration (edit this when setting up a new machine)
+CLAUDE.md          Project conventions and architecture notes
+n8n/               n8n workflow JSONs
+ComfyUI/           ComfyUI workflow JSONs
+data/              Spreadsheet source files
+Perplexity/        Research documents
+```
+
+---
+
+## Setting Up on a New Machine
+
+All machine-specific paths are stored in one place: **`config.json`** at the project root.
+
+### 1. Edit config.json
+
+Open `config.json` and update each path to match your machine:
+
+```json
+{
+    "DataDir":             "D:/data",
+    "CardsDir":            "D:/data/cards",
+    "DefaultDeckDir":      "D:/data/cards/Standard",
+    "DefaultDeckJsonPath": "D:/data/cards/Standard/Deck.json",
+    "LegacyDeckJsonPath":  "D:/data/cards/Deck.json",
+
+    "FullImagesDir":       "D:/data/Full_Images",
+    "CardPartImagesDir":   "D:/data/Card_Part_Images",
+    "ErrorsDir":           "D:/data/errors",
+
+    "SpreadsheetPath":       "D:/data/TarotSpreadsheet2.ods",
+    "LegacySpreadsheetPath": "D:/data/CardImages.ods",
+
+    "ComfyUIDir": "D:/ComfyUI_windows_portable/ComfyUI",
+    "ComfyUIAPI": "http://127.0.0.1:8188",
+    "OllamaAPI":  "http://127.0.0.1:11434"
+}
+```
+
+> Do **not** edit path values inside the n8n workflow nodes themselves. All 10 workflows read their paths from this file at runtime.
+
+### 2. (Optional) Override the config file location
+
+By default every workflow looks for `config.json` at `D:/TarotCardProject/config.json`. If you store the project at a different path, set the `TAROT_CONFIG` environment variable to the full path of your `config.json` before starting n8n:
+
+```cmd
+set TAROT_CONFIG=E:/MyProject/config.json
+set NODE_FUNCTION_ALLOW_BUILTIN=* && set NODE_FUNCTION_ALLOW_EXTERNAL=* && set N8N_RUNNERS_TASK_TIMEOUT=28800 && n8n start
+```
+
+### 3. Start n8n
+
+n8n requires several environment flags to allow file access and long-running tasks:
+
+```cmd
+set NODE_FUNCTION_ALLOW_BUILTIN=* && set NODE_FUNCTION_ALLOW_EXTERNAL=* && set N8N_RUNNERS_TASK_TIMEOUT=28800 && n8n start
+```
+
+| Flag | Purpose |
 |------|---------|
-| **Source code** (workflows, scripts, configs) | [GNU AGPL v3](LICENSE) — free to use and modify; all derivatives must also be open source |
-| **Generated assets** (card images, animations) | [CC BY 4.0](LICENSE-ASSETS) — free to use, sell, or build on; attribution required |
+| `NODE_FUNCTION_ALLOW_BUILTIN=*` | Allows `fs`, `path`, `child_process` in Code nodes |
+| `NODE_FUNCTION_ALLOW_EXTERNAL=*` | Allows `axios` and other npm packages in Code nodes |
+| `N8N_RUNNERS_TASK_TIMEOUT=28800` | 8-hour timeout for long image/video generation batches |
 
-## Tools Used
+### 4. Import workflows into n8n
 
 Import each JSON file from the `n8n/` folder into n8n. No edits are needed — paths are read from `config.json` automatically.
 
