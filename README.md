@@ -1,11 +1,25 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 
-This project will attempt to create a Tarot Card layout, spread and reader. It will differ from the Rider-Waite version by having more cards, and it will be compatible with the I-Ching balance model as well as the Tarot action model.
+# Tarot Card Project
 
-Tools Used:
-* n8n
-* comfyUI
-* Perplexity
-* TypeScript
+A tarot card layout, spread and reader system. Differs from Rider-Waite by having more cards, and compatible with both the I-Ching balance model and the Tarot action model.
+
+## Licensing
+
+| What | License |
+|------|---------|
+| **Source code** (workflows, scripts, configs) | [GNU AGPL v3](LICENSE) — free to use and modify; all derivatives must also be open source |
+| **Generated assets** (card images, animations) | [CC BY 4.0](LICENSE-ASSETS) — free to use, sell, or build on; attribution required |
+
+## Tools Used
+
+- [n8n](https://n8n.io) — orchestration and automation
+- [ComfyUI](https://github.com/comfyanonymous/ComfyUI) — image and video generation
+- [Perplexity](https://www.perplexity.ai) — research
+- [Claude](https://claude.ai) — code co-generation
+- [huggingFace](https://huggingface.co) — repository of AI models and associated tools
+- [Ollama](https://ollama.com) — local small language model runtime and model repository
+- TypeScript
 
 ---
 
@@ -267,9 +281,9 @@ CardPartImagesDir/      <-- same files, overwritten with palette-harmonized colo
 
 **ComfyUI node chain:**
 ```
-UNETLoader → ModelSamplingSD3
-QuadrupleCLIPLoader → CLIPTextEncode (positive + negative)
-EmptySD3LatentImage → KSampler → VAEDecode → ImageBatchSaver
+UNETLoader --> ModelSamplingSD3
+QuadrupleCLIPLoader --> CLIPTextEncode (positive + negative)
+EmptySD3LatentImage --> KSampler --> VAEDecode --> ImageBatchSaver
 ```
 
 **Inputs:**
@@ -288,13 +302,13 @@ EmptySD3LatentImage → KSampler → VAEDecode → ImageBatchSaver
 **ComfyUI workflow (embedded):** equivalent to `ComfyUI/Make_Images_For_Card.json`
 **Model type:** Image-to-image refinement (Qwen Vision, `TextEncodeQwenImageEditPlus`)
 
-**What it does:** Takes each full-size artwork from Stage 1, scales it to card dimensions, and runs an img2img pass to refine details. Produces **three orientation variants** per card in a single ComfyUI call — upright (0°), reverse (180°), and between (90°).
+**What it does:** Takes each full-size artwork from Stage 1, scales it to card dimensions, and runs an img2img pass to refine details. Produces **three orientation variants** per card in a single ComfyUI call — upright (0 degrees), reverse (180 degrees), and between (90 degrees).
 
 **ComfyUI node chain (repeated three times, one per orientation):**
 ```
-LoadImageFromPath_ → ImageScaleToTotalPixels → VAEEncode
+LoadImageFromPath_ --> ImageScaleToTotalPixels --> VAEEncode
 TextEncodeQwenImageEditPlus (positive + negative)
-KSampler → VAEDecode → ImageRotate → ImageBatchSaver
+KSampler --> VAEDecode --> ImageRotate --> ImageBatchSaver
 ```
 
 **Inputs:**
@@ -318,8 +332,8 @@ KSampler → VAEDecode → ImageRotate → ImageBatchSaver
 
 **ComfyUI node chain:**
 ```
-LoadImageFromPath_ (×3, one per orientation)
-ColorPalette → PalleteTransferClustering (×3) → ImageBatchSaver (×3)
+LoadImageFromPath_ (x3, one per orientation)
+ColorPalette --> PalleteTransferClustering (x3) --> ImageBatchSaver (x3)
 ```
 
 **Inputs:**
@@ -342,10 +356,10 @@ ColorPalette → PalleteTransferClustering (×3) → ImageBatchSaver (×3)
 
 **ComfyUI node chain:**
 ```
-LoadImage → RMBG (background removal)
-  → flip copy → ImageConcanateOfUtils
-  → LayerUtility: RoundedRectangle (mask)
-  → Basic data handling: PathSaveImageRGBA
+LoadImage --> RMBG (background removal)
+  --> flip copy --> ImageConcanateOfUtils
+  --> LayerUtility: RoundedRectangle (mask)
+  --> Basic data handling: PathSaveImageRGBA
 ```
 
 ---
