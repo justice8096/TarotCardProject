@@ -1,393 +1,417 @@
 {
-  "name": "Generate Card Tarot Images",
-  "nodes": [
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -1408,
-        -80
-      ],
-      "id": "c0003b90-9d0f-4b8e-8c9f-324afe011ef0",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
-      "parameters": {
-        "method": "=POST",
-        "url": "=http://127.0.0.1:8188/prompt",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "=  {\n    \"prompt\": {\n      \"128\": {\n        \"inputs\": {\n          \"value\": \"{{$json.OutputDirectory}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Input Directory\"\n        }\n      },\n      \"130\": {\n        \"inputs\": {\n          \"value\": \"{{$json.UprightInputImage}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Upright Input Filename\"\n        }\n      },\n      \"133\": {\n        \"inputs\": {\n          \"value\": \"{{$json.UprightOutputImage}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Upright Output Filename\"\n        }\n      },\n      \"135\": {\n        \"inputs\": {\n          \"value\": \"{{$json.BetweenInputImage}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Between Input Filename\"\n        }\n      },\n      \"141\": {\n        \"inputs\": {\n          \"upscale_method\": \"lanczos\",\n          \"scale_by\": 0.5,\n          \"image\": [\n            \"142\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageScaleBy\",\n        \"_meta\": {\n          \"title\": \"Upscale Image By\"\n        }\n      },\n      \"142\": {\n        \"inputs\": {\n          \"rotation\": \"90 degrees\",\n          \"image\": [\n            \"139:8\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageRotate\",\n        \"_meta\": {\n          \"title\": \"Rotate Image 90 Degrees\"\n        }\n      },\n      \"143\": {\n        \"inputs\": {\n          \"value\": \"{{$json.ReversedOutputImage}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Reverse Output Filename\"\n        }\n      },\n      \"144\": {\n        \"inputs\": {\n          \"value\": \"{{$json.ReversedInputImage}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Reverse Input Filename\"\n        }\n      },\n      \"146\": {\n        \"inputs\": {\n          \"image_path\": [\n            \"163:162\",\n            0\n          ]\n        },\n        \"class_type\": \"LoadImageFromPath_\",\n        \"_meta\": {\n          \"title\": \"Load Image From Path\"\n        }\n      },\n      \"148\": {\n        \"inputs\": {\n          \"rotation\": \"180 degrees\",\n          \"image\": [\n            \"149:8\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageRotate\",\n        \"_meta\": {\n          \"title\": \"Rotate Image 180 Degrees\"\n        }\n      },\n      \"150\": {\n        \"inputs\": {\n          \"upscale_method\": \"lanczos\",\n          \"scale_by\": 0.5,\n          \"image\": [\n            \"148\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageScaleBy\",\n        \"_meta\": {\n          \"title\": \"Upscale Image By\"\n        }\n      },\n      \"152\": {\n        \"inputs\": {\n          \"value\": \"{{$json.OutputDirectory}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Output Directory\"\n        }\n      },\n      \"153\": {\n        \"inputs\": {\n          \"output_path\": [\n            \"152\",\n            0\n          ],\n          \"filename_prefix\": [\n            \"133\",\n            0\n          ],\n          \"filename_delimiter\": \"_\",\n          \"filename_suffix\": \"\",\n          \"extension\": \"png\",\n          \"filename_number_padding\": 1,\n          \"filename_number\": \"off\",\n          \"embeded_workflow\": true,\n          \"images\": [\n            \"157\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageBatchSaver\",\n        \"_meta\": {\n          \"title\": \"Image Batch Saver\"\n        }\n      },\n      \"154\": {\n        \"inputs\": {\n          \"output_path\": [\n            \"152\",\n            0\n          ],\n          \"filename_prefix\": [\n            \"156\",\n            0\n          ],\n          \"filename_delimiter\": \"_\",\n          \"filename_suffix\": \"\",\n          \"extension\": \"png\",\n          \"filename_number_padding\": 1,\n          \"filename_number\": \"off\",\n          \"embeded_workflow\": true,\n          \"images\": [\n            \"141\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageBatchSaver\",\n        \"_meta\": {\n          \"title\": \"Image Batch Saver\"\n        }\n      },\n      \"155\": {\n        \"inputs\": {\n          \"output_path\": [\n            \"152\",\n            0\n          ],\n          \"filename_prefix\": [\n            \"143\",\n            0\n          ],\n          \"filename_delimiter\": \"_\",\n          \"filename_suffix\": \"\",\n          \"extension\": \"png\",\n          \"filename_number_padding\": 1,\n          \"filename_number\": \"off\",\n          \"embeded_workflow\": true,\n          \"images\": [\n            \"150\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageBatchSaver\",\n        \"_meta\": {\n          \"title\": \"Image Batch Saver\"\n        }\n      },\n      \"156\": {\n        \"inputs\": {\n          \"value\": \"{{$json.BetweenOutputImage}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Between Output Filename\"\n        }\n      },\n      \"157\": {\n        \"inputs\": {\n          \"upscale_method\": \"lanczos\",\n          \"scale_by\": 0.5,\n          \"image\": [\n            \"115:8\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageScaleBy\",\n        \"_meta\": {\n          \"title\": \"Upscale Image By\"\n        }\n      },\n      \"165\": {\n        \"inputs\": {\n          \"text\": \"Change the input image to be in the French Art Nouveau style. Do not have frames around the image. Use all of the colors in the input image \",\n          \"strip_whitespace\": true,\n          \"remove_empty_lines\": false\n        },\n        \"class_type\": \"MultilineText\",\n        \"_meta\": {\n          \"title\": \"Multiline Text\"\n        }\n      },\n      \"166\": {\n        \"inputs\": {\n          \"value\": 15\n        },\n        \"class_type\": \"PrimitiveInt\",\n        \"_meta\": {\n          \"title\": \"Steps\"\n        }\n      },\n      \"159:129\": {\n        \"inputs\": {\n          \"string_a\": [\n            \"128\",\n            0\n          ],\n          \"string_b\": [\n            \"130\",\n            0\n          ],\n          \"delimiter\": \"/\"\n        },\n        \"class_type\": \"StringConcatenate\",\n        \"_meta\": {\n          \"title\": \"Input File\"\n        }\n      },\n      \"164:137\": {\n        \"inputs\": {\n          \"string_a\": [\n            \"128\",\n            0\n          ],\n          \"string_b\": [\n            \"135\",\n            0\n          ],\n          \"delimiter\": \"/\"\n        },\n        \"class_type\": \"StringConcatenate\",\n        \"_meta\": {\n          \"title\": \"Input File\"\n        }\n      },\n      \"163:162\": {\n        \"inputs\": {\n          \"string_a\": [\n            \"128\",\n            0\n          ],\n          \"string_b\": [\n            \"144\",\n            0\n          ],\n          \"delimiter\": \"/\"\n        },\n        \"class_type\": \"StringConcatenate\",\n        \"_meta\": {\n          \"title\": \"Input File\"\n        }\n      },\n      \"161:131\": {\n        \"inputs\": {\n          \"image_path\": [\n            \"159:129\",\n            0\n          ]\n        },\n        \"class_type\": \"LoadImageFromPath_\",\n        \"_meta\": {\n          \"title\": \"Load Image From Path\"\n        }\n      },\n      \"167:138\": {\n        \"inputs\": {\n          \"image_path\": [\n            \"164:137\",\n            0\n          ]\n        },\n        \"class_type\": \"LoadImageFromPath_\",\n        \"_meta\": {\n          \"title\": \"Load Image From Path\"\n        }\n      },\n      \"115:75\": {\n        \"inputs\": {\n          \"strength\": 1,\n          \"model\": [\n            \"115:66\",\n            0\n          ]\n        },\n        \"class_type\": \"CFGNorm\",\n        \"_meta\": {\n          \"title\": \"CFGNorm\"\n        }\n      },\n      \"115:39\": {\n        \"inputs\": {\n          \"vae_name\": \"qwen_image_vae.safetensors\"\n        },\n        \"class_type\": \"VAELoader\",\n        \"_meta\": {\n          \"title\": \"Load VAE\"\n        }\n      },\n      \"115:38\": {\n        \"inputs\": {\n          \"clip_name\": \"qwen_2.5_vl_7b_fp8_scaled.safetensors\",\n          \"type\": \"qwen_image\",\n          \"device\": \"default\"\n        },\n        \"class_type\": \"CLIPLoader\",\n        \"_meta\": {\n          \"title\": \"Load CLIP\"\n        }\n      },\n      \"115:37\": {\n        \"inputs\": {\n          \"unet_name\": \"qwen_image_edit_2509_fp8_e4m3fn.safetensors\",\n          \"weight_dtype\": \"default\"\n        },\n        \"class_type\": \"UNETLoader\",\n        \"_meta\": {\n          \"title\": \"Load Diffusion Model\"\n        }\n      },\n      \"115:110\": {\n        \"inputs\": {\n          \"prompt\": \"\",\n          \"clip\": [\n            \"115:38\",\n            0\n          ],\n          \"vae\": [\n            \"115:39\",\n            0\n          ],\n          \"image1\": [\n            \"115:93\",\n            0\n          ]\n        },\n        \"class_type\": \"TextEncodeQwenImageEditPlus\",\n        \"_meta\": {\n          \"title\": \"TextEncodeQwenImageEditPlus\"\n        }\n      },\n      \"115:66\": {\n        \"inputs\": {\n          \"shift\": 3,\n          \"model\": [\n            \"115:89\",\n            0\n          ]\n        },\n        \"class_type\": \"ModelSamplingAuraFlow\",\n        \"_meta\": {\n          \"title\": \"ModelSamplingAuraFlow\"\n        }\n      },\n      \"115:111\": {\n        \"inputs\": {\n          \"prompt\": [\n            \"165\",\n            0\n          ],\n          \"clip\": [\n            \"115:38\",\n            0\n          ],\n          \"vae\": [\n            \"115:39\",\n            0\n          ],\n          \"image1\": [\n            \"115:93\",\n            0\n          ]\n        },\n        \"class_type\": \"TextEncodeQwenImageEditPlus\",\n        \"_meta\": {\n          \"title\": \"TextEncodeQwenImageEditPlus\"\n        }\n      },\n      \"115:112\": {\n        \"inputs\": {\n          \"width\": 2560,\n          \"height\": 1440,\n          \"batch_size\": 1\n        },\n        \"class_type\": \"EmptySD3LatentImage\",\n        \"_meta\": {\n          \"title\": \"EmptySD3LatentImage\"\n        }\n      },\n      \"115:88\": {\n        \"inputs\": {\n          \"pixels\": [\n            \"115:93\",\n            0\n          ],\n          \"vae\": [\n            \"115:39\",\n            0\n          ]\n        },\n        \"class_type\": \"VAEEncode\",\n        \"_meta\": {\n          \"title\": \"VAE Encode\"\n        }\n      },\n      \"115:93\": {\n        \"inputs\": {\n          \"upscale_method\": \"lanczos\",\n          \"megapixels\": 1,\n          \"resolution_steps\": 1,\n          \"image\": [\n            \"161:131\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageScaleToTotalPixels\",\n        \"_meta\": {\n          \"title\": \"ImageScaleToTotalPixels\"\n        }\n      },\n      \"115:3\": {\n        \"inputs\": {\n          \"seed\": 1118877715456453,\n          \"steps\": [\n            \"166\",\n            0\n          ],\n          \"cfg\": 1,\n          \"sampler_name\": \"euler\",\n          \"scheduler\": \"simple\",\n          \"denoise\": 1,\n          \"model\": [\n            \"115:75\",\n            0\n          ],\n          \"positive\": [\n            \"115:111\",\n            0\n          ],\n          \"negative\": [\n            \"115:110\",\n            0\n          ],\n          \"latent_image\": [\n            \"115:88\",\n            0\n          ]\n        },\n        \"class_type\": \"KSampler\",\n        \"_meta\": {\n          \"title\": \"KSampler\"\n        }\n      },\n      \"115:8\": {\n        \"inputs\": {\n          \"samples\": [\n            \"115:3\",\n            0\n          ],\n          \"vae\": [\n            \"115:39\",\n            0\n          ]\n        },\n        \"class_type\": \"VAEDecode\",\n        \"_meta\": {\n          \"title\": \"VAE Decode\"\n        }\n      },\n      \"115:116\": {\n        \"inputs\": {\n          \"images\": [\n            \"115:8\",\n            0\n          ]\n        },\n        \"class_type\": \"PreviewImage\",\n        \"_meta\": {\n          \"title\": \"Preview Image\"\n        }\n      },\n      \"115:89\": {\n        \"inputs\": {\n          \"lora_name\": \"Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors\",\n          \"strength_model\": 1,\n          \"model\": [\n            \"115:37\",\n            0\n          ]\n        },\n        \"class_type\": \"LoraLoaderModelOnly\",\n        \"_meta\": {\n          \"title\": \"LoraLoaderModelOnly\"\n        }\n      },\n      \"139:75\": {\n        \"inputs\": {\n          \"strength\": 1,\n          \"model\": [\n            \"139:66\",\n            0\n          ]\n        },\n        \"class_type\": \"CFGNorm\",\n        \"_meta\": {\n          \"title\": \"CFGNorm\"\n        }\n      },\n      \"139:39\": {\n        \"inputs\": {\n          \"vae_name\": \"qwen_image_vae.safetensors\"\n        },\n        \"class_type\": \"VAELoader\",\n        \"_meta\": {\n          \"title\": \"Load VAE\"\n        }\n      },\n      \"139:38\": {\n        \"inputs\": {\n          \"clip_name\": \"qwen_2.5_vl_7b_fp8_scaled.safetensors\",\n          \"type\": \"qwen_image\",\n          \"device\": \"default\"\n        },\n        \"class_type\": \"CLIPLoader\",\n        \"_meta\": {\n          \"title\": \"Load CLIP\"\n        }\n      },\n      \"139:37\": {\n        \"inputs\": {\n          \"unet_name\": \"qwen_image_edit_2509_fp8_e4m3fn.safetensors\",\n          \"weight_dtype\": \"default\"\n        },\n        \"class_type\": \"UNETLoader\",\n        \"_meta\": {\n          \"title\": \"Load Diffusion Model\"\n        }\n      },\n      \"139:110\": {\n        \"inputs\": {\n          \"prompt\": \"\",\n          \"clip\": [\n            \"139:38\",\n            0\n          ],\n          \"vae\": [\n            \"139:39\",\n            0\n          ],\n          \"image1\": [\n            \"139:93\",\n            0\n          ]\n        },\n        \"class_type\": \"TextEncodeQwenImageEditPlus\",\n        \"_meta\": {\n          \"title\": \"TextEncodeQwenImageEditPlus\"\n        }\n      },\n      \"139:66\": {\n        \"inputs\": {\n          \"shift\": 3,\n          \"model\": [\n            \"139:89\",\n            0\n          ]\n        },\n        \"class_type\": \"ModelSamplingAuraFlow\",\n        \"_meta\": {\n          \"title\": \"ModelSamplingAuraFlow\"\n        }\n      },\n      \"139:111\": {\n        \"inputs\": {\n          \"prompt\": [\n            \"165\",\n            0\n          ],\n          \"clip\": [\n            \"139:38\",\n            0\n          ],\n          \"vae\": [\n            \"139:39\",\n            0\n          ],\n          \"image1\": [\n            \"139:93\",\n            0\n          ]\n        },\n        \"class_type\": \"TextEncodeQwenImageEditPlus\",\n        \"_meta\": {\n          \"title\": \"TextEncodeQwenImageEditPlus\"\n        }\n      },\n      \"139:112\": {\n        \"inputs\": {\n          \"width\": 2560,\n          \"height\": 1440,\n          \"batch_size\": 1\n        },\n        \"class_type\": \"EmptySD3LatentImage\",\n        \"_meta\": {\n          \"title\": \"EmptySD3LatentImage\"\n        }\n      },\n      \"139:88\": {\n        \"inputs\": {\n          \"pixels\": [\n            \"139:93\",\n            0\n          ],\n          \"vae\": [\n            \"139:39\",\n            0\n          ]\n        },\n        \"class_type\": \"VAEEncode\",\n        \"_meta\": {\n          \"title\": \"VAE Encode\"\n        }\n      },\n      \"139:93\": {\n        \"inputs\": {\n          \"upscale_method\": \"lanczos\",\n          \"megapixels\": 1,\n          \"resolution_steps\": 1,\n          \"image\": [\n            \"167:138\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageScaleToTotalPixels\",\n        \"_meta\": {\n          \"title\": \"ImageScaleToTotalPixels\"\n        }\n      },\n      \"139:3\": {\n        \"inputs\": {\n          \"seed\": 1118877715456453,\n          \"steps\": [\n            \"166\",\n            0\n          ],\n          \"cfg\": 1,\n          \"sampler_name\": \"euler\",\n          \"scheduler\": \"simple\",\n          \"denoise\": 1,\n          \"model\": [\n            \"139:75\",\n            0\n          ],\n          \"positive\": [\n            \"139:111\",\n            0\n          ],\n          \"negative\": [\n            \"139:110\",\n            0\n          ],\n          \"latent_image\": [\n            \"139:88\",\n            0\n          ]\n        },\n        \"class_type\": \"KSampler\",\n        \"_meta\": {\n          \"title\": \"KSampler\"\n        }\n      },\n      \"139:8\": {\n        \"inputs\": {\n          \"samples\": [\n            \"139:3\",\n            0\n          ],\n          \"vae\": [\n            \"139:39\",\n            0\n          ]\n        },\n        \"class_type\": \"VAEDecode\",\n        \"_meta\": {\n          \"title\": \"VAE Decode\"\n        }\n      },\n      \"139:116\": {\n        \"inputs\": {\n          \"images\": [\n            \"139:8\",\n            0\n          ]\n        },\n        \"class_type\": \"PreviewImage\",\n        \"_meta\": {\n          \"title\": \"Preview Image\"\n        }\n      },\n      \"139:89\": {\n        \"inputs\": {\n          \"lora_name\": \"Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors\",\n          \"strength_model\": 1,\n          \"model\": [\n            \"139:37\",\n            0\n          ]\n        },\n        \"class_type\": \"LoraLoaderModelOnly\",\n        \"_meta\": {\n          \"title\": \"LoraLoaderModelOnly\"\n        }\n      },\n      \"149:75\": {\n        \"inputs\": {\n          \"strength\": 1,\n          \"model\": [\n            \"149:66\",\n            0\n          ]\n        },\n        \"class_type\": \"CFGNorm\",\n        \"_meta\": {\n          \"title\": \"CFGNorm\"\n        }\n      },\n      \"149:39\": {\n        \"inputs\": {\n          \"vae_name\": \"qwen_image_vae.safetensors\"\n        },\n        \"class_type\": \"VAELoader\",\n        \"_meta\": {\n          \"title\": \"Load VAE\"\n        }\n      },\n      \"149:38\": {\n        \"inputs\": {\n          \"clip_name\": \"qwen_2.5_vl_7b_fp8_scaled.safetensors\",\n          \"type\": \"qwen_image\",\n          \"device\": \"default\"\n        },\n        \"class_type\": \"CLIPLoader\",\n        \"_meta\": {\n          \"title\": \"Load CLIP\"\n        }\n      },\n      \"149:37\": {\n        \"inputs\": {\n          \"unet_name\": \"qwen_image_edit_2509_fp8_e4m3fn.safetensors\",\n          \"weight_dtype\": \"default\"\n        },\n        \"class_type\": \"UNETLoader\",\n        \"_meta\": {\n          \"title\": \"Load Diffusion Model\"\n        }\n      },\n      \"149:110\": {\n        \"inputs\": {\n          \"prompt\": \"\",\n          \"clip\": [\n            \"149:38\",\n            0\n          ],\n          \"vae\": [\n            \"149:39\",\n            0\n          ],\n          \"image1\": [\n            \"149:93\",\n            0\n          ]\n        },\n        \"class_type\": \"TextEncodeQwenImageEditPlus\",\n        \"_meta\": {\n          \"title\": \"TextEncodeQwenImageEditPlus\"\n        }\n      },\n      \"149:66\": {\n        \"inputs\": {\n          \"shift\": 3,\n          \"model\": [\n            \"149:89\",\n            0\n          ]\n        },\n        \"class_type\": \"ModelSamplingAuraFlow\",\n        \"_meta\": {\n          \"title\": \"ModelSamplingAuraFlow\"\n        }\n      },\n      \"149:111\": {\n        \"inputs\": {\n          \"prompt\": [\n            \"165\",\n            0\n          ],\n          \"clip\": [\n            \"149:38\",\n            0\n          ],\n          \"vae\": [\n            \"149:39\",\n            0\n          ],\n          \"image1\": [\n            \"149:93\",\n            0\n          ]\n        },\n        \"class_type\": \"TextEncodeQwenImageEditPlus\",\n        \"_meta\": {\n          \"title\": \"TextEncodeQwenImageEditPlus\"\n        }\n      },\n      \"149:112\": {\n        \"inputs\": {\n          \"width\": 2560,\n          \"height\": 1440,\n          \"batch_size\": 1\n        },\n        \"class_type\": \"EmptySD3LatentImage\",\n        \"_meta\": {\n          \"title\": \"EmptySD3LatentImage\"\n        }\n      },\n      \"149:88\": {\n        \"inputs\": {\n          \"pixels\": [\n            \"149:93\",\n            0\n          ],\n          \"vae\": [\n            \"149:39\",\n            0\n          ]\n        },\n        \"class_type\": \"VAEEncode\",\n        \"_meta\": {\n          \"title\": \"VAE Encode\"\n        }\n      },\n      \"149:93\": {\n        \"inputs\": {\n          \"upscale_method\": \"lanczos\",\n          \"megapixels\": 1,\n          \"resolution_steps\": 1,\n          \"image\": [\n            \"146\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageScaleToTotalPixels\",\n        \"_meta\": {\n          \"title\": \"ImageScaleToTotalPixels\"\n        }\n      },\n      \"149:3\": {\n        \"inputs\": {\n          \"seed\": 1118877715456453,\n          \"steps\": [\n            \"166\",\n            0\n          ],\n          \"cfg\": 1,\n          \"sampler_name\": \"euler\",\n          \"scheduler\": \"simple\",\n          \"denoise\": 1,\n          \"model\": [\n            \"149:75\",\n            0\n          ],\n          \"positive\": [\n            \"149:111\",\n            0\n          ],\n          \"negative\": [\n            \"149:110\",\n            0\n          ],\n          \"latent_image\": [\n            \"149:88\",\n            0\n          ]\n        },\n        \"class_type\": \"KSampler\",\n        \"_meta\": {\n          \"title\": \"KSampler\"\n        }\n      },\n      \"149:8\": {\n        \"inputs\": {\n          \"samples\": [\n            \"149:3\",\n            0\n          ],\n          \"vae\": [\n            \"149:39\",\n            0\n          ]\n        },\n        \"class_type\": \"VAEDecode\",\n        \"_meta\": {\n          \"title\": \"VAE Decode\"\n        }\n      },\n      \"149:116\": {\n        \"inputs\": {\n          \"images\": [\n            \"149:8\",\n            0\n          ]\n        },\n        \"class_type\": \"PreviewImage\",\n        \"_meta\": {\n          \"title\": \"Preview Image\"\n        }\n      },\n      \"149:89\": {\n        \"inputs\": {\n          \"lora_name\": \"Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors\",\n          \"strength_model\": 1,\n          \"model\": [\n            \"149:37\",\n            0\n          ]\n        },\n        \"class_type\": \"LoraLoaderModelOnly\",\n        \"_meta\": {\n          \"title\": \"LoraLoaderModelOnly\"\n        }\n      }\n    }\n  }",
-        "options": {
-          "redirect": {
-            "redirect": {}
-          }
-        }
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        -736,
-        -64
-      ],
-      "id": "a8e593e1-c9dd-42d3-9743-6a9fcf689e8a",
-      "name": "Send to ComfyUI Individual Image Prompts",
-      "alwaysOutputData": false,
-      "executeOnce": false,
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "method": "=GET",
-        "url": "=http://127.0.0.1:8188/history/{{$json.prompt_id}}",
-        "options": {
-          "redirect": {
-            "redirect": {}
-          }
-        }
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        -720,
-        432
-      ],
-      "id": "6b37f6e7-256a-4bcc-999d-dbf1b58ffeba",
-      "name": "Get Image Status",
-      "alwaysOutputData": false,
-      "executeOnce": false,
-      "retryOnFail": false,
-      "maxTries": 5,
-      "waitBetweenTries": 5000,
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        -720,
-        208
-      ],
-      "id": "e0a3c0c9-40bf-4117-a9ca-3e89ebcf7e44",
-      "name": "Wait",
-      "webhookId": "35b62bd1-5f8e-4077-9b4e-dcf43194cb40",
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "fileSelector": "D:\\data\\Cards\\Deck.json",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.readWriteFile",
-      "typeVersion": 1.1,
-      "position": [
-        -1280,
-        48
-      ],
-      "id": "d944905d-0cc7-4ba4-a116-881a005586e3",
-      "name": "Read/Write Files from Disk1"
-    },
-    {
-      "parameters": {
-        "operation": "fromJson",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.extractFromFile",
-      "typeVersion": 1.1,
-      "position": [
-        -1280,
-        272
-      ],
-      "id": "8b45cb50-a513-4495-b7d7-960c5c237958",
-      "name": "Extract from File"
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "data.Cards",
-        "include": "selectedOtherFields",
-        "fieldsToInclude": "data.Directory",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [
-        -1296,
-        496
-      ],
-      "id": "8dcc00a1-5f6f-4c1f-b4e0-772ddfb57120",
-      "name": "Seperate Into Cards"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "854afc2d-d6f1-464c-acf8-bb0154a34016",
-              "name": "inputDirectory",
-              "value": "=D:\\\\data\\\\Full_Images",
-              "type": "string"
-            },
-            {
-              "id": "de29f13e-a293-49b5-a000-72c92557c918",
-              "name": "OutputDirectory",
-              "value": "D:\\\\data\\\\Card_Part_Images",
-              "type": "string"
-            },
-            {
-              "id": "389ef80b-b096-41db-94a7-c3d0e2cc43b4",
-              "name": "record1",
-              "value": "={{ $json['data.Cards'].records[0] }}",
-              "type": "object"
-            },
-            {
-              "id": "9706a867-5611-4771-b73f-8264056f43f6",
-              "name": "record2",
-              "value": "={{ $json['data.Cards'].records[1] }}",
-              "type": "object"
-            },
-            {
-              "id": "82fe8891-0d0c-4f4d-8589-72789d0458dc",
-              "name": "record3",
-              "value": "={{ $json['data.Cards'].records[2] }}",
-              "type": "object"
-            }
-          ]
+    "name": "Generate Card Tarot Images",
+    "nodes": [
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.manualTrigger",
+            "typeVersion": 1,
+            "position": [
+                -1408,
+                -80
+            ],
+            "id": "c0003b90-9d0f-4b8e-8c9f-324afe011ef0",
+            "name": "When clicking ‘Execute workflow’"
         },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1056,
-        -80
-      ],
-      "id": "c4292f36-999d-4cd7-a4e3-058acd141e4e",
-      "name": "Get Each Tarot Image on  Card"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "7acb2a4f-21a6-4970-b785-f5869db94b36",
-              "name": "InputDirectory",
-              "value": "=D:/data/Full_Images",
-              "type": "string"
+        {
+            "parameters": {
+                "method": "=POST",
+                "url": "=http://127.0.0.1:8188/prompt",
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "=  {\n    \"prompt\": {\n      \"128\": {\n        \"inputs\": {\n          \"value\": \"{{$json.OutputDirectory}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Input Directory\"\n        }\n      },\n      \"130\": {\n        \"inputs\": {\n          \"value\": \"{{$json.UprightInputImage}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Upright Input Filename\"\n        }\n      },\n      \"133\": {\n        \"inputs\": {\n          \"value\": \"{{$json.UprightOutputImage}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Upright Output Filename\"\n        }\n      },\n      \"135\": {\n        \"inputs\": {\n          \"value\": \"{{$json.BetweenInputImage}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Between Input Filename\"\n        }\n      },\n      \"141\": {\n        \"inputs\": {\n          \"upscale_method\": \"lanczos\",\n          \"scale_by\": 0.5,\n          \"image\": [\n            \"142\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageScaleBy\",\n        \"_meta\": {\n          \"title\": \"Upscale Image By\"\n        }\n      },\n      \"142\": {\n        \"inputs\": {\n          \"rotation\": \"90 degrees\",\n          \"image\": [\n            \"139:8\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageRotate\",\n        \"_meta\": {\n          \"title\": \"Rotate Image 90 Degrees\"\n        }\n      },\n      \"143\": {\n        \"inputs\": {\n          \"value\": \"{{$json.ReversedOutputImage}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Reverse Output Filename\"\n        }\n      },\n      \"144\": {\n        \"inputs\": {\n          \"value\": \"{{$json.ReversedInputImage}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Reverse Input Filename\"\n        }\n      },\n      \"146\": {\n        \"inputs\": {\n          \"image_path\": [\n            \"163:162\",\n            0\n          ]\n        },\n        \"class_type\": \"LoadImageFromPath_\",\n        \"_meta\": {\n          \"title\": \"Load Image From Path\"\n        }\n      },\n      \"148\": {\n        \"inputs\": {\n          \"rotation\": \"180 degrees\",\n          \"image\": [\n            \"149:8\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageRotate\",\n        \"_meta\": {\n          \"title\": \"Rotate Image 180 Degrees\"\n        }\n      },\n      \"150\": {\n        \"inputs\": {\n          \"upscale_method\": \"lanczos\",\n          \"scale_by\": 0.5,\n          \"image\": [\n            \"148\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageScaleBy\",\n        \"_meta\": {\n          \"title\": \"Upscale Image By\"\n        }\n      },\n      \"152\": {\n        \"inputs\": {\n          \"value\": \"{{$json.OutputDirectory}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Output Directory\"\n        }\n      },\n      \"153\": {\n        \"inputs\": {\n          \"output_path\": [\n            \"152\",\n            0\n          ],\n          \"filename_prefix\": [\n            \"133\",\n            0\n          ],\n          \"filename_delimiter\": \"_\",\n          \"filename_suffix\": \"\",\n          \"extension\": \"png\",\n          \"filename_number_padding\": 1,\n          \"filename_number\": \"off\",\n          \"embeded_workflow\": true,\n          \"images\": [\n            \"157\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageBatchSaver\",\n        \"_meta\": {\n          \"title\": \"Image Batch Saver\"\n        }\n      },\n      \"154\": {\n        \"inputs\": {\n          \"output_path\": [\n            \"152\",\n            0\n          ],\n          \"filename_prefix\": [\n            \"156\",\n            0\n          ],\n          \"filename_delimiter\": \"_\",\n          \"filename_suffix\": \"\",\n          \"extension\": \"png\",\n          \"filename_number_padding\": 1,\n          \"filename_number\": \"off\",\n          \"embeded_workflow\": true,\n          \"images\": [\n            \"141\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageBatchSaver\",\n        \"_meta\": {\n          \"title\": \"Image Batch Saver\"\n        }\n      },\n      \"155\": {\n        \"inputs\": {\n          \"output_path\": [\n            \"152\",\n            0\n          ],\n          \"filename_prefix\": [\n            \"143\",\n            0\n          ],\n          \"filename_delimiter\": \"_\",\n          \"filename_suffix\": \"\",\n          \"extension\": \"png\",\n          \"filename_number_padding\": 1,\n          \"filename_number\": \"off\",\n          \"embeded_workflow\": true,\n          \"images\": [\n            \"150\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageBatchSaver\",\n        \"_meta\": {\n          \"title\": \"Image Batch Saver\"\n        }\n      },\n      \"156\": {\n        \"inputs\": {\n          \"value\": \"{{$json.BetweenOutputImage}}\"\n        },\n        \"class_type\": \"PrimitiveString\",\n        \"_meta\": {\n          \"title\": \"INPUT Between Output Filename\"\n        }\n      },\n      \"157\": {\n        \"inputs\": {\n          \"upscale_method\": \"lanczos\",\n          \"scale_by\": 0.5,\n          \"image\": [\n            \"115:8\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageScaleBy\",\n        \"_meta\": {\n          \"title\": \"Upscale Image By\"\n        }\n      },\n      \"165\": {\n        \"inputs\": {\n          \"text\": \"Change the input image to be in the French Art Nouveau style. Do not have frames around the image. Use all of the colors in the input image \",\n          \"strip_whitespace\": true,\n          \"remove_empty_lines\": false\n        },\n        \"class_type\": \"MultilineText\",\n        \"_meta\": {\n          \"title\": \"Multiline Text\"\n        }\n      },\n      \"166\": {\n        \"inputs\": {\n          \"value\": 15\n        },\n        \"class_type\": \"PrimitiveInt\",\n        \"_meta\": {\n          \"title\": \"Steps\"\n        }\n      },\n      \"159:129\": {\n        \"inputs\": {\n          \"string_a\": [\n            \"128\",\n            0\n          ],\n          \"string_b\": [\n            \"130\",\n            0\n          ],\n          \"delimiter\": \"/\"\n        },\n        \"class_type\": \"StringConcatenate\",\n        \"_meta\": {\n          \"title\": \"Input File\"\n        }\n      },\n      \"164:137\": {\n        \"inputs\": {\n          \"string_a\": [\n            \"128\",\n            0\n          ],\n          \"string_b\": [\n            \"135\",\n            0\n          ],\n          \"delimiter\": \"/\"\n        },\n        \"class_type\": \"StringConcatenate\",\n        \"_meta\": {\n          \"title\": \"Input File\"\n        }\n      },\n      \"163:162\": {\n        \"inputs\": {\n          \"string_a\": [\n            \"128\",\n            0\n          ],\n          \"string_b\": [\n            \"144\",\n            0\n          ],\n          \"delimiter\": \"/\"\n        },\n        \"class_type\": \"StringConcatenate\",\n        \"_meta\": {\n          \"title\": \"Input File\"\n        }\n      },\n      \"161:131\": {\n        \"inputs\": {\n          \"image_path\": [\n            \"159:129\",\n            0\n          ]\n        },\n        \"class_type\": \"LoadImageFromPath_\",\n        \"_meta\": {\n          \"title\": \"Load Image From Path\"\n        }\n      },\n      \"167:138\": {\n        \"inputs\": {\n          \"image_path\": [\n            \"164:137\",\n            0\n          ]\n        },\n        \"class_type\": \"LoadImageFromPath_\",\n        \"_meta\": {\n          \"title\": \"Load Image From Path\"\n        }\n      },\n      \"115:75\": {\n        \"inputs\": {\n          \"strength\": 1,\n          \"model\": [\n            \"115:66\",\n            0\n          ]\n        },\n        \"class_type\": \"CFGNorm\",\n        \"_meta\": {\n          \"title\": \"CFGNorm\"\n        }\n      },\n      \"115:39\": {\n        \"inputs\": {\n          \"vae_name\": \"qwen_image_vae.safetensors\"\n        },\n        \"class_type\": \"VAELoader\",\n        \"_meta\": {\n          \"title\": \"Load VAE\"\n        }\n      },\n      \"115:38\": {\n        \"inputs\": {\n          \"clip_name\": \"qwen_2.5_vl_7b_fp8_scaled.safetensors\",\n          \"type\": \"qwen_image\",\n          \"device\": \"default\"\n        },\n        \"class_type\": \"CLIPLoader\",\n        \"_meta\": {\n          \"title\": \"Load CLIP\"\n        }\n      },\n      \"115:37\": {\n        \"inputs\": {\n          \"unet_name\": \"qwen_image_edit_2509_fp8_e4m3fn.safetensors\",\n          \"weight_dtype\": \"default\"\n        },\n        \"class_type\": \"UNETLoader\",\n        \"_meta\": {\n          \"title\": \"Load Diffusion Model\"\n        }\n      },\n      \"115:110\": {\n        \"inputs\": {\n          \"prompt\": \"\",\n          \"clip\": [\n            \"115:38\",\n            0\n          ],\n          \"vae\": [\n            \"115:39\",\n            0\n          ],\n          \"image1\": [\n            \"115:93\",\n            0\n          ]\n        },\n        \"class_type\": \"TextEncodeQwenImageEditPlus\",\n        \"_meta\": {\n          \"title\": \"TextEncodeQwenImageEditPlus\"\n        }\n      },\n      \"115:66\": {\n        \"inputs\": {\n          \"shift\": 3,\n          \"model\": [\n            \"115:89\",\n            0\n          ]\n        },\n        \"class_type\": \"ModelSamplingAuraFlow\",\n        \"_meta\": {\n          \"title\": \"ModelSamplingAuraFlow\"\n        }\n      },\n      \"115:111\": {\n        \"inputs\": {\n          \"prompt\": [\n            \"165\",\n            0\n          ],\n          \"clip\": [\n            \"115:38\",\n            0\n          ],\n          \"vae\": [\n            \"115:39\",\n            0\n          ],\n          \"image1\": [\n            \"115:93\",\n            0\n          ]\n        },\n        \"class_type\": \"TextEncodeQwenImageEditPlus\",\n        \"_meta\": {\n          \"title\": \"TextEncodeQwenImageEditPlus\"\n        }\n      },\n      \"115:112\": {\n        \"inputs\": {\n          \"width\": 2560,\n          \"height\": 1440,\n          \"batch_size\": 1\n        },\n        \"class_type\": \"EmptySD3LatentImage\",\n        \"_meta\": {\n          \"title\": \"EmptySD3LatentImage\"\n        }\n      },\n      \"115:88\": {\n        \"inputs\": {\n          \"pixels\": [\n            \"115:93\",\n            0\n          ],\n          \"vae\": [\n            \"115:39\",\n            0\n          ]\n        },\n        \"class_type\": \"VAEEncode\",\n        \"_meta\": {\n          \"title\": \"VAE Encode\"\n        }\n      },\n      \"115:93\": {\n        \"inputs\": {\n          \"upscale_method\": \"lanczos\",\n          \"megapixels\": 1,\n          \"resolution_steps\": 1,\n          \"image\": [\n            \"161:131\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageScaleToTotalPixels\",\n        \"_meta\": {\n          \"title\": \"ImageScaleToTotalPixels\"\n        }\n      },\n      \"115:3\": {\n        \"inputs\": {\n          \"seed\": 1118877715456453,\n          \"steps\": [\n            \"166\",\n            0\n          ],\n          \"cfg\": 1,\n          \"sampler_name\": \"euler\",\n          \"scheduler\": \"simple\",\n          \"denoise\": 1,\n          \"model\": [\n            \"115:75\",\n            0\n          ],\n          \"positive\": [\n            \"115:111\",\n            0\n          ],\n          \"negative\": [\n            \"115:110\",\n            0\n          ],\n          \"latent_image\": [\n            \"115:88\",\n            0\n          ]\n        },\n        \"class_type\": \"KSampler\",\n        \"_meta\": {\n          \"title\": \"KSampler\"\n        }\n      },\n      \"115:8\": {\n        \"inputs\": {\n          \"samples\": [\n            \"115:3\",\n            0\n          ],\n          \"vae\": [\n            \"115:39\",\n            0\n          ]\n        },\n        \"class_type\": \"VAEDecode\",\n        \"_meta\": {\n          \"title\": \"VAE Decode\"\n        }\n      },\n      \"115:116\": {\n        \"inputs\": {\n          \"images\": [\n            \"115:8\",\n            0\n          ]\n        },\n        \"class_type\": \"PreviewImage\",\n        \"_meta\": {\n          \"title\": \"Preview Image\"\n        }\n      },\n      \"115:89\": {\n        \"inputs\": {\n          \"lora_name\": \"Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors\",\n          \"strength_model\": 1,\n          \"model\": [\n            \"115:37\",\n            0\n          ]\n        },\n        \"class_type\": \"LoraLoaderModelOnly\",\n        \"_meta\": {\n          \"title\": \"LoraLoaderModelOnly\"\n        }\n      },\n      \"139:75\": {\n        \"inputs\": {\n          \"strength\": 1,\n          \"model\": [\n            \"139:66\",\n            0\n          ]\n        },\n        \"class_type\": \"CFGNorm\",\n        \"_meta\": {\n          \"title\": \"CFGNorm\"\n        }\n      },\n      \"139:39\": {\n        \"inputs\": {\n          \"vae_name\": \"qwen_image_vae.safetensors\"\n        },\n        \"class_type\": \"VAELoader\",\n        \"_meta\": {\n          \"title\": \"Load VAE\"\n        }\n      },\n      \"139:38\": {\n        \"inputs\": {\n          \"clip_name\": \"qwen_2.5_vl_7b_fp8_scaled.safetensors\",\n          \"type\": \"qwen_image\",\n          \"device\": \"default\"\n        },\n        \"class_type\": \"CLIPLoader\",\n        \"_meta\": {\n          \"title\": \"Load CLIP\"\n        }\n      },\n      \"139:37\": {\n        \"inputs\": {\n          \"unet_name\": \"qwen_image_edit_2509_fp8_e4m3fn.safetensors\",\n          \"weight_dtype\": \"default\"\n        },\n        \"class_type\": \"UNETLoader\",\n        \"_meta\": {\n          \"title\": \"Load Diffusion Model\"\n        }\n      },\n      \"139:110\": {\n        \"inputs\": {\n          \"prompt\": \"\",\n          \"clip\": [\n            \"139:38\",\n            0\n          ],\n          \"vae\": [\n            \"139:39\",\n            0\n          ],\n          \"image1\": [\n            \"139:93\",\n            0\n          ]\n        },\n        \"class_type\": \"TextEncodeQwenImageEditPlus\",\n        \"_meta\": {\n          \"title\": \"TextEncodeQwenImageEditPlus\"\n        }\n      },\n      \"139:66\": {\n        \"inputs\": {\n          \"shift\": 3,\n          \"model\": [\n            \"139:89\",\n            0\n          ]\n        },\n        \"class_type\": \"ModelSamplingAuraFlow\",\n        \"_meta\": {\n          \"title\": \"ModelSamplingAuraFlow\"\n        }\n      },\n      \"139:111\": {\n        \"inputs\": {\n          \"prompt\": [\n            \"165\",\n            0\n          ],\n          \"clip\": [\n            \"139:38\",\n            0\n          ],\n          \"vae\": [\n            \"139:39\",\n            0\n          ],\n          \"image1\": [\n            \"139:93\",\n            0\n          ]\n        },\n        \"class_type\": \"TextEncodeQwenImageEditPlus\",\n        \"_meta\": {\n          \"title\": \"TextEncodeQwenImageEditPlus\"\n        }\n      },\n      \"139:112\": {\n        \"inputs\": {\n          \"width\": 2560,\n          \"height\": 1440,\n          \"batch_size\": 1\n        },\n        \"class_type\": \"EmptySD3LatentImage\",\n        \"_meta\": {\n          \"title\": \"EmptySD3LatentImage\"\n        }\n      },\n      \"139:88\": {\n        \"inputs\": {\n          \"pixels\": [\n            \"139:93\",\n            0\n          ],\n          \"vae\": [\n            \"139:39\",\n            0\n          ]\n        },\n        \"class_type\": \"VAEEncode\",\n        \"_meta\": {\n          \"title\": \"VAE Encode\"\n        }\n      },\n      \"139:93\": {\n        \"inputs\": {\n          \"upscale_method\": \"lanczos\",\n          \"megapixels\": 1,\n          \"resolution_steps\": 1,\n          \"image\": [\n            \"167:138\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageScaleToTotalPixels\",\n        \"_meta\": {\n          \"title\": \"ImageScaleToTotalPixels\"\n        }\n      },\n      \"139:3\": {\n        \"inputs\": {\n          \"seed\": 1118877715456453,\n          \"steps\": [\n            \"166\",\n            0\n          ],\n          \"cfg\": 1,\n          \"sampler_name\": \"euler\",\n          \"scheduler\": \"simple\",\n          \"denoise\": 1,\n          \"model\": [\n            \"139:75\",\n            0\n          ],\n          \"positive\": [\n            \"139:111\",\n            0\n          ],\n          \"negative\": [\n            \"139:110\",\n            0\n          ],\n          \"latent_image\": [\n            \"139:88\",\n            0\n          ]\n        },\n        \"class_type\": \"KSampler\",\n        \"_meta\": {\n          \"title\": \"KSampler\"\n        }\n      },\n      \"139:8\": {\n        \"inputs\": {\n          \"samples\": [\n            \"139:3\",\n            0\n          ],\n          \"vae\": [\n            \"139:39\",\n            0\n          ]\n        },\n        \"class_type\": \"VAEDecode\",\n        \"_meta\": {\n          \"title\": \"VAE Decode\"\n        }\n      },\n      \"139:116\": {\n        \"inputs\": {\n          \"images\": [\n            \"139:8\",\n            0\n          ]\n        },\n        \"class_type\": \"PreviewImage\",\n        \"_meta\": {\n          \"title\": \"Preview Image\"\n        }\n      },\n      \"139:89\": {\n        \"inputs\": {\n          \"lora_name\": \"Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors\",\n          \"strength_model\": 1,\n          \"model\": [\n            \"139:37\",\n            0\n          ]\n        },\n        \"class_type\": \"LoraLoaderModelOnly\",\n        \"_meta\": {\n          \"title\": \"LoraLoaderModelOnly\"\n        }\n      },\n      \"149:75\": {\n        \"inputs\": {\n          \"strength\": 1,\n          \"model\": [\n            \"149:66\",\n            0\n          ]\n        },\n        \"class_type\": \"CFGNorm\",\n        \"_meta\": {\n          \"title\": \"CFGNorm\"\n        }\n      },\n      \"149:39\": {\n        \"inputs\": {\n          \"vae_name\": \"qwen_image_vae.safetensors\"\n        },\n        \"class_type\": \"VAELoader\",\n        \"_meta\": {\n          \"title\": \"Load VAE\"\n        }\n      },\n      \"149:38\": {\n        \"inputs\": {\n          \"clip_name\": \"qwen_2.5_vl_7b_fp8_scaled.safetensors\",\n          \"type\": \"qwen_image\",\n          \"device\": \"default\"\n        },\n        \"class_type\": \"CLIPLoader\",\n        \"_meta\": {\n          \"title\": \"Load CLIP\"\n        }\n      },\n      \"149:37\": {\n        \"inputs\": {\n          \"unet_name\": \"qwen_image_edit_2509_fp8_e4m3fn.safetensors\",\n          \"weight_dtype\": \"default\"\n        },\n        \"class_type\": \"UNETLoader\",\n        \"_meta\": {\n          \"title\": \"Load Diffusion Model\"\n        }\n      },\n      \"149:110\": {\n        \"inputs\": {\n          \"prompt\": \"\",\n          \"clip\": [\n            \"149:38\",\n            0\n          ],\n          \"vae\": [\n            \"149:39\",\n            0\n          ],\n          \"image1\": [\n            \"149:93\",\n            0\n          ]\n        },\n        \"class_type\": \"TextEncodeQwenImageEditPlus\",\n        \"_meta\": {\n          \"title\": \"TextEncodeQwenImageEditPlus\"\n        }\n      },\n      \"149:66\": {\n        \"inputs\": {\n          \"shift\": 3,\n          \"model\": [\n            \"149:89\",\n            0\n          ]\n        },\n        \"class_type\": \"ModelSamplingAuraFlow\",\n        \"_meta\": {\n          \"title\": \"ModelSamplingAuraFlow\"\n        }\n      },\n      \"149:111\": {\n        \"inputs\": {\n          \"prompt\": [\n            \"165\",\n            0\n          ],\n          \"clip\": [\n            \"149:38\",\n            0\n          ],\n          \"vae\": [\n            \"149:39\",\n            0\n          ],\n          \"image1\": [\n            \"149:93\",\n            0\n          ]\n        },\n        \"class_type\": \"TextEncodeQwenImageEditPlus\",\n        \"_meta\": {\n          \"title\": \"TextEncodeQwenImageEditPlus\"\n        }\n      },\n      \"149:112\": {\n        \"inputs\": {\n          \"width\": 2560,\n          \"height\": 1440,\n          \"batch_size\": 1\n        },\n        \"class_type\": \"EmptySD3LatentImage\",\n        \"_meta\": {\n          \"title\": \"EmptySD3LatentImage\"\n        }\n      },\n      \"149:88\": {\n        \"inputs\": {\n          \"pixels\": [\n            \"149:93\",\n            0\n          ],\n          \"vae\": [\n            \"149:39\",\n            0\n          ]\n        },\n        \"class_type\": \"VAEEncode\",\n        \"_meta\": {\n          \"title\": \"VAE Encode\"\n        }\n      },\n      \"149:93\": {\n        \"inputs\": {\n          \"upscale_method\": \"lanczos\",\n          \"megapixels\": 1,\n          \"resolution_steps\": 1,\n          \"image\": [\n            \"146\",\n            0\n          ]\n        },\n        \"class_type\": \"ImageScaleToTotalPixels\",\n        \"_meta\": {\n          \"title\": \"ImageScaleToTotalPixels\"\n        }\n      },\n      \"149:3\": {\n        \"inputs\": {\n          \"seed\": 1118877715456453,\n          \"steps\": [\n            \"166\",\n            0\n          ],\n          \"cfg\": 1,\n          \"sampler_name\": \"euler\",\n          \"scheduler\": \"simple\",\n          \"denoise\": 1,\n          \"model\": [\n            \"149:75\",\n            0\n          ],\n          \"positive\": [\n            \"149:111\",\n            0\n          ],\n          \"negative\": [\n            \"149:110\",\n            0\n          ],\n          \"latent_image\": [\n            \"149:88\",\n            0\n          ]\n        },\n        \"class_type\": \"KSampler\",\n        \"_meta\": {\n          \"title\": \"KSampler\"\n        }\n      },\n      \"149:8\": {\n        \"inputs\": {\n          \"samples\": [\n            \"149:3\",\n            0\n          ],\n          \"vae\": [\n            \"149:39\",\n            0\n          ]\n        },\n        \"class_type\": \"VAEDecode\",\n        \"_meta\": {\n          \"title\": \"VAE Decode\"\n        }\n      },\n      \"149:116\": {\n        \"inputs\": {\n          \"images\": [\n            \"149:8\",\n            0\n          ]\n        },\n        \"class_type\": \"PreviewImage\",\n        \"_meta\": {\n          \"title\": \"Preview Image\"\n        }\n      },\n      \"149:89\": {\n        \"inputs\": {\n          \"lora_name\": \"Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors\",\n          \"strength_model\": 1,\n          \"model\": [\n            \"149:37\",\n            0\n          ]\n        },\n        \"class_type\": \"LoraLoaderModelOnly\",\n        \"_meta\": {\n          \"title\": \"LoraLoaderModelOnly\"\n        }\n      }\n    }\n  }",
+                "options": {
+                    "redirect": {
+                        "redirect": {}
+                    }
+                }
             },
-            {
-              "id": "6cc7e58f-3264-4796-9320-f67fd73093ec",
-              "name": "OutputDirectory",
-              "value": "=D:/data/Card_Part_Images",
-              "type": "string"
-            },
-            {
-              "id": "111ad608-10a0-4413-a247-77c8cab4e2ef",
-              "name": "UprightInputImage",
-              "value": "=PALLETTE{{ $json.record1.Image }}",
-              "type": "string"
-            },
-            {
-              "id": "c8d74cc8-cc2a-4065-a394-a28852b7f3f4",
-              "name": "ReversedInputImage",
-              "value": "=PALLETTE{{ $json.record2.Image }}",
-              "type": "string"
-            },
-            {
-              "id": "0d5475c6-5ff1-4238-ac94-74a08bc1b6ff",
-              "name": "BetweenInputImage",
-              "value": "=PALLETTE{{ $json.record3.Image }}",
-              "type": "string"
-            },
-            {
-              "id": "e395cfde-eb1a-48c2-838e-86de0e3ac02d",
-              "name": "UprightOutputImage",
-              "value": "={{ $json.record1.CardImage }}",
-              "type": "string"
-            },
-            {
-              "id": "5bba58ac-5d6c-439b-bb7d-72cb4fd331a1",
-              "name": "ReversedOutputImage",
-              "value": "={{ $json.record2.CardImage }}",
-              "type": "string"
-            },
-            {
-              "id": "e2a95f87-373f-45c8-9de1-30c39804f1f8",
-              "name": "BetweenOutputImage",
-              "value": "={{ $json.record3.CardImage }}",
-              "type": "string"
-            }
-          ]
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [
+                -544,
+                -64
+            ],
+            "id": "a8e593e1-c9dd-42d3-9743-6a9fcf689e8a",
+            "name": "Send to ComfyUI Individual Image Prompts",
+            "alwaysOutputData": false,
+            "executeOnce": false,
+            "onError": "continueErrorOutput"
         },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1056,
-        160
-      ],
-      "id": "3d280c91-22b8-4ed9-9835-d4e130a530dd",
-      "name": "Filter to Only What is Needed"
+        {
+            "parameters": {
+                "method": "=GET",
+                "url": "=http://127.0.0.1:8188/history/{{$json.prompt_id}}",
+                "options": {
+                    "redirect": {
+                        "redirect": {}
+                    }
+                }
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [
+                -528,
+                432
+            ],
+            "id": "6b37f6e7-256a-4bcc-999d-dbf1b58ffeba",
+            "name": "Get Image Status",
+            "alwaysOutputData": false,
+            "executeOnce": false,
+            "retryOnFail": false,
+            "maxTries": 5,
+            "waitBetweenTries": 5000,
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.wait",
+            "typeVersion": 1.1,
+            "position": [
+                -528,
+                208
+            ],
+            "id": "e0a3c0c9-40bf-4117-a9ca-3e89ebcf7e44",
+            "name": "Wait",
+            "webhookId": "35b62bd1-5f8e-4077-9b4e-dcf43194cb40",
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "fileSelector": "D:\\data\\Cards\\Deck.json",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.readWriteFile",
+            "typeVersion": 1.1,
+            "position": [
+                -1088,
+                48
+            ],
+            "id": "d944905d-0cc7-4ba4-a116-881a005586e3",
+            "name": "Read/Write Files from Disk1"
+        },
+        {
+            "parameters": {
+                "operation": "fromJson",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.extractFromFile",
+            "typeVersion": 1.1,
+            "position": [
+                -1088,
+                272
+            ],
+            "id": "8b45cb50-a513-4495-b7d7-960c5c237958",
+            "name": "Extract from File"
+        },
+        {
+            "parameters": {
+                "fieldToSplitOut": "data.Cards",
+                "include": "selectedOtherFields",
+                "fieldsToInclude": "data.Directory",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.splitOut",
+            "typeVersion": 1,
+            "position": [
+                -1104,
+                496
+            ],
+            "id": "8dcc00a1-5f6f-4c1f-b4e0-772ddfb57120",
+            "name": "Seperate Into Cards"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "854afc2d-d6f1-464c-acf8-bb0154a34016",
+                            "name": "inputDirectory",
+                            "value": "={{ $('Set Global Parameters').first().json.FullImagesDir }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "de29f13e-a293-49b5-a000-72c92557c918",
+                            "name": "OutputDirectory",
+                            "value": "={{ $('Set Global Parameters').first().json.CardPartImagesDir }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "389ef80b-b096-41db-94a7-c3d0e2cc43b4",
+                            "name": "record1",
+                            "value": "={{ $json['data.Cards'].records[0] }}",
+                            "type": "object"
+                        },
+                        {
+                            "id": "9706a867-5611-4771-b73f-8264056f43f6",
+                            "name": "record2",
+                            "value": "={{ $json['data.Cards'].records[1] }}",
+                            "type": "object"
+                        },
+                        {
+                            "id": "82fe8891-0d0c-4f4d-8589-72789d0458dc",
+                            "name": "record3",
+                            "value": "={{ $json['data.Cards'].records[2] }}",
+                            "type": "object"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -864,
+                -80
+            ],
+            "id": "c4292f36-999d-4cd7-a4e3-058acd141e4e",
+            "name": "Get Each Tarot Image on  Card"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "7acb2a4f-21a6-4970-b785-f5869db94b36",
+                            "name": "InputDirectory",
+                            "value": "={{ $('Set Global Parameters').first().json.FullImagesDir }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "6cc7e58f-3264-4796-9320-f67fd73093ec",
+                            "name": "OutputDirectory",
+                            "value": "={{ $('Set Global Parameters').first().json.CardPartImagesDir }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "111ad608-10a0-4413-a247-77c8cab4e2ef",
+                            "name": "UprightInputImage",
+                            "value": "=PALLETTE{{ $json.record1.Image }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "c8d74cc8-cc2a-4065-a394-a28852b7f3f4",
+                            "name": "ReversedInputImage",
+                            "value": "=PALLETTE{{ $json.record2.Image }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "0d5475c6-5ff1-4238-ac94-74a08bc1b6ff",
+                            "name": "BetweenInputImage",
+                            "value": "=PALLETTE{{ $json.record3.Image }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "e395cfde-eb1a-48c2-838e-86de0e3ac02d",
+                            "name": "UprightOutputImage",
+                            "value": "={{ $json.record1.CardImage }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "5bba58ac-5d6c-439b-bb7d-72cb4fd331a1",
+                            "name": "ReversedOutputImage",
+                            "value": "={{ $json.record2.CardImage }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "e2a95f87-373f-45c8-9de1-30c39804f1f8",
+                            "name": "BetweenOutputImage",
+                            "value": "={{ $json.record3.CardImage }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -864,
+                160
+            ],
+            "id": "3d280c91-22b8-4ed9-9835-d4e130a530dd",
+            "name": "Filter to Only What is Needed"
+        },
+        {
+            "parameters": {
+                "jsCode": "const allItems = $input.all(); // Get all incoming items [web:18][web:31]\n\nconst start = 4;  // inclusive\nconst end = 130;     // exclusive\n//51\n\nreturn allItems.slice(start, end);\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -864,
+                368
+            ],
+            "id": "0fc83c4c-4907-4755-9109-06084ea25965",
+            "name": "Choose Which Cards to Send"
+        },
+        {
+            "parameters": {
+                "jsCode": "const fs = require('fs');\n// ── Machine configuration ──────────────────────────────────────────────────────────────────────────────\n// Edit config.json to change paths for your machine. Do not edit this node.\nconst CONFIG_PATH = process.env.TAROT_CONFIG || 'D:/TarotCardProject/config.json';\n// ─────────────────────────────────────────────────────────────────────────────────\nconst config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));\n\nreturn [{ json: {\n    FullImagesDir:     config.FullImagesDir     || (config.DataDir + '/Full_Images'),\n    CardPartImagesDir: config.CardPartImagesDir || (config.DataDir + '/Card_Part_Images'),\n} }];"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -1216,
+                -80
+            ],
+            "id": "cti0000-0001-4000-8000-000000000000",
+            "name": "Set Global Parameters"
+        }
+    ],
+    "pinData": {},
+    "connections": {
+        "When clicking ‘Execute workflow’": {
+            "main": [
+                [
+                    {
+                        "node": "Set Global Parameters",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Send to ComfyUI Individual Image Prompts": {
+            "main": [
+                [
+                    {
+                        "node": "Wait",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                []
+            ]
+        },
+        "Get Image Status": {
+            "main": [
+                [],
+                []
+            ]
+        },
+        "Wait": {
+            "main": [
+                [
+                    {
+                        "node": "Get Image Status",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Read/Write Files from Disk1": {
+            "main": [
+                [
+                    {
+                        "node": "Extract from File",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Extract from File": {
+            "main": [
+                [
+                    {
+                        "node": "Seperate Into Cards",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Seperate Into Cards": {
+            "main": [
+                [
+                    {
+                        "node": "Get Each Tarot Image on  Card",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Get Each Tarot Image on  Card": {
+            "main": [
+                [
+                    {
+                        "node": "Filter to Only What is Needed",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Filter to Only What is Needed": {
+            "main": [
+                [
+                    {
+                        "node": "Choose Which Cards to Send",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Choose Which Cards to Send": {
+            "main": [
+                [
+                    {
+                        "node": "Send to ComfyUI Individual Image Prompts",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Set Global Parameters": {
+            "main": [
+                [
+                    {
+                        "node": "Read/Write Files from Disk1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
     },
-    {
-      "parameters": {
-        "jsCode": "const allItems = $input.all(); // Get all incoming items [web:18][web:31]\n\nconst start = 4;  // inclusive\nconst end = 130;     // exclusive\n//51\n\nreturn allItems.slice(start, end);\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -1056,
-        368
-      ],
-      "id": "0fc83c4c-4907-4755-9109-06084ea25965",
-      "name": "Choose Which Cards to Send"
-    }
-  ],
-  "pinData": {},
-  "connections": {
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "Read/Write Files from Disk1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+    "active": false,
+    "settings": {
+        "executionOrder": "v1",
+        "availableInMCP": false
     },
-    "Send to ComfyUI Individual Image Prompts": {
-      "main": [
-        [
-          {
-            "node": "Wait",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        []
-      ]
+    "versionId": "706c79d7-b2ac-463f-80df-35868924fdcc",
+    "meta": {
+        "instanceId": "d7f41a3bc4c9824ed68d95186cb055000c790e15bf2666fbda9ebc1cffc1c54a"
     },
-    "Get Image Status": {
-      "main": [
-        [],
-        []
-      ]
-    },
-    "Wait": {
-      "main": [
-        [
-          {
-            "node": "Get Image Status",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Read/Write Files from Disk1": {
-      "main": [
-        [
-          {
-            "node": "Extract from File",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Extract from File": {
-      "main": [
-        [
-          {
-            "node": "Seperate Into Cards",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Seperate Into Cards": {
-      "main": [
-        [
-          {
-            "node": "Get Each Tarot Image on  Card",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Each Tarot Image on  Card": {
-      "main": [
-        [
-          {
-            "node": "Filter to Only What is Needed",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Filter to Only What is Needed": {
-      "main": [
-        [
-          {
-            "node": "Choose Which Cards to Send",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Choose Which Cards to Send": {
-      "main": [
-        [
-          {
-            "node": "Send to ComfyUI Individual Image Prompts",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    }
-  },
-  "active": false,
-  "settings": {
-    "executionOrder": "v1",
-    "availableInMCP": false
-  },
-  "versionId": "706c79d7-b2ac-463f-80df-35868924fdcc",
-  "meta": {
-    "instanceId": "d7f41a3bc4c9824ed68d95186cb055000c790e15bf2666fbda9ebc1cffc1c54a"
-  },
-  "id": "IYyppwXl2VXuapfG",
-  "tags": [
-    {
-      "updatedAt": "2026-01-23T21:09:18.585Z",
-      "createdAt": "2026-01-23T21:09:18.585Z",
-      "id": "CSFhVsi3S6tzgPL2",
-      "name": "Downsample"
-    },
-    {
-      "updatedAt": "2026-01-14T00:16:28.711Z",
-      "createdAt": "2026-01-14T00:16:28.711Z",
-      "id": "e2i1eEmoJPwC44Dc",
-      "name": "ComfyUI"
-    },
-    {
-      "updatedAt": "2026-01-06T23:17:18.501Z",
-      "createdAt": "2026-01-06T23:17:18.501Z",
-      "id": "m8CyFbu2Pe5sniJX",
-      "name": "Tarot"
-    },
-    {
-      "updatedAt": "2026-01-23T21:09:38.946Z",
-      "createdAt": "2026-01-23T21:09:38.946Z",
-      "id": "ytKMhAxGqucmtLUB",
-      "name": "Rotate"
-    }
-  ]
+    "id": "IYyppwXl2VXuapfG",
+    "tags": [
+        {
+            "updatedAt": "2026-01-23T21:09:18.585Z",
+            "createdAt": "2026-01-23T21:09:18.585Z",
+            "id": "CSFhVsi3S6tzgPL2",
+            "name": "Downsample"
+        },
+        {
+            "updatedAt": "2026-01-14T00:16:28.711Z",
+            "createdAt": "2026-01-14T00:16:28.711Z",
+            "id": "e2i1eEmoJPwC44Dc",
+            "name": "ComfyUI"
+        },
+        {
+            "updatedAt": "2026-01-06T23:17:18.501Z",
+            "createdAt": "2026-01-06T23:17:18.501Z",
+            "id": "m8CyFbu2Pe5sniJX",
+            "name": "Tarot"
+        },
+        {
+            "updatedAt": "2026-01-23T21:09:38.946Z",
+            "createdAt": "2026-01-23T21:09:38.946Z",
+            "id": "ytKMhAxGqucmtLUB",
+            "name": "Rotate"
+        }
+    ]
 }

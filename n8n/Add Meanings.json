@@ -1,1078 +1,1102 @@
 {
-  "name": "Add Meanings",
-  "nodes": [
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -2144,
-        -1424
-      ],
-      "id": "c12d5cd5-220d-4aeb-ba35-01d61b2e5834",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
-      "parameters": {
-        "fileSelector": "d:/data/cards/Deck.json",
-        "options": {
-          "fileExtension": "json",
-          "fileName": "Deck",
-          "dataPropertyName": "data"
+    "name": "Add Meanings",
+    "nodes": [
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.manualTrigger",
+            "typeVersion": 1,
+            "position": [
+                -2144,
+                -1424
+            ],
+            "id": "c12d5cd5-220d-4aeb-ba35-01d61b2e5834",
+            "name": "When clicking ‘Execute workflow’"
+        },
+        {
+            "parameters": {
+                "fileSelector": "={{ $('Set Global Parameters').first().json.DeckJsonPath }}",
+                "options": {
+                    "fileExtension": "json",
+                    "fileName": "Deck",
+                    "dataPropertyName": "data"
+                }
+            },
+            "type": "n8n-nodes-base.readWriteFile",
+            "typeVersion": 1.1,
+            "position": [
+                -1984,
+                -1168
+            ],
+            "id": "d1656438-1fff-4c9a-88a8-f03bd9d2abb4",
+            "name": "Read/Write Files from Disk"
+        },
+        {
+            "parameters": {
+                "operation": "fromJson",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.extractFromFile",
+            "typeVersion": 1.1,
+            "position": [
+                -1984,
+                -912
+            ],
+            "id": "d700724e-726b-459e-be55-461027f99f66",
+            "name": "Extract from File"
+        },
+        {
+            "parameters": {
+                "fieldToSplitOut": "data.Cards",
+                "include": "selectedOtherFields",
+                "fieldsToInclude": "data.Directory",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.splitOut",
+            "typeVersion": 1,
+            "position": [
+                -1984,
+                -656
+            ],
+            "id": "fd337b2d-977c-4310-97ba-207e98ff990f",
+            "name": "Seperate Into Cards"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "2e0ada29-0f8b-4a2a-9bc1-8ab468fcfdd7",
+                            "name": "Card",
+                            "value": "={{ $json['data.Cards'].Card }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "fd26f596-b5d9-4c6f-946c-42f6424549b8",
+                            "name": "'data.Cards'].record",
+                            "value": "={{ $json['data.Cards'].records }}",
+                            "type": "array"
+                        },
+                        {
+                            "id": "f47decd4-3674-4085-9730-613de8f12873",
+                            "name": "data.Cards",
+                            "value": "={{ $json['data.Cards'] }}",
+                            "type": "object"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -1712,
+                -1424
+            ],
+            "id": "bdd5883c-c554-4213-bf49-8b1167248ff7",
+            "name": "Edit Fields"
+        },
+        {
+            "parameters": {
+                "fieldToSplitOut": "[\"'data\"][\"Cards'\"].record",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.splitOut",
+            "typeVersion": 1,
+            "position": [
+                -1712,
+                -1184
+            ],
+            "id": "e9892ffb-6885-42a3-a840-186a7f2665de",
+            "name": "Seperate Into Cards1"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "0a3994e6-dc0d-4059-bdf8-d2093ee1f3a1",
+                            "name": "Orientation",
+                            "value": "={{ $json.Orientation }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "24218a57-fe26-4c92-895b-642b1966b2b2",
+                            "name": "CardToCheck",
+                            "value": "={{ $json.Image.replace('IMG_','').replace('.png','').replaceAll('_',' ') }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "9e0e6349-5377-4cf8-91bc-37f726bb5614",
+                            "name": "item",
+                            "value": "={{$json}}",
+                            "type": "object"
+                        }
+                    ]
+                },
+                "includeOtherFields": true,
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -1120,
+                -1440
+            ],
+            "id": "c11aa760-7ba9-4802-b21a-28f6b4403629",
+            "name": "Edit Fields1"
+        },
+        {
+            "parameters": {
+                "modelId": {
+                    "__rl": true,
+                    "value": "gemma3n:latest",
+                    "mode": "list",
+                    "cachedResultName": "gemma3n:latest"
+                },
+                "messages": {
+                    "values": [
+                        {
+                            "content": "=You are a precise tarot card interpreter. Your only job is to generate valid JSON readings for tarot cards in specific orientations (upright or reversed).\n\nALWAYS respond with ONLY valid, properly-formatted JSON without markup matching this exact structure:\n{\n  \"Card\": \"The Card asked about\",\n  \"Orientation\": \"The orientation of the card\",\n  \"Description\": \"3-4 complete sentences describing the card's meaning in the given orientation. Use vivid, insightful language.\",\n  \"Keywords\": \"Comma-delimited string of 5-8 keywords (no spaces after commas)\",\n  \"Advice\": \"1-2 sentences of practical guidance based on the card.\",\n  \"Affirmation\": \"Exactly 3 short lines forming a positive affirmation.\"\n}\n\n",
+                            "role": "assistant"
+                        },
+                        {
+                            "content": "=Card:  {{$json.CardImage.replaceAll(\"CARDIMG_\",\"\").replaceAll(\".png\",\"\").replace(\"_between\",\"\").replace(\"_upright\",\"\").replace(\"reversed\",\"\").replaceAll(\"_\",\" \")}} and Orientation is {{ $json.Orientation }}",
+                            "role": "=assistant"
+                        }
+                    ]
+                },
+                "simplify": false,
+                "options": {
+                    "system": "="
+                }
+            },
+            "type": "@n8n/n8n-nodes-langchain.ollama",
+            "typeVersion": 1,
+            "position": [
+                -944,
+                -1440
+            ],
+            "id": "3503cc96-c1b9-4dbb-aaac-2b4913304de6",
+            "name": "Get Upright Meaning",
+            "alwaysOutputData": true,
+            "notesInFlow": true,
+            "executeOnce": false,
+            "credentials": {
+                "ollamaApi": {
+                    "id": "trj8oFkLILUiN2Pd",
+                    "name": "Ollama account"
+                }
+            },
+            "onError": "continueRegularOutput"
+        },
+        {
+            "parameters": {
+                "jsCode": "const allItems = $input.all(); // Get all incoming items [web:18][web:31]\n\nconst start = 0;  // inclusive\nconst end = 12;     // exclusive\n//51\n\nreturn allItems.slice(start, end);\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -1744,
+                -912
+            ],
+            "id": "8ec30df2-7efe-43e6-ae0c-298dfe7f0f8b",
+            "name": "Choose Which Cards to Send"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "7d937407-8bdb-4b73-8afc-fbeeaf9ca931",
+                            "name": "Advice",
+                            "value": "={{$json.message.content.removeMarkdown().replace(\".\",\"\").replace(\"`\",\"\").parseJson().Advice}}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "11e629e0-5321-4d5b-b775-fc148258230b",
+                            "name": "Description",
+                            "value": "={{$json.message.content.removeMarkdown().replace(\".\",\"\").replace(\"`\",\"\").parseJson().Description}}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "90c8c54c-dd67-4da2-b895-f6f360ec1ce2",
+                            "name": "Keywords",
+                            "value": "={{$json.message.content.removeMarkdown().replace(\".\",\"\").replace(\"`\",\"\").parseJson().Keywords}}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "2bc396d3-cd50-4dfd-8487-2bb684bd6e7b",
+                            "name": "Affirmation",
+                            "value": "={{$json.message.content.removeMarkdown().replace(\".\",\"\").replace(\"`\",\"\").parseJson().Affirmation}}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "2af18506-569d-4453-94e2-be5291a9105e",
+                            "name": "Card",
+                            "value": "={{$json.message.content.removeMarkdown().replace(\".\",\"\").replace(\"`\",\"\").parseJson().Card}}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "0dff259e-b83c-4816-a6fb-b096f81ca95b",
+                            "name": "Orientation",
+                            "value": "={{$json.message.content.removeMarkdown().replace(\".\",\"\").replace(\"`\",\"\").parseJson().Orientation}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -640,
+                -1440
+            ],
+            "id": "cfc36d9e-99ec-47ee-8687-b5060cd3405f",
+            "name": "Edit Fields3",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "d97f82fe-3372-4534-b906-bf49ad0fe241",
+                            "name": "CardImage",
+                            "value": "=CARDIMG_{{$json.Card.replaceAll(\" \",\"_\")}}_{{ $json.Orientation.replaceAll(\"Midway between upright and reversed\",\"between\").replaceAll(\"Midway\",\"between\").toLowerCase()}}.png",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "includeOtherFields": true,
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -464,
+                -1440
+            ],
+            "id": "5f061c0c-a0ca-47df-b3c5-e50d86a4ebf9",
+            "name": "Edit Fields2"
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": true,
+                        "leftValue": "",
+                        "typeValidation": "strict",
+                        "version": 3
+                    },
+                    "conditions": [
+                        {
+                            "id": "800bcbf4-ea19-4655-bc55-0622a3054ab1",
+                            "leftValue": "={{ $json.Orientation }}",
+                            "rightValue": "=Midway between upright and reversed",
+                            "operator": {
+                                "type": "string",
+                                "operation": "equals"
+                            }
+                        },
+                        {
+                            "id": "6791dbc8-e231-4bdb-b973-473f42b14ca8",
+                            "leftValue": "={{ $json.Orientation }}",
+                            "rightValue": "Midway",
+                            "operator": {
+                                "type": "string",
+                                "operation": "equals",
+                                "name": "filter.operator.equals"
+                            }
+                        }
+                    ],
+                    "combinator": "or"
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 2.3,
+            "position": [
+                -1024,
+                -1184
+            ],
+            "id": "7bacf7df-a0ef-4302-951d-9b1c29d0cc9c",
+            "name": "If"
+        },
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.merge",
+            "typeVersion": 3.2,
+            "position": [
+                -576,
+                -1184
+            ],
+            "id": "3b3638c6-3d57-46ac-8151-7c02a540750c",
+            "name": "Merge"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "bec8b166-8e5c-4a0f-a929-e49c38b7ef77",
+                            "name": "Orientation",
+                            "value": "between",
+                            "type": "string"
+                        },
+                        {
+                            "id": "8e6933f2-7634-414d-a500-397dd7728e5f",
+                            "name": "",
+                            "value": "",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "includeOtherFields": true,
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -800,
+                -1232
+            ],
+            "id": "1f27afb1-7c20-4d82-9ddf-5b6c9076beff",
+            "name": "Adjust Orientation from Query"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "6fec2148-87b8-472d-9af8-cd4ab1ed6e10",
+                            "name": "Orientation",
+                            "value": "={{ $json.Orientation }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "includeOtherFields": true,
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -1232,
+                -1136
+            ],
+            "id": "2b994896-61ba-4408-81ed-32d51ca18160",
+            "name": "Return"
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": true,
+                        "leftValue": "",
+                        "typeValidation": "strict",
+                        "version": 3
+                    },
+                    "conditions": [
+                        {
+                            "id": "d099ce7b-f9e6-42d4-86ad-fe279b9d89bc",
+                            "leftValue": "={{ $json.Orientation }}",
+                            "rightValue": "between",
+                            "operator": {
+                                "type": "string",
+                                "operation": "equals",
+                                "name": "filter.operator.equals"
+                            }
+                        }
+                    ],
+                    "combinator": "and"
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 2.3,
+            "position": [
+                -1728,
+                -688
+            ],
+            "id": "2e51a333-b846-4fd1-ba30-2cedc2161c13",
+            "name": "If1"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "bad3b65b-c680-4494-99b7-bb2658f4179b",
+                            "name": "Orientation",
+                            "value": "midway between upright and reversed",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "includeOtherFields": true,
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -1488,
+                -1408
+            ],
+            "id": "3e601e11-acb9-49a2-a586-8250fa43060f",
+            "name": "Edit Fields4"
+        },
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.merge",
+            "typeVersion": 3.2,
+            "position": [
+                -1408,
+                -1136
+            ],
+            "id": "46b7e219-e7e9-4cac-a9c8-333ef8c55090",
+            "name": "Merge1"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "10b9709b-1613-4d75-82af-5338c01ad3f7",
+                            "name": "Image",
+                            "value": "=IMG_{{$json.Card.replaceAll(\" \",\"_\")}}_{{$json.Orientation}}.png",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "includeOtherFields": true,
+                "include": "=all",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -1440,
+                -960
+            ],
+            "id": "309ab1f5-8f7e-4965-a607-befae5161f9b",
+            "name": "Edit Fields5"
+        },
+        {
+            "parameters": {
+                "mode": "combine",
+                "fieldsToMatchString": "CardImage, CardImage",
+                "joinMode": "enrichInput2",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.merge",
+            "typeVersion": 3.2,
+            "position": [
+                -1344,
+                -784
+            ],
+            "id": "91a7d546-55f7-4aa3-ace6-e1e1f039592f",
+            "name": "Merge2"
+        },
+        {
+            "parameters": {
+                "jsCode": "const items = $input.all();\nconst groupedByCard = {};\n\nfor (const item of items) {\n  const card = item.json.Card;\n  \n  if (!groupedByCard[card]) {\n    groupedByCard[card] = {\n      Card: card,\n      Directory: item.json.Directory,\n      records: []  // Array of sub-records\n    };\n  }\n  \n  // Push complete sub-record for this orientation\n  groupedByCard[card].records.push({\n    Orientation: item.json.Orientation || '',\n    Image: item.json.Image || '',\n    CardImage: item.json.CardImage || '',\n    Narration: item.json.Narration || '',\n    Music: item.json.Music || '',\n    Description: item.json.Description || '',\n    Meanings: item.json.Meanings || [],\n    Keywords: item.json.Keywords || [],\n    Advice: item.json.Advice || '',\n    Affirmation: item.json.Affirmation || ''\n  });\n}\n\nreturn Object.values(groupedByCard);"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -1216,
+                -912
+            ],
+            "id": "40e928d2-316a-46db-a871-7c6b0ed35d94",
+            "name": "Code in JavaScript"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "45913bb6-7b1a-414f-bd9e-220cddcd0535",
+                            "name": "Card",
+                            "value": "={{ $json.Card }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "b446b06b-6e2f-435a-a361-9ee829332a87",
+                            "name": "Image",
+                            "value": "=IMG_{{ $json.Card.replaceAll(\" \",\"_\") }}.png",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "includeOtherFields": true,
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -1056,
+                -912
+            ],
+            "id": "bf1db269-86aa-4b90-b240-210b0ee96b3f",
+            "name": "Edit Fields6"
+        },
+        {
+            "parameters": {
+                "mode": "combine",
+                "advanced": true,
+                "mergeByFields": {
+                    "values": [
+                        {
+                            "field1": "\"Card\"",
+                            "field2": "\"data.Cards\"].Card"
+                        }
+                    ]
+                },
+                "joinMode": "keepEverything",
+                "options": {
+                    "clashHandling": {
+                        "values": {
+                            "resolveClash": "preferInput1"
+                        }
+                    }
+                }
+            },
+            "type": "n8n-nodes-base.merge",
+            "typeVersion": 3.2,
+            "position": [
+                -1152,
+                -688
+            ],
+            "id": "52445a79-ea02-4045-b1e7-12007e0b2353",
+            "name": "Merge3"
+        },
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.merge",
+            "typeVersion": 3.2,
+            "position": [
+                -1408,
+                -464
+            ],
+            "id": "276a9c0e-1473-49bc-acce-f1c2934e2453",
+            "name": "Merge4"
+        },
+        {
+            "parameters": {
+                "aggregate": "aggregateAllItemData",
+                "destinationFieldName": "Cards",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.aggregate",
+            "typeVersion": 1,
+            "position": [
+                -944,
+                -688
+            ],
+            "id": "615f60a9-7013-4bc8-be30-64db6f67e964",
+            "name": "Aggregate"
+        },
+        {
+            "parameters": {
+                "jsCode": "const input = $input.all();\nconst filledcards = input[0];\nconst notfilledcards = input[1];\n\nfor (const item of filledcards.json.Cards) {\n  for (const inpcell of Object.values(item.records || {})) {  // Fix line 6\n    for (const item2 of notfilledcards.json.data.Cards) {\n      for (const cell of Object.values(item2.records || {})) {\n        if (!cell.Description || cell.Description.length === 0) {\n          cell.Description = inpcell.Description || '';\n          cell.Keywords = inpcell.Keywords ? Array.isArray(inpcell.Keywords) ? inpcell.Keywords : [inpcell.Keywords] : [];\n          cell.Advice = inpcell.Advice || '';\n          cell.Affirmation = inpcell.Affirmation || '';\n        }\n      }\n    }\n  }\n}\n\nreturn notfilledcards;\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -1200,
+                -464
+            ],
+            "id": "7bc9d8b1-6b13-4366-83b4-b785ed005770",
+            "name": "Code in JavaScript1"
+        },
+        {
+            "parameters": {
+                "operation": "write",
+                "fileName": "={{ $('Set Global Parameters').first().json.CardsDir }}{{ \"\\\\\" + $binary.data.fileName }}",
+                "options": {
+                    "append": false
+                }
+            },
+            "type": "n8n-nodes-base.readWriteFile",
+            "typeVersion": 1.1,
+            "position": [
+                -752,
+                -464
+            ],
+            "id": "d8ed7a22-33f1-481c-aeb2-830e79ec7922",
+            "name": "Write the Deck to Disk",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "operation": "toJson",
+                "mode": "each",
+                "options": {
+                    "fileName": "={{ $json.Directory + \"Deck_new.json\" }}"
+                }
+            },
+            "type": "n8n-nodes-base.convertToFile",
+            "typeVersion": 1.1,
+            "position": [
+                -880,
+                -464
+            ],
+            "id": "2644c0c1-4b3c-43dd-ba20-de55e8a5fb2d",
+            "name": "Convert Deck for Writing"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "ab290168-4b39-4773-8c5a-6aee774129f3",
+                            "name": "Name",
+                            "value": "={{$json.data.Name}}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "47003d8c-2df1-4b11-8cc1-e5f8b20057c7",
+                            "name": "Directory",
+                            "value": "={{ $json.data.Directory }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "8eb21e4e-0188-417e-a862-5a52c83fcb49",
+                            "name": "Image",
+                            "value": "={{ $json.data.Image }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "ec5a850c-d8f5-44c8-aeb9-28b075a2e4c0",
+                            "name": "Music",
+                            "value": "={{ $json.data.Music }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "4385919a-86d3-439b-8b50-b97d9ac67307",
+                            "name": "Narration",
+                            "value": "={{ $json.data.Narration }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "47e99835-6368-49ae-ba17-6c46b42fec38",
+                            "name": "Cut",
+                            "value": "={{ $json.data.Cut }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "0ff7096a-51c6-4624-acc4-b1f7c498d09f",
+                            "name": "Fan",
+                            "value": "={{ $json.data.Fan }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "55236db2-6543-44d7-a3f6-e8f35dceed7e",
+                            "name": "Merge",
+                            "value": "={{ $json.data.Merge }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "7ac4add8-548c-4d27-92d9-33d6febc84ec",
+                            "name": "Rotate",
+                            "value": "={{ $json.data.Rotate }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "60feeaef-b786-4a50-bd2c-653e56f3d3fd",
+                            "name": "Cards",
+                            "value": "={{ $json.data.Cards }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -1040,
+                -464
+            ],
+            "id": "528d2a4d-b8b6-4e49-9bc8-ba39bb351d27",
+            "name": "Edit Fields7"
+        },
+        {
+            "parameters": {
+                "jsCode": "const fs = require('fs');\n// ── Machine configuration ──────────────────────────────────────────────────────────────────────────────\n// Edit config.json to change paths for your machine. Do not edit this node.\nconst CONFIG_PATH = process.env.TAROT_CONFIG || 'D:/TarotCardProject/config.json';\n// ─────────────────────────────────────────────────────────────────────────────────\nconst config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));\n\nreturn [{ json: {\n    DeckJsonPath: config.LegacyDeckJsonPath || (config.CardsDir + '/Deck.json'),\n    CardsDir:     config.CardsDir,\n} }];"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -1952,
+                -1424
+            ],
+            "id": "am0000-0001-4000-8000-000000000000",
+            "name": "Set Global Parameters"
         }
-      },
-      "type": "n8n-nodes-base.readWriteFile",
-      "typeVersion": 1.1,
-      "position": [
-        -2176,
-        -1168
-      ],
-      "id": "d1656438-1fff-4c9a-88a8-f03bd9d2abb4",
-      "name": "Read/Write Files from Disk"
-    },
-    {
-      "parameters": {
-        "operation": "fromJson",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.extractFromFile",
-      "typeVersion": 1.1,
-      "position": [
-        -2176,
-        -912
-      ],
-      "id": "d700724e-726b-459e-be55-461027f99f66",
-      "name": "Extract from File"
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "data.Cards",
-        "include": "selectedOtherFields",
-        "fieldsToInclude": "data.Directory",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [
-        -2176,
-        -656
-      ],
-      "id": "fd337b2d-977c-4310-97ba-207e98ff990f",
-      "name": "Seperate Into Cards"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "2e0ada29-0f8b-4a2a-9bc1-8ab468fcfdd7",
-              "name": "Card",
-              "value": "={{ $json['data.Cards'].Card }}",
-              "type": "string"
-            },
-            {
-              "id": "fd26f596-b5d9-4c6f-946c-42f6424549b8",
-              "name": "'data.Cards'].record",
-              "value": "={{ $json['data.Cards'].records }}",
-              "type": "array"
-            },
-            {
-              "id": "f47decd4-3674-4085-9730-613de8f12873",
-              "name": "data.Cards",
-              "value": "={{ $json['data.Cards'] }}",
-              "type": "object"
-            }
-          ]
+    ],
+    "pinData": {},
+    "connections": {
+        "When clicking ‘Execute workflow’": {
+            "main": [
+                [
+                    {
+                        "node": "Set Global Parameters",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1904,
-        -1424
-      ],
-      "id": "bdd5883c-c554-4213-bf49-8b1167248ff7",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "[\"'data\"][\"Cards'\"].record",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [
-        -1904,
-        -1184
-      ],
-      "id": "e9892ffb-6885-42a3-a840-186a7f2665de",
-      "name": "Seperate Into Cards1"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "0a3994e6-dc0d-4059-bdf8-d2093ee1f3a1",
-              "name": "Orientation",
-              "value": "={{ $json.Orientation }}",
-              "type": "string"
-            },
-            {
-              "id": "24218a57-fe26-4c92-895b-642b1966b2b2",
-              "name": "CardToCheck",
-              "value": "={{ $json.Image.replace('IMG_','').replace('.png','').replaceAll('_',' ') }}",
-              "type": "string"
-            },
-            {
-              "id": "9e0e6349-5377-4cf8-91bc-37f726bb5614",
-              "name": "item",
-              "value": "={{$json}}",
-              "type": "object"
-            }
-          ]
+        "Read/Write Files from Disk": {
+            "main": [
+                [
+                    {
+                        "node": "Extract from File",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
-        "includeOtherFields": true,
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1312,
-        -1440
-      ],
-      "id": "c11aa760-7ba9-4802-b21a-28f6b4403629",
-      "name": "Edit Fields1"
-    },
-    {
-      "parameters": {
-        "modelId": {
-          "__rl": true,
-          "value": "gemma3n:latest",
-          "mode": "list",
-          "cachedResultName": "gemma3n:latest"
+        "Extract from File": {
+            "main": [
+                [
+                    {
+                        "node": "Seperate Into Cards",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Merge4",
+                        "type": "main",
+                        "index": 1
+                    }
+                ]
+            ]
         },
-        "messages": {
-          "values": [
-            {
-              "content": "=You are a precise tarot card interpreter. Your only job is to generate valid JSON readings for tarot cards in specific orientations (upright or reversed).\n\nALWAYS respond with ONLY valid, properly-formatted JSON without markup matching this exact structure:\n{\n  \"Card\": \"The Card asked about\",\n  \"Orientation\": \"The orientation of the card\",\n  \"Description\": \"3-4 complete sentences describing the card's meaning in the given orientation. Use vivid, insightful language.\",\n  \"Keywords\": \"Comma-delimited string of 5-8 keywords (no spaces after commas)\",\n  \"Advice\": \"1-2 sentences of practical guidance based on the card.\",\n  \"Affirmation\": \"Exactly 3 short lines forming a positive affirmation.\"\n}\n\n",
-              "role": "assistant"
-            },
-            {
-              "content": "=Card:  {{$json.CardImage.replaceAll(\"CARDIMG_\",\"\").replaceAll(\".png\",\"\").replace(\"_between\",\"\").replace(\"_upright\",\"\").replace(\"reversed\",\"\").replaceAll(\"_\",\" \")}} and Orientation is {{ $json.Orientation }}",
-              "role": "=assistant"
-            }
-          ]
+        "Seperate Into Cards": {
+            "main": [
+                [
+                    {
+                        "node": "Edit Fields",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Merge3",
+                        "type": "main",
+                        "index": 1
+                    }
+                ]
+            ]
         },
-        "simplify": false,
-        "options": {
-          "system": "="
+        "Edit Fields": {
+            "main": [
+                [
+                    {
+                        "node": "Seperate Into Cards1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Seperate Into Cards1": {
+            "main": [
+                [
+                    {
+                        "node": "Choose Which Cards to Send",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Edit Fields1": {
+            "main": [
+                [
+                    {
+                        "node": "Get Upright Meaning",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Choose Which Cards to Send": {
+            "main": [
+                [
+                    {
+                        "node": "If1",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Merge2",
+                        "type": "main",
+                        "index": 1
+                    }
+                ]
+            ]
+        },
+        "Get Upright Meaning": {
+            "main": [
+                [
+                    {
+                        "node": "Edit Fields3",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Edit Fields3": {
+            "main": [
+                [
+                    {
+                        "node": "Edit Fields2",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Edit Fields2": {
+            "main": [
+                [
+                    {
+                        "node": "If",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "If": {
+            "main": [
+                [
+                    {
+                        "node": "Adjust Orientation from Query",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Merge",
+                        "type": "main",
+                        "index": 1
+                    }
+                ]
+            ]
+        },
+        "Adjust Orientation from Query": {
+            "main": [
+                [
+                    {
+                        "node": "Merge",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "If1": {
+            "main": [
+                [
+                    {
+                        "node": "Edit Fields4",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Merge1",
+                        "type": "main",
+                        "index": 1
+                    }
+                ]
+            ]
+        },
+        "Edit Fields4": {
+            "main": [
+                [
+                    {
+                        "node": "Merge1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Merge1": {
+            "main": [
+                [
+                    {
+                        "node": "Return",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Return": {
+            "main": [
+                [
+                    {
+                        "node": "Edit Fields1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Merge": {
+            "main": [
+                [
+                    {
+                        "node": "Edit Fields5",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Edit Fields5": {
+            "main": [
+                [
+                    {
+                        "node": "Merge2",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Merge2": {
+            "main": [
+                [
+                    {
+                        "node": "Code in JavaScript",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Code in JavaScript": {
+            "main": [
+                [
+                    {
+                        "node": "Edit Fields6",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Edit Fields6": {
+            "main": [
+                [
+                    {
+                        "node": "Merge3",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Merge3": {
+            "main": [
+                [
+                    {
+                        "node": "Aggregate",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Aggregate": {
+            "main": [
+                [
+                    {
+                        "node": "Merge4",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Merge4": {
+            "main": [
+                [
+                    {
+                        "node": "Code in JavaScript1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Code in JavaScript1": {
+            "main": [
+                [
+                    {
+                        "node": "Edit Fields7",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Convert Deck for Writing": {
+            "main": [
+                [
+                    {
+                        "node": "Write the Deck to Disk",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Edit Fields7": {
+            "main": [
+                [
+                    {
+                        "node": "Convert Deck for Writing",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Set Global Parameters": {
+            "main": [
+                [
+                    {
+                        "node": "Read/Write Files from Disk",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         }
-      },
-      "type": "@n8n/n8n-nodes-langchain.ollama",
-      "typeVersion": 1,
-      "position": [
-        -1136,
-        -1440
-      ],
-      "id": "3503cc96-c1b9-4dbb-aaac-2b4913304de6",
-      "name": "Get Upright Meaning",
-      "alwaysOutputData": true,
-      "notesInFlow": true,
-      "executeOnce": false,
-      "credentials": {
-        "ollamaApi": {
-          "id": "trj8oFkLILUiN2Pd",
-          "name": "Ollama account"
-        }
-      },
-      "onError": "continueRegularOutput"
     },
-    {
-      "parameters": {
-        "jsCode": "const allItems = $input.all(); // Get all incoming items [web:18][web:31]\n\nconst start = 0;  // inclusive\nconst end = 12;     // exclusive\n//51\n\nreturn allItems.slice(start, end);\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -1936,
-        -912
-      ],
-      "id": "8ec30df2-7efe-43e6-ae0c-298dfe7f0f8b",
-      "name": "Choose Which Cards to Send"
+    "active": false,
+    "settings": {
+        "executionOrder": "v1",
+        "availableInMCP": false
     },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "7d937407-8bdb-4b73-8afc-fbeeaf9ca931",
-              "name": "Advice",
-              "value": "={{$json.message.content.removeMarkdown().replace(\".\",\"\").replace(\"`\",\"\").parseJson().Advice}}",
-              "type": "string"
-            },
-            {
-              "id": "11e629e0-5321-4d5b-b775-fc148258230b",
-              "name": "Description",
-              "value": "={{$json.message.content.removeMarkdown().replace(\".\",\"\").replace(\"`\",\"\").parseJson().Description}}",
-              "type": "string"
-            },
-            {
-              "id": "90c8c54c-dd67-4da2-b895-f6f360ec1ce2",
-              "name": "Keywords",
-              "value": "={{$json.message.content.removeMarkdown().replace(\".\",\"\").replace(\"`\",\"\").parseJson().Keywords}}",
-              "type": "string"
-            },
-            {
-              "id": "2bc396d3-cd50-4dfd-8487-2bb684bd6e7b",
-              "name": "Affirmation",
-              "value": "={{$json.message.content.removeMarkdown().replace(\".\",\"\").replace(\"`\",\"\").parseJson().Affirmation}}",
-              "type": "string"
-            },
-            {
-              "id": "2af18506-569d-4453-94e2-be5291a9105e",
-              "name": "Card",
-              "value": "={{$json.message.content.removeMarkdown().replace(\".\",\"\").replace(\"`\",\"\").parseJson().Card}}",
-              "type": "string"
-            },
-            {
-              "id": "0dff259e-b83c-4816-a6fb-b096f81ca95b",
-              "name": "Orientation",
-              "value": "={{$json.message.content.removeMarkdown().replace(\".\",\"\").replace(\"`\",\"\").parseJson().Orientation}}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -832,
-        -1440
-      ],
-      "id": "cfc36d9e-99ec-47ee-8687-b5060cd3405f",
-      "name": "Edit Fields3",
-      "executeOnce": false
+    "versionId": "c2e0a9d7-0300-4862-96cc-0a73b1465a18",
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "instanceId": "d7f41a3bc4c9824ed68d95186cb055000c790e15bf2666fbda9ebc1cffc1c54a"
     },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "d97f82fe-3372-4534-b906-bf49ad0fe241",
-              "name": "CardImage",
-              "value": "=CARDIMG_{{$json.Card.replaceAll(\" \",\"_\")}}_{{ $json.Orientation.replaceAll(\"Midway between upright and reversed\",\"between\").replaceAll(\"Midway\",\"between\").toLowerCase()}}.png",
-              "type": "string"
-            }
-          ]
-        },
-        "includeOtherFields": true,
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -656,
-        -1440
-      ],
-      "id": "5f061c0c-a0ca-47df-b3c5-e50d86a4ebf9",
-      "name": "Edit Fields2"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "800bcbf4-ea19-4655-bc55-0622a3054ab1",
-              "leftValue": "={{ $json.Orientation }}",
-              "rightValue": "=Midway between upright and reversed",
-              "operator": {
-                "type": "string",
-                "operation": "equals"
-              }
-            },
-            {
-              "id": "6791dbc8-e231-4bdb-b973-473f42b14ca8",
-              "leftValue": "={{ $json.Orientation }}",
-              "rightValue": "Midway",
-              "operator": {
-                "type": "string",
-                "operation": "equals",
-                "name": "filter.operator.equals"
-              }
-            }
-          ],
-          "combinator": "or"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        -1216,
-        -1184
-      ],
-      "id": "7bacf7df-a0ef-4302-951d-9b1c29d0cc9c",
-      "name": "If"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
-      "position": [
-        -768,
-        -1184
-      ],
-      "id": "3b3638c6-3d57-46ac-8151-7c02a540750c",
-      "name": "Merge"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "bec8b166-8e5c-4a0f-a929-e49c38b7ef77",
-              "name": "Orientation",
-              "value": "between",
-              "type": "string"
-            },
-            {
-              "id": "8e6933f2-7634-414d-a500-397dd7728e5f",
-              "name": "",
-              "value": "",
-              "type": "string"
-            }
-          ]
-        },
-        "includeOtherFields": true,
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -992,
-        -1232
-      ],
-      "id": "1f27afb1-7c20-4d82-9ddf-5b6c9076beff",
-      "name": "Adjust Orientation from Query"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6fec2148-87b8-472d-9af8-cd4ab1ed6e10",
-              "name": "Orientation",
-              "value": "={{ $json.Orientation }}",
-              "type": "string"
-            }
-          ]
-        },
-        "includeOtherFields": true,
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1424,
-        -1136
-      ],
-      "id": "2b994896-61ba-4408-81ed-32d51ca18160",
-      "name": "Return"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "d099ce7b-f9e6-42d4-86ad-fe279b9d89bc",
-              "leftValue": "={{ $json.Orientation }}",
-              "rightValue": "between",
-              "operator": {
-                "type": "string",
-                "operation": "equals",
-                "name": "filter.operator.equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        -1920,
-        -688
-      ],
-      "id": "2e51a333-b846-4fd1-ba30-2cedc2161c13",
-      "name": "If1"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "bad3b65b-c680-4494-99b7-bb2658f4179b",
-              "name": "Orientation",
-              "value": "midway between upright and reversed",
-              "type": "string"
-            }
-          ]
-        },
-        "includeOtherFields": true,
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1680,
-        -1408
-      ],
-      "id": "3e601e11-acb9-49a2-a586-8250fa43060f",
-      "name": "Edit Fields4"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
-      "position": [
-        -1600,
-        -1136
-      ],
-      "id": "46b7e219-e7e9-4cac-a9c8-333ef8c55090",
-      "name": "Merge1"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "10b9709b-1613-4d75-82af-5338c01ad3f7",
-              "name": "Image",
-              "value": "=IMG_{{$json.Card.replaceAll(\" \",\"_\")}}_{{$json.Orientation}}.png",
-              "type": "string"
-            }
-          ]
-        },
-        "includeOtherFields": true,
-        "include": "=all",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1632,
-        -960
-      ],
-      "id": "309ab1f5-8f7e-4965-a607-befae5161f9b",
-      "name": "Edit Fields5"
-    },
-    {
-      "parameters": {
-        "mode": "combine",
-        "fieldsToMatchString": "CardImage, CardImage",
-        "joinMode": "enrichInput2",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
-      "position": [
-        -1536,
-        -784
-      ],
-      "id": "91a7d546-55f7-4aa3-ace6-e1e1f039592f",
-      "name": "Merge2"
-    },
-    {
-      "parameters": {
-        "jsCode": "const items = $input.all();\nconst groupedByCard = {};\n\nfor (const item of items) {\n  const card = item.json.Card;\n  \n  if (!groupedByCard[card]) {\n    groupedByCard[card] = {\n      Card: card,\n      Directory: item.json.Directory,\n      records: []  // Array of sub-records\n    };\n  }\n  \n  // Push complete sub-record for this orientation\n  groupedByCard[card].records.push({\n    Orientation: item.json.Orientation || '',\n    Image: item.json.Image || '',\n    CardImage: item.json.CardImage || '',\n    Narration: item.json.Narration || '',\n    Music: item.json.Music || '',\n    Description: item.json.Description || '',\n    Meanings: item.json.Meanings || [],\n    Keywords: item.json.Keywords || [],\n    Advice: item.json.Advice || '',\n    Affirmation: item.json.Affirmation || ''\n  });\n}\n\nreturn Object.values(groupedByCard);"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -1408,
-        -912
-      ],
-      "id": "40e928d2-316a-46db-a871-7c6b0ed35d94",
-      "name": "Code in JavaScript"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "45913bb6-7b1a-414f-bd9e-220cddcd0535",
-              "name": "Card",
-              "value": "={{ $json.Card }}",
-              "type": "string"
-            },
-            {
-              "id": "b446b06b-6e2f-435a-a361-9ee829332a87",
-              "name": "Image",
-              "value": "=IMG_{{ $json.Card.replaceAll(\" \",\"_\") }}.png",
-              "type": "string"
-            }
-          ]
-        },
-        "includeOtherFields": true,
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1248,
-        -912
-      ],
-      "id": "bf1db269-86aa-4b90-b240-210b0ee96b3f",
-      "name": "Edit Fields6"
-    },
-    {
-      "parameters": {
-        "mode": "combine",
-        "advanced": true,
-        "mergeByFields": {
-          "values": [
-            {
-              "field1": "\"Card\"",
-              "field2": "\"data.Cards\"].Card"
-            }
-          ]
-        },
-        "joinMode": "keepEverything",
-        "options": {
-          "clashHandling": {
-            "values": {
-              "resolveClash": "preferInput1"
-            }
-          }
-        }
-      },
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
-      "position": [
-        -1344,
-        -688
-      ],
-      "id": "52445a79-ea02-4045-b1e7-12007e0b2353",
-      "name": "Merge3"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
-      "position": [
-        -1600,
-        -464
-      ],
-      "id": "276a9c0e-1473-49bc-acce-f1c2934e2453",
-      "name": "Merge4"
-    },
-    {
-      "parameters": {
-        "aggregate": "aggregateAllItemData",
-        "destinationFieldName": "Cards",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
-      "position": [
-        -1136,
-        -688
-      ],
-      "id": "615f60a9-7013-4bc8-be30-64db6f67e964",
-      "name": "Aggregate"
-    },
-    {
-      "parameters": {
-        "jsCode": "const input = $input.all();\nconst filledcards = input[0];\nconst notfilledcards = input[1];\n\nfor (const item of filledcards.json.Cards) {\n  for (const inpcell of Object.values(item.records || {})) {  // Fix line 6\n    for (const item2 of notfilledcards.json.data.Cards) {\n      for (const cell of Object.values(item2.records || {})) {\n        if (!cell.Description || cell.Description.length === 0) {\n          cell.Description = inpcell.Description || '';\n          cell.Keywords = inpcell.Keywords ? Array.isArray(inpcell.Keywords) ? inpcell.Keywords : [inpcell.Keywords] : [];\n          cell.Advice = inpcell.Advice || '';\n          cell.Affirmation = inpcell.Affirmation || '';\n        }\n      }\n    }\n  }\n}\n\nreturn notfilledcards;\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -1392,
-        -464
-      ],
-      "id": "7bc9d8b1-6b13-4366-83b4-b785ed005770",
-      "name": "Code in JavaScript1"
-    },
-    {
-      "parameters": {
-        "operation": "write",
-        "fileName": "=D:\\\\data\\\\cards{{ \"\\\\\\\\\" + $binary.data.fileName }}",
-        "options": {
-          "append": false
-        }
-      },
-      "type": "n8n-nodes-base.readWriteFile",
-      "typeVersion": 1.1,
-      "position": [
-        -944,
-        -464
-      ],
-      "id": "d8ed7a22-33f1-481c-aeb2-830e79ec7922",
-      "name": "Write the Deck to Disk",
-      "executeOnce": false
-    },
-    {
-      "parameters": {
-        "operation": "toJson",
-        "mode": "each",
-        "options": {
-          "fileName": "={{ $json.Directory + \"Deck_new.json\" }}"
-        }
-      },
-      "type": "n8n-nodes-base.convertToFile",
-      "typeVersion": 1.1,
-      "position": [
-        -1072,
-        -464
-      ],
-      "id": "2644c0c1-4b3c-43dd-ba20-de55e8a5fb2d",
-      "name": "Convert Deck for Writing"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ab290168-4b39-4773-8c5a-6aee774129f3",
-              "name": "Name",
-              "value": "={{$json.data.Name}}",
-              "type": "string"
-            },
-            {
-              "id": "47003d8c-2df1-4b11-8cc1-e5f8b20057c7",
-              "name": "Directory",
-              "value": "={{ $json.data.Directory }}",
-              "type": "string"
-            },
-            {
-              "id": "8eb21e4e-0188-417e-a862-5a52c83fcb49",
-              "name": "Image",
-              "value": "={{ $json.data.Image }}",
-              "type": "string"
-            },
-            {
-              "id": "ec5a850c-d8f5-44c8-aeb9-28b075a2e4c0",
-              "name": "Music",
-              "value": "={{ $json.data.Music }}",
-              "type": "string"
-            },
-            {
-              "id": "4385919a-86d3-439b-8b50-b97d9ac67307",
-              "name": "Narration",
-              "value": "={{ $json.data.Narration }}",
-              "type": "string"
-            },
-            {
-              "id": "47e99835-6368-49ae-ba17-6c46b42fec38",
-              "name": "Cut",
-              "value": "={{ $json.data.Cut }}",
-              "type": "string"
-            },
-            {
-              "id": "0ff7096a-51c6-4624-acc4-b1f7c498d09f",
-              "name": "Fan",
-              "value": "={{ $json.data.Fan }}",
-              "type": "string"
-            },
-            {
-              "id": "55236db2-6543-44d7-a3f6-e8f35dceed7e",
-              "name": "Merge",
-              "value": "={{ $json.data.Merge }}",
-              "type": "string"
-            },
-            {
-              "id": "7ac4add8-548c-4d27-92d9-33d6febc84ec",
-              "name": "Rotate",
-              "value": "={{ $json.data.Rotate }}",
-              "type": "string"
-            },
-            {
-              "id": "60feeaef-b786-4a50-bd2c-653e56f3d3fd",
-              "name": "Cards",
-              "value": "={{ $json.data.Cards }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1232,
-        -464
-      ],
-      "id": "528d2a4d-b8b6-4e49-9bc8-ba39bb351d27",
-      "name": "Edit Fields7"
-    }
-  ],
-  "pinData": {},
-  "connections": {
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "Read/Write Files from Disk",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Read/Write Files from Disk": {
-      "main": [
-        [
-          {
-            "node": "Extract from File",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Extract from File": {
-      "main": [
-        [
-          {
-            "node": "Seperate Into Cards",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Merge4",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "Seperate Into Cards": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Merge3",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "Edit Fields": {
-      "main": [
-        [
-          {
-            "node": "Seperate Into Cards1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Seperate Into Cards1": {
-      "main": [
-        [
-          {
-            "node": "Choose Which Cards to Send",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields1": {
-      "main": [
-        [
-          {
-            "node": "Get Upright Meaning",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Choose Which Cards to Send": {
-      "main": [
-        [
-          {
-            "node": "If1",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Merge2",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "Get Upright Meaning": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields3",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields3": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields2": {
-      "main": [
-        [
-          {
-            "node": "If",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If": {
-      "main": [
-        [
-          {
-            "node": "Adjust Orientation from Query",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "Adjust Orientation from Query": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If1": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields4",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Merge1",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "Edit Fields4": {
-      "main": [
-        [
-          {
-            "node": "Merge1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Merge1": {
-      "main": [
-        [
-          {
-            "node": "Return",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Return": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Merge": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields5",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields5": {
-      "main": [
-        [
-          {
-            "node": "Merge2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Merge2": {
-      "main": [
-        [
-          {
-            "node": "Code in JavaScript",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code in JavaScript": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields6",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields6": {
-      "main": [
-        [
-          {
-            "node": "Merge3",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Merge3": {
-      "main": [
-        [
-          {
-            "node": "Aggregate",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Aggregate": {
-      "main": [
-        [
-          {
-            "node": "Merge4",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Merge4": {
-      "main": [
-        [
-          {
-            "node": "Code in JavaScript1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code in JavaScript1": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields7",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Convert Deck for Writing": {
-      "main": [
-        [
-          {
-            "node": "Write the Deck to Disk",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields7": {
-      "main": [
-        [
-          {
-            "node": "Convert Deck for Writing",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    }
-  },
-  "active": false,
-  "settings": {
-    "executionOrder": "v1",
-    "availableInMCP": false
-  },
-  "versionId": "c2e0a9d7-0300-4862-96cc-0a73b1465a18",
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "d7f41a3bc4c9824ed68d95186cb055000c790e15bf2666fbda9ebc1cffc1c54a"
-  },
-  "id": "viI7C8qfwaEYbz7I",
-  "tags": []
+    "id": "viI7C8qfwaEYbz7I",
+    "tags": []
 }
