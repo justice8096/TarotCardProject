@@ -229,3 +229,144 @@ Each detected `class_type` is classified as:
 | `LoadImageFromPath_`, `MultilineText` | **Unknown** — in disabled pack `comfyui_realtimenodes_disabled` |
 
 > **Note on `[??]` nodes:** `LoadImageFromPath_` and `MultilineText` exist only inside the disabled pack `comfyui_realtimenodes_disabled`. They are used by `Change_Card_To_Pallette.json`, `Make_Images_For_Card.json`, `Make_Deck_Front_Transparent.json`, and `Make_Symmetric_Card.json`. If those workflows fail to load, re-enable or reinstall that pack.
+
+---
+
+## Card Image Generation Pipeline
+
+Generating a complete set of card images requires running **three n8n flows in order**, each building on the previous stage's output. Two optional ComfyUI workflows can be run manually in the ComfyUI browser UI for additional variants.
+
+```
+ODS Spreadsheet (card names + prompts)
+  |
+  |  [1] Generate Full Tarot Images  (n8n + ComfyUI: TarotFullImage.json)
+  v
+FullImagesDir/          <-- one full-size artwork image per card
+  |
+  |  [2] Generate Card Tarot Images  (n8n + ComfyUI: Make_Images_For_Card.json)
+  v
+CardPartImagesDir/      <-- three orientations per card (upright, reverse, between)
+  |
+  |  [3] Generate Pallette Tarot Images  (n8n + ComfyUI: Change_Card_To_Pallette.json)
+  v
+CardPartImagesDir/      <-- same files, overwritten with palette-harmonized colors
+  |
+  +--[opt] Make_Symmetric_Card.json   --> transparent symmetric card variant
+  +--[opt] Make_Deck_Front_Transparent.json  --> transparent background PNG
+```
+
+---
+
+### Stage 1 — Generate Full Artwork
+
+**n8n flow:** `Generate Full Tarot Images`
+**ComfyUI workflow (embedded):** equivalent to `ComfyUI/TarotFullImage.json`
+**Model type:** Text-to-image (SD3 / FLUX-style, `QuadrupleCLIPLoader`)
+
+**What it does:** Reads each card's name, orientation, and positive/negative prompts from the ODS spreadsheet and generates a full-size artwork image for each card.
+
+**ComfyUI node chain:**
+```
+UNETLoader → ModelSamplingSD3
+QuadrupleCLIPLoader → CLIPTextEncode (positive + negative)
+EmptySD3LatentImage → KSampler → VAEDecode → ImageBatchSaver
+```
+
+**Inputs:**
+- `LegacySpreadsheetPath` — path to the ODS spreadsheet containing card names and prompts
+
+**Outputs:**
+- `FullImagesDir/` — one full-size PNG per card
+
+**To run:** In n8n, open `Generate Full Tarot Images` and click **Execute Workflow**. The `Code in JavaScript` node near the top has `start` / `end` index variables you can edit to process a subset of cards.
+
+---
+
+### Stage 2 — Scale, Rotate, and Refine to Card Dimensions
+
+**n8n flow:** `Generate Card Tarot Images`
+**ComfyUI workflow (embedded):** equivalent to `ComfyUI/Make_Images_For_Card.json`
+**Model type:** Image-to-image refinement (Qwen Vision, `TextEncodeQwenImageEditPlus`)
+
+**What it does:** Takes each full-size artwork from Stage 1, scales it to card dimensions, and runs an img2img pass to refine details. Produces **three orientation variants** per card in a single ComfyUI call — upright (0°), reverse (180°), and between (90°).
+
+**ComfyUI node chain (repeated three times, one per orientation):**
+```
+LoadImageFromPath_ → ImageScaleToTotalPixels → VAEEncode
+TextEncodeQwenImageEditPlus (positive + negative)
+KSampler → VAEDecode → ImageRotate → ImageBatchSaver
+```
+
+**Inputs:**
+- `Deck.json` — card list and image file paths
+- Images from `FullImagesDir/` (Stage 1 output)
+
+**Outputs:**
+- `CardPartImagesDir/` — upright, reverse, and between PNGs for each card
+
+**To run:** Open `Generate Card Tarot Images` in n8n and click **Execute Workflow**. Edit `start` / `end` in the `Choose Which Cards to Send` node to process a subset.
+
+---
+
+### Stage 3 — Apply Color Palette
+
+**n8n flow:** `Generate Pallette Tarot Images`
+**ComfyUI workflow (embedded):** equivalent to `ComfyUI/Change_Card_To_Pallette.json`
+**Model type:** None — pure algorithmic color palette transfer
+
+**What it does:** Applies a unified color palette to all three orientation variants of each card, ensuring visual consistency across the deck. Uses clustering-based palette transfer — no ML inference required.
+
+**ComfyUI node chain:**
+```
+LoadImageFromPath_ (×3, one per orientation)
+ColorPalette → PalleteTransferClustering (×3) → ImageBatchSaver (×3)
+```
+
+**Inputs:**
+- `Deck.json` — card list and image file paths
+- Images from `CardPartImagesDir/` (Stage 2 output)
+
+**Outputs:**
+- `CardPartImagesDir/` — same files overwritten with palette-harmonized colors
+
+**To run:** Open `Generate Pallette Tarot Images` in n8n and click **Execute Workflow**. Edit `start` / `end` in `Choose Which Cards to Send` to process a subset.
+
+---
+
+### Optional — Symmetric Card Variant
+
+**ComfyUI workflow:** `ComfyUI/Make_Symmetric_Card.json`
+**Run manually in the ComfyUI browser UI** (no n8n flow)
+
+**What it does:** Takes a card image, removes its background (RMBG), flips it horizontally, concatenates the original and flipped versions side-by-side, and applies a rounded-rectangle mask to produce a symmetrical transparent card.
+
+**ComfyUI node chain:**
+```
+LoadImage → RMBG (background removal)
+  → flip copy → ImageConcanateOfUtils
+  → LayerUtility: RoundedRectangle (mask)
+  → Basic data handling: PathSaveImageRGBA
+```
+
+---
+
+### Optional — Transparent Background Variant
+
+**ComfyUI workflow:** `ComfyUI/Make_Deck_Front_Transparent.json`
+**Run manually in the ComfyUI browser UI** (no n8n flow)
+
+**What it does:** Removes the background from a card image using RMBG to produce an RGBA transparent PNG — useful for overlaying cards on custom backgrounds in the reader UI.
+
+---
+
+### Relationship Between n8n Workflows and ComfyUI JSON Files
+
+The ComfyUI workflow files in the `ComfyUI/` folder are **GUI format** — they can be loaded in the ComfyUI browser (`Load` button) for visual editing. Each n8n flow embeds the corresponding workflow in **API format** directly inside its HTTP request body. The two representations are equivalent but formatted differently:
+
+| ComfyUI GUI JSON (`ComfyUI/*.json`) | n8n HTTP body (API JSON) |
+|-------------------------------------|--------------------------|
+| `nodes[]` array + `links[]` array | `{"prompt": {"1": {"class_type": ..., "inputs": {...}}, ...}}` |
+| Numeric node IDs resolved via links | String node IDs with direct input references |
+| Used for editing in the browser | Sent directly to `http://127.0.0.1:8188/prompt` |
+
+To update the ComfyUI workflow used by an n8n flow: edit the GUI JSON in the browser, export it as API format (disable the GUI toggle in ComfyUI settings), then paste the result into the `jsonBody` field of the `Send to ComfyUI` HTTP node in n8n.
