@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+
 # Steps to Define Card Meanings
    ```
    create a table with the either copyright-free or out-of-copyright characters to fulfill the meanings of each of the ordinary tarot cards for upright, reverse and between upright and reverse. Include in the list of Tarot Cards that additions for Internet tarot cards
