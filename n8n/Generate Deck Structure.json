@@ -1,729 +1,753 @@
 {
-  "name": "Generate Deck Structure",
-  "nodes": [
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -1280,
-        -768
-      ],
-      "id": "565a4fbb-4573-4cd9-b61c-18f224eea7d9",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
-      "parameters": {
-        "fileSelector": "D:/data/CardImages.ods",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.readWriteFile",
-      "typeVersion": 1.1,
-      "position": [
-        -1088,
-        -768
-      ],
-      "id": "6a17ee22-9e7a-4efb-8420-62f303840432",
-      "name": "Read Character Image Spreadsheet"
-    },
-    {
-      "parameters": {
-        "operation": "ods",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.extractFromFile",
-      "typeVersion": 1.1,
-      "position": [
-        -1280,
-        -544
-      ],
-      "id": "53b0500d-1376-4552-ba06-26110d13190a",
-      "name": "Read Table and Extract Rows"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "fdc9d1d9-7028-4bc3-8580-04d6b7791644",
-              "name": "Card",
-              "value": "={{ $json.Card.trim().replace(\" \",\"_\") }}",
-              "type": "string"
-            },
-            {
-              "id": "c5712c59-65fc-4b09-bedd-d4a2dfdacbf4",
-              "name": "Orientation",
-              "value": "={{ $json[\"Character Name\"].split('(')[1].replace(')', '').trim() }}",
-              "type": "string"
-            },
-            {
-              "id": "3c58de13-de05-4741-99fc-30c6d7c205f9",
-              "name": "Positive Prompt",
-              "value": "={{ $json[\"ComfyUI Positive Prompt\"].trim() }}",
-              "type": "string"
-            },
-            {
-              "id": "1749e39e-9229-4ded-b833-b5a01a5c4d68",
-              "name": "Negative Prompt",
-              "value": "={{ $json[\"ComfyUI Negative Prompt\"].trim() }}",
-              "type": "string"
-            },
-            {
-              "id": "a801412f-bf2b-4096-8736-619782c29697",
-              "name": "Directory",
-              "value": "D:\\data",
-              "type": "string"
-            }
-          ]
+    "name": "Generate Deck Structure",
+    "nodes": [
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.manualTrigger",
+            "typeVersion": 1,
+            "position": [
+                -1280,
+                -768
+            ],
+            "id": "565a4fbb-4573-4cd9-b61c-18f224eea7d9",
+            "name": "When clicking ‘Execute workflow’"
         },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1280,
-        -320
-      ],
-      "id": "7ad7dcf0-fcbb-481f-8caf-2b80aa9e92aa",
-      "name": "Change Card Name and Extract Orientation"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "f26f2531-8549-4a1a-80a0-0a03e567ffb9",
-              "name": "Card",
-              "value": "={{ $json.Card }}",
-              "type": "string"
+        {
+            "parameters": {
+                "fileSelector": "={{ $('Set Global Parameters').first().json.LegacySpreadsheetPath }}",
+                "options": {}
             },
-            {
-              "id": "b8868ae8-2d10-4f2e-8178-af578e0322ed",
-              "name": "Directory",
-              "value": "={{ $json.Directory + \"\\\\cards\\\\\"}}",
-              "type": "string"
-            },
-            {
-              "id": "1baed0f1-46db-4946-a7a6-139ba27fb292",
-              "name": "Image",
-              "value": "={{ \"IMG_\" + $json.Card.replaceAll(\" \", \"_\") + \".png\" }}",
-              "type": "string"
-            },
-            {
-              "id": "3be77765-2230-4311-b5cc-a6aff5b09c54",
-              "name": "records",
-              "value": "={{ $json.records }}",
-              "type": "array"
-            },
-            {
-              "id": "cbf9c7b4-0b90-49b8-a808-9b25a8f142fa",
-              "name": "pallet",
-              "value": "",
-              "type": "array"
-            },
-            {
-              "id": "f8c1c9ac-2390-48a2-a2c2-50a9a4721055",
-              "name": "CardChangePrompt",
-              "value": "",
-              "type": "string"
-            }
-          ]
+            "type": "n8n-nodes-base.readWriteFile",
+            "typeVersion": 1.1,
+            "position": [
+                -896,
+                -768
+            ],
+            "id": "6a17ee22-9e7a-4efb-8420-62f303840432",
+            "name": "Read Character Image Spreadsheet"
         },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -704,
-        -512
-      ],
-      "id": "0cfa3103-f5f2-42e9-8edf-1d8b4cd0627d",
-      "name": "Add Definitions Per Card"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "687c43ed-58bf-4a9f-9ef2-b7549a43564d",
-              "name": "Card",
-              "value": "={{ $json.Card.trim().replaceAll(\"_\",\" \") }}",
-              "type": "string"
+        {
+            "parameters": {
+                "operation": "ods",
+                "options": {}
             },
-            {
-              "id": "0c3e73e1-c4b1-4ea7-adac-a0e7cf63725e",
-              "name": "Orientation",
-              "value": "={{ $json.Orientation }}",
-              "type": "string"
-            },
-            {
-              "id": "192bc7b9-f690-49be-be99-19feb87572da",
-              "name": "Music",
-              "value": "={{ \"MUSIC_\" + $json.Card.trim() + \"_\" + $json.Orientation.trim() + \".mp3\" }}",
-              "type": "string"
-            },
-            {
-              "id": "4decd261-b502-43c6-8b53-4140aa56baac",
-              "name": "Meanings",
-              "value": "=[]",
-              "type": "array"
-            },
-            {
-              "id": "563b9c7d-79ab-4c93-9e11-b6059f5c53a8",
-              "name": "Keywords",
-              "value": "[]",
-              "type": "array"
-            },
-            {
-              "id": "126d8863-3b2b-4234-8b34-645d9cfc612f",
-              "name": "Description",
-              "value": "",
-              "type": "string"
-            },
-            {
-              "id": "4b4c335f-9d56-4987-a4e3-e22ee1c5567a",
-              "name": "Advice",
-              "value": "",
-              "type": "string"
-            },
-            {
-              "id": "23f81eda-f590-4964-8b91-aee08c8f55c4",
-              "name": "Affirmation",
-              "value": "",
-              "type": "string"
-            },
-            {
-              "id": "aeb9daac-db55-4829-8b57-c7085952f36f",
-              "name": "Category",
-              "value": "[]",
-              "type": "array"
-            },
-            {
-              "id": "a2b549b9-d3db-4f8a-8eb2-0567aef91b1c",
-              "name": "Image",
-              "value": "={{ \"IMG_\" + $json.Card.trim() + \"_\" + $json.Orientation.trim() + \".png\" }}",
-              "type": "string"
-            },
-            {
-              "id": "a52a1c33-0ce5-4d4e-99bc-399c37309852",
-              "name": "CardImage",
-              "value": "={{ \"CARDIMG_\" + $json.Card.trim() + \"_\" + $json.Orientation.trim() + \".png\" }}",
-              "type": "string"
-            },
-            {
-              "id": "0f51e52e-be14-4925-a332-52c2b1ca3fb0",
-              "name": "Narration",
-              "value": "={{ \"NARRATION_\" + $json.Card.trim() + \"_\" + $json.Orientation.trim() + \".mp3\" }}",
-              "type": "string"
-            },
-            {
-              "id": "ac9e93f7-6a8e-4684-aeba-e8799fed6e18",
-              "name": "Movie",
-              "value": "={{ \"FOCUS_\" + $json.Card.trim() + \"_\" + $json.Orientation.trim() + \".mpeg\" }}",
-              "type": "string"
-            },
-            {
-              "id": "7f530c1a-de3a-4986-bfb6-e27f0f0757a3",
-              "name": "OBJECT",
-              "value": "={{ \"MODEL_\" + $json.Card.trim() + \"_\" + $json.Orientation.trim() + \".obj\" }}",
-              "type": "string"
-            },
-            {
-              "id": "99b00927-d171-4a6c-a666-3f7fd4eb0179",
-              "name": "Directory",
-              "value": "={{ $json.Directory }}",
-              "type": "string"
-            },
-            {
-              "id": "066ba6a3-db68-4aea-a4e1-12207de339b4",
-              "name": "PalletImage",
-              "value": "={{ \"PALLETEIMG_\" + $json.Card.trim() + \"_\" + $json.Orientation.trim() + \".png\" }}",
-              "type": "string"
-            }
-          ]
+            "type": "n8n-nodes-base.extractFromFile",
+            "typeVersion": 1.1,
+            "position": [
+                -1088,
+                -544
+            ],
+            "id": "53b0500d-1376-4552-ba06-26110d13190a",
+            "name": "Read Table and Extract Rows"
         },
-        "includeOtherFields": true,
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1072,
-        -320
-      ],
-      "id": "4f7dd8fb-947f-43d6-82a2-d4d2432aa78d",
-      "name": "Define Images For Card"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "d083af12-a335-4456-8063-14e2a7baa4bd",
-              "name": "Card",
-              "value": "={{ $json.Card }}",
-              "type": "string"
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "fdc9d1d9-7028-4bc3-8580-04d6b7791644",
+                            "name": "Card",
+                            "value": "={{ $json.Card.trim().replace(\" \",\"_\") }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "c5712c59-65fc-4b09-bedd-d4a2dfdacbf4",
+                            "name": "Orientation",
+                            "value": "={{ $json[\"Character Name\"].split('(')[1].replace(')', '').trim() }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "3c58de13-de05-4741-99fc-30c6d7c205f9",
+                            "name": "Positive Prompt",
+                            "value": "={{ $json[\"ComfyUI Positive Prompt\"].trim() }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "1749e39e-9229-4ded-b833-b5a01a5c4d68",
+                            "name": "Negative Prompt",
+                            "value": "={{ $json[\"ComfyUI Negative Prompt\"].trim() }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "a801412f-bf2b-4096-8736-619782c29697",
+                            "name": "Directory",
+                            "value": "={{ $('Set Global Parameters').first().json.DataDir }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
             },
-            {
-              "id": "d52f1590-606d-4449-8e90-be132b7f8fb7",
-              "name": "Orientation",
-              "value": "={{ $json.Orientation }}",
-              "type": "string"
-            },
-            {
-              "id": "06af1925-256f-4527-977f-73edc74db800",
-              "name": "Directory",
-              "value": "={{ $json.Directory }}",
-              "type": "string"
-            },
-            {
-              "id": "b9dba8df-ebd8-434c-9811-67d6daed592d",
-              "name": "Image",
-              "value": "={{ $json.Image }}",
-              "type": "string"
-            },
-            {
-              "id": "8b8fc180-207c-4377-8d8b-84329a97f077",
-              "name": "CardImage",
-              "value": "={{ $json.CardImage }}",
-              "type": "string"
-            },
-            {
-              "id": "83e68c40-ccc5-4732-b744-d5b385cdd5e6",
-              "name": "Description",
-              "value": "={{ $json.Description }}",
-              "type": "string"
-            },
-            {
-              "id": "c9019168-5fba-420b-ba61-3f48aaa3f890",
-              "name": "Directory",
-              "value": "={{ $json.Directory }}",
-              "type": "string"
-            },
-            {
-              "id": "e4a485c6-e3a6-4be1-bf14-cd92e4e3da6f",
-              "name": "Keywords",
-              "value": "={{ $json.Keywords }}",
-              "type": "array"
-            },
-            {
-              "id": "05af49f6-6f61-4bc4-8f05-f7dd9ab64af8",
-              "name": "Meanings",
-              "value": "={{ $json.Meanings }}",
-              "type": "array"
-            },
-            {
-              "id": "f7aa5f35-7d5c-405a-ac64-a24f1a2b837d",
-              "name": "Advice",
-              "value": "={{ $json.Advice }}",
-              "type": "string"
-            },
-            {
-              "id": "87b07124-e538-4f94-8ded-c3d4f112d534",
-              "name": "Affirmation",
-              "value": "={{ $json.Affirmation }}",
-              "type": "string"
-            },
-            {
-              "id": "7a52aa56-67c5-400a-8bdc-82b413c71d7c",
-              "name": "Narration",
-              "value": "={{ $json.Narration }}",
-              "type": "string"
-            },
-            {
-              "id": "ef653647-f292-4e02-929d-50a30ac6351e",
-              "name": "Music",
-              "value": "={{ $json.Music }}",
-              "type": "string"
-            },
-            {
-              "id": "4e131031-0f08-4a09-ad9f-d841aee5a987",
-              "name": "PalletCard",
-              "value": "",
-              "type": "string"
-            }
-          ]
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -1088,
+                -320
+            ],
+            "id": "7ad7dcf0-fcbb-481f-8caf-2b80aa9e92aa",
+            "name": "Change Card Name and Extract Orientation"
         },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -960,
-        -512
-      ],
-      "id": "8530dcea-4f1b-4e3a-b15d-379f18fd9bd4",
-      "name": "Add Additional Fields to the Card"
-    },
-    {
-      "parameters": {
-        "jsCode": "const items = $input.all();\nconst groupedByCard = {};\n\nfor (const item of items) {\n  const card = item.json.Card;\n  \n  if (!groupedByCard[card]) {\n    groupedByCard[card] = {\n      Card: card,\n      Directory: item.json.Directory,\n      records: []  // Array of sub-records\n    };\n  }\n  \n  // Push complete sub-record for this orientation\n  groupedByCard[card].records.push({\n    Orientation: item.json.Orientation || '',\n    Image: item.json.Image || '',\n    CardImage: item.json.CardImage || '',\n    Narration: item.json.Narration || '',\n    Music: item.json.Music || '',\n    Description: item.json.Description || '',\n    Meanings: item.json.Meanings || [],\n    Keywords: item.json.Keywords || [],\n    Advice: item.json.Advice || '',\n    Affirmation: item.json.Affirmation || ''\n  });\n}\n\nreturn Object.values(groupedByCard);"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -832,
-        -720
-      ],
-      "id": "67f7c939-2507-49ab-b607-16e238ca792a",
-      "name": "Group Card Parts into a Card"
-    },
-    {
-      "parameters": {
-        "operation": "write",
-        "fileName": "={{ $binary.data.directory + \"\\\\\" + $binary.data.fileName }}",
-        "options": {
-          "append": false
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "f26f2531-8549-4a1a-80a0-0a03e567ffb9",
+                            "name": "Card",
+                            "value": "={{ $json.Card }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "b8868ae8-2d10-4f2e-8178-af578e0322ed",
+                            "name": "Directory",
+                            "value": "={{ $json.Directory + \"\\\\cards\\\\\"}}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "1baed0f1-46db-4946-a7a6-139ba27fb292",
+                            "name": "Image",
+                            "value": "={{ \"IMG_\" + $json.Card.replaceAll(\" \", \"_\") + \".png\" }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "3be77765-2230-4311-b5cc-a6aff5b09c54",
+                            "name": "records",
+                            "value": "={{ $json.records }}",
+                            "type": "array"
+                        },
+                        {
+                            "id": "cbf9c7b4-0b90-49b8-a808-9b25a8f142fa",
+                            "name": "pallet",
+                            "value": "",
+                            "type": "array"
+                        },
+                        {
+                            "id": "f8c1c9ac-2390-48a2-a2c2-50a9a4721055",
+                            "name": "CardChangePrompt",
+                            "value": "",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -512,
+                -512
+            ],
+            "id": "0cfa3103-f5f2-42e9-8edf-1d8b4cd0627d",
+            "name": "Add Definitions Per Card"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "687c43ed-58bf-4a9f-9ef2-b7549a43564d",
+                            "name": "Card",
+                            "value": "={{ $json.Card.trim().replaceAll(\"_\",\" \") }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "0c3e73e1-c4b1-4ea7-adac-a0e7cf63725e",
+                            "name": "Orientation",
+                            "value": "={{ $json.Orientation }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "192bc7b9-f690-49be-be99-19feb87572da",
+                            "name": "Music",
+                            "value": "={{ \"MUSIC_\" + $json.Card.trim() + \"_\" + $json.Orientation.trim() + \".mp3\" }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "4decd261-b502-43c6-8b53-4140aa56baac",
+                            "name": "Meanings",
+                            "value": "=[]",
+                            "type": "array"
+                        },
+                        {
+                            "id": "563b9c7d-79ab-4c93-9e11-b6059f5c53a8",
+                            "name": "Keywords",
+                            "value": "[]",
+                            "type": "array"
+                        },
+                        {
+                            "id": "126d8863-3b2b-4234-8b34-645d9cfc612f",
+                            "name": "Description",
+                            "value": "",
+                            "type": "string"
+                        },
+                        {
+                            "id": "4b4c335f-9d56-4987-a4e3-e22ee1c5567a",
+                            "name": "Advice",
+                            "value": "",
+                            "type": "string"
+                        },
+                        {
+                            "id": "23f81eda-f590-4964-8b91-aee08c8f55c4",
+                            "name": "Affirmation",
+                            "value": "",
+                            "type": "string"
+                        },
+                        {
+                            "id": "aeb9daac-db55-4829-8b57-c7085952f36f",
+                            "name": "Category",
+                            "value": "[]",
+                            "type": "array"
+                        },
+                        {
+                            "id": "a2b549b9-d3db-4f8a-8eb2-0567aef91b1c",
+                            "name": "Image",
+                            "value": "={{ \"IMG_\" + $json.Card.trim() + \"_\" + $json.Orientation.trim() + \".png\" }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "a52a1c33-0ce5-4d4e-99bc-399c37309852",
+                            "name": "CardImage",
+                            "value": "={{ \"CARDIMG_\" + $json.Card.trim() + \"_\" + $json.Orientation.trim() + \".png\" }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "0f51e52e-be14-4925-a332-52c2b1ca3fb0",
+                            "name": "Narration",
+                            "value": "={{ \"NARRATION_\" + $json.Card.trim() + \"_\" + $json.Orientation.trim() + \".mp3\" }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "ac9e93f7-6a8e-4684-aeba-e8799fed6e18",
+                            "name": "Movie",
+                            "value": "={{ \"FOCUS_\" + $json.Card.trim() + \"_\" + $json.Orientation.trim() + \".mpeg\" }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "7f530c1a-de3a-4986-bfb6-e27f0f0757a3",
+                            "name": "OBJECT",
+                            "value": "={{ \"MODEL_\" + $json.Card.trim() + \"_\" + $json.Orientation.trim() + \".obj\" }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "99b00927-d171-4a6c-a666-3f7fd4eb0179",
+                            "name": "Directory",
+                            "value": "={{ $json.Directory }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "066ba6a3-db68-4aea-a4e1-12207de339b4",
+                            "name": "PalletImage",
+                            "value": "={{ \"PALLETEIMG_\" + $json.Card.trim() + \"_\" + $json.Orientation.trim() + \".png\" }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "includeOtherFields": true,
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -880,
+                -320
+            ],
+            "id": "4f7dd8fb-947f-43d6-82a2-d4d2432aa78d",
+            "name": "Define Images For Card"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "d083af12-a335-4456-8063-14e2a7baa4bd",
+                            "name": "Card",
+                            "value": "={{ $json.Card }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "d52f1590-606d-4449-8e90-be132b7f8fb7",
+                            "name": "Orientation",
+                            "value": "={{ $json.Orientation }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "06af1925-256f-4527-977f-73edc74db800",
+                            "name": "Directory",
+                            "value": "={{ $json.Directory }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "b9dba8df-ebd8-434c-9811-67d6daed592d",
+                            "name": "Image",
+                            "value": "={{ $json.Image }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "8b8fc180-207c-4377-8d8b-84329a97f077",
+                            "name": "CardImage",
+                            "value": "={{ $json.CardImage }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "83e68c40-ccc5-4732-b744-d5b385cdd5e6",
+                            "name": "Description",
+                            "value": "={{ $json.Description }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "c9019168-5fba-420b-ba61-3f48aaa3f890",
+                            "name": "Directory",
+                            "value": "={{ $json.Directory }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "e4a485c6-e3a6-4be1-bf14-cd92e4e3da6f",
+                            "name": "Keywords",
+                            "value": "={{ $json.Keywords }}",
+                            "type": "array"
+                        },
+                        {
+                            "id": "05af49f6-6f61-4bc4-8f05-f7dd9ab64af8",
+                            "name": "Meanings",
+                            "value": "={{ $json.Meanings }}",
+                            "type": "array"
+                        },
+                        {
+                            "id": "f7aa5f35-7d5c-405a-ac64-a24f1a2b837d",
+                            "name": "Advice",
+                            "value": "={{ $json.Advice }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "87b07124-e538-4f94-8ded-c3d4f112d534",
+                            "name": "Affirmation",
+                            "value": "={{ $json.Affirmation }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "7a52aa56-67c5-400a-8bdc-82b413c71d7c",
+                            "name": "Narration",
+                            "value": "={{ $json.Narration }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "ef653647-f292-4e02-929d-50a30ac6351e",
+                            "name": "Music",
+                            "value": "={{ $json.Music }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "4e131031-0f08-4a09-ad9f-d841aee5a987",
+                            "name": "PalletCard",
+                            "value": "",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -768,
+                -512
+            ],
+            "id": "8530dcea-4f1b-4e3a-b15d-379f18fd9bd4",
+            "name": "Add Additional Fields to the Card"
+        },
+        {
+            "parameters": {
+                "jsCode": "const items = $input.all();\nconst groupedByCard = {};\n\nfor (const item of items) {\n  const card = item.json.Card;\n  \n  if (!groupedByCard[card]) {\n    groupedByCard[card] = {\n      Card: card,\n      Directory: item.json.Directory,\n      records: []  // Array of sub-records\n    };\n  }\n  \n  // Push complete sub-record for this orientation\n  groupedByCard[card].records.push({\n    Orientation: item.json.Orientation || '',\n    Image: item.json.Image || '',\n    CardImage: item.json.CardImage || '',\n    Narration: item.json.Narration || '',\n    Music: item.json.Music || '',\n    Description: item.json.Description || '',\n    Meanings: item.json.Meanings || [],\n    Keywords: item.json.Keywords || [],\n    Advice: item.json.Advice || '',\n    Affirmation: item.json.Affirmation || ''\n  });\n}\n\nreturn Object.values(groupedByCard);"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -640,
+                -720
+            ],
+            "id": "67f7c939-2507-49ab-b607-16e238ca792a",
+            "name": "Group Card Parts into a Card"
+        },
+        {
+            "parameters": {
+                "operation": "write",
+                "fileName": "={{ $binary.data.directory + \"\\\\\" + $binary.data.fileName }}",
+                "options": {
+                    "append": false
+                }
+            },
+            "type": "n8n-nodes-base.readWriteFile",
+            "typeVersion": 1.1,
+            "position": [
+                -144,
+                -720
+            ],
+            "id": "9e443a88-46b6-48ce-87c9-cb93865558f9",
+            "name": "Write Each Card to Disk",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "f8b15074-6dc6-4640-aea6-36b6c66ff119",
+                            "name": "Name",
+                            "value": "Standard",
+                            "type": "string"
+                        },
+                        {
+                            "id": "ac3a0773-da80-4fb7-8821-1212fea7a4ef",
+                            "name": "Directory",
+                            "value": "={{ $json.Directory }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "ee330676-1ad2-49d6-9a9d-caf9fe1e5b34",
+                            "name": "Image",
+                            "value": "={{ $json.Directory + \"\\cards\\\\IMAGE_Deck.png\" }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "393c4c44-dd71-4a45-b3a5-8befc6db8ff3",
+                            "name": "Music",
+                            "value": "={{ $json.Directory + \"\\cards\\\\MUSIC_Deck.png\" }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "2cc89279-16e9-4178-8d1c-19c85a27f6ff",
+                            "name": "Narration",
+                            "value": "={{ $json.Directory + \"\\cards\\\\NARRATION_Deck.png\" }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "fbb2b055-a9fc-49f5-a1b5-eff12ba1ade4",
+                            "name": "Cut",
+                            "value": "={{ $json.Directory + \"\\cards\\\\CUT_Deck.mpg\" }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "1800c964-f9f2-4d85-8ae8-bfbe97d2335a",
+                            "name": "Fan",
+                            "value": "={{ $json.Directory + \"\\cards\\\\FAN_Deck.mpg\" }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "b822dc0b-307e-4397-8b44-a51785c1fdb3",
+                            "name": "Merge",
+                            "value": "={{ $json.Directory + \"\\cards\\\\MERGE_Deck.mpg\" }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "886f77b5-64b5-4e32-bc4b-a4071ffaddf3",
+                            "name": "Rotate",
+                            "value": "={{ $json.Directory + \"\\cards\\\\ROTATE_mpg.png\" }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -224,
+                -560
+            ],
+            "id": "c52131ba-994b-49ed-8088-5939356c1f13",
+            "name": "Add Definitions for Deck",
+            "executeOnce": true
+        },
+        {
+            "parameters": {
+                "aggregate": "aggregateAllItemData",
+                "destinationFieldName": "Cards",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.aggregate",
+            "typeVersion": 1,
+            "position": [
+                -224,
+                -368
+            ],
+            "id": "81be0725-16f9-4769-9de0-79540ea29f2f",
+            "name": "Group Card into Cards"
+        },
+        {
+            "parameters": {
+                "mode": "combine",
+                "combineBy": "combineByPosition",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.merge",
+            "typeVersion": 3.2,
+            "position": [
+                -32,
+                -480
+            ],
+            "id": "db12920e-4bab-4eb0-ac49-dd3e1abe4d98",
+            "name": "Combine into a Deck"
+        },
+        {
+            "parameters": {
+                "operation": "write",
+                "fileName": "={{ $binary.data.directory  + \"\\\\\" + $binary.data.fileName }}",
+                "options": {
+                    "append": false
+                }
+            },
+            "type": "n8n-nodes-base.readWriteFile",
+            "typeVersion": 1.1,
+            "position": [
+                352,
+                -480
+            ],
+            "id": "11523534-f4f8-4b19-a494-9d8ed040e3eb",
+            "name": "Write the Deck to Disk",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "operation": "toJson",
+                "mode": "each",
+                "options": {
+                    "fileName": "={{ $json.Directory + \"Deck.json\" }}"
+                }
+            },
+            "type": "n8n-nodes-base.convertToFile",
+            "typeVersion": 1.1,
+            "position": [
+                160,
+                -480
+            ],
+            "id": "fe5190bd-d7d9-471e-9197-158346084945",
+            "name": "Convert Deck for Writing"
+        },
+        {
+            "parameters": {
+                "operation": "toJson",
+                "mode": "each",
+                "options": {
+                    "fileName": "={{ $json.Directory + $json.Card.replaceAll(\" \",\"_\") + \".json\" }}"
+                }
+            },
+            "type": "n8n-nodes-base.convertToFile",
+            "typeVersion": 1.1,
+            "position": [
+                -352,
+                -720
+            ],
+            "id": "0c8e80b7-cd67-4705-88e1-745f78358b56",
+            "name": "Convert Card for Writing"
+        },
+        {
+            "parameters": {
+                "jsCode": "const fs = require('fs');\n// ── Machine configuration ──────────────────────────────────────────────────────────────────────────────\n// Edit config.json to change paths for your machine. Do not edit this node.\nconst CONFIG_PATH = process.env.TAROT_CONFIG || 'D:/TarotCardProject/config.json';\n// ─────────────────────────────────────────────────────────────────────────────────\nconst config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));\n\nreturn [{ json: {\n    DataDir:               config.DataDir,\n    LegacySpreadsheetPath: config.LegacySpreadsheetPath || (config.DataDir + '/CardImages.ods'),\n} }];"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -1088,
+                -768
+            ],
+            "id": "gds0000-0001-4000-8000-000000000000",
+            "name": "Set Global Parameters"
         }
-      },
-      "type": "n8n-nodes-base.readWriteFile",
-      "typeVersion": 1.1,
-      "position": [
-        -336,
-        -720
-      ],
-      "id": "9e443a88-46b6-48ce-87c9-cb93865558f9",
-      "name": "Write Each Card to Disk",
-      "executeOnce": false
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "f8b15074-6dc6-4640-aea6-36b6c66ff119",
-              "name": "Name",
-              "value": "Standard",
-              "type": "string"
-            },
-            {
-              "id": "ac3a0773-da80-4fb7-8821-1212fea7a4ef",
-              "name": "Directory",
-              "value": "={{ $json.Directory }}",
-              "type": "string"
-            },
-            {
-              "id": "ee330676-1ad2-49d6-9a9d-caf9fe1e5b34",
-              "name": "Image",
-              "value": "={{ $json.Directory + \"\\cards\\\\IMAGE_Deck.png\" }}",
-              "type": "string"
-            },
-            {
-              "id": "393c4c44-dd71-4a45-b3a5-8befc6db8ff3",
-              "name": "Music",
-              "value": "={{ $json.Directory + \"\\cards\\\\MUSIC_Deck.png\" }}",
-              "type": "string"
-            },
-            {
-              "id": "2cc89279-16e9-4178-8d1c-19c85a27f6ff",
-              "name": "Narration",
-              "value": "={{ $json.Directory + \"\\cards\\\\NARRATION_Deck.png\" }}",
-              "type": "string"
-            },
-            {
-              "id": "fbb2b055-a9fc-49f5-a1b5-eff12ba1ade4",
-              "name": "Cut",
-              "value": "={{ $json.Directory + \"\\cards\\\\CUT_Deck.mpg\" }}",
-              "type": "string"
-            },
-            {
-              "id": "1800c964-f9f2-4d85-8ae8-bfbe97d2335a",
-              "name": "Fan",
-              "value": "={{ $json.Directory + \"\\cards\\\\FAN_Deck.mpg\" }}",
-              "type": "string"
-            },
-            {
-              "id": "b822dc0b-307e-4397-8b44-a51785c1fdb3",
-              "name": "Merge",
-              "value": "={{ $json.Directory + \"\\cards\\\\MERGE_Deck.mpg\" }}",
-              "type": "string"
-            },
-            {
-              "id": "886f77b5-64b5-4e32-bc4b-a4071ffaddf3",
-              "name": "Rotate",
-              "value": "={{ $json.Directory + \"\\cards\\\\ROTATE_mpg.png\" }}",
-              "type": "string"
-            }
-          ]
+    ],
+    "pinData": {},
+    "connections": {
+        "When clicking ‘Execute workflow’": {
+            "main": [
+                [
+                    {
+                        "node": "Set Global Parameters",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -416,
-        -560
-      ],
-      "id": "c52131ba-994b-49ed-8088-5939356c1f13",
-      "name": "Add Definitions for Deck",
-      "executeOnce": true
-    },
-    {
-      "parameters": {
-        "aggregate": "aggregateAllItemData",
-        "destinationFieldName": "Cards",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
-      "position": [
-        -416,
-        -368
-      ],
-      "id": "81be0725-16f9-4769-9de0-79540ea29f2f",
-      "name": "Group Card into Cards"
-    },
-    {
-      "parameters": {
-        "mode": "combine",
-        "combineBy": "combineByPosition",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
-      "position": [
-        -224,
-        -480
-      ],
-      "id": "db12920e-4bab-4eb0-ac49-dd3e1abe4d98",
-      "name": "Combine into a Deck"
-    },
-    {
-      "parameters": {
-        "operation": "write",
-        "fileName": "={{ $binary.data.directory  + \"\\\\\" + $binary.data.fileName }}",
-        "options": {
-          "append": false
+        "Read Character Image Spreadsheet": {
+            "main": [
+                [
+                    {
+                        "node": "Read Table and Extract Rows",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Read Table and Extract Rows": {
+            "main": [
+                [
+                    {
+                        "node": "Change Card Name and Extract Orientation",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Change Card Name and Extract Orientation": {
+            "main": [
+                [
+                    {
+                        "node": "Define Images For Card",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Add Definitions Per Card": {
+            "main": [
+                [
+                    {
+                        "node": "Convert Card for Writing",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Add Definitions for Deck",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Group Card into Cards",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Define Images For Card": {
+            "main": [
+                [
+                    {
+                        "node": "Add Additional Fields to the Card",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Add Additional Fields to the Card": {
+            "main": [
+                [
+                    {
+                        "node": "Group Card Parts into a Card",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Group Card Parts into a Card": {
+            "main": [
+                [
+                    {
+                        "node": "Add Definitions Per Card",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Write Each Card to Disk": {
+            "main": [
+                []
+            ]
+        },
+        "Add Definitions for Deck": {
+            "main": [
+                [
+                    {
+                        "node": "Combine into a Deck",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Group Card into Cards": {
+            "main": [
+                [
+                    {
+                        "node": "Combine into a Deck",
+                        "type": "main",
+                        "index": 1
+                    }
+                ]
+            ]
+        },
+        "Combine into a Deck": {
+            "main": [
+                [
+                    {
+                        "node": "Convert Deck for Writing",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Convert Deck for Writing": {
+            "main": [
+                [
+                    {
+                        "node": "Write the Deck to Disk",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Convert Card for Writing": {
+            "main": [
+                [
+                    {
+                        "node": "Write Each Card to Disk",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Set Global Parameters": {
+            "main": [
+                [
+                    {
+                        "node": "Read Character Image Spreadsheet",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         }
-      },
-      "type": "n8n-nodes-base.readWriteFile",
-      "typeVersion": 1.1,
-      "position": [
-        160,
-        -480
-      ],
-      "id": "11523534-f4f8-4b19-a494-9d8ed040e3eb",
-      "name": "Write the Deck to Disk",
-      "executeOnce": false
     },
-    {
-      "parameters": {
-        "operation": "toJson",
-        "mode": "each",
-        "options": {
-          "fileName": "={{ $json.Directory + \"Deck.json\" }}"
+    "active": false,
+    "settings": {
+        "executionOrder": "v1",
+        "availableInMCP": false
+    },
+    "versionId": "08c15248-4b0d-4e2b-bb42-a903a88cd26b",
+    "meta": {
+        "instanceId": "d7f41a3bc4c9824ed68d95186cb055000c790e15bf2666fbda9ebc1cffc1c54a"
+    },
+    "id": "JBpDoXhs88XKuV43",
+    "tags": [
+        {
+            "updatedAt": "2026-01-17T09:49:33.753Z",
+            "createdAt": "2026-01-17T09:49:33.753Z",
+            "id": "le5jHhS05Ml58VC3",
+            "name": "File"
+        },
+        {
+            "updatedAt": "2026-01-06T23:17:18.501Z",
+            "createdAt": "2026-01-06T23:17:18.501Z",
+            "id": "m8CyFbu2Pe5sniJX",
+            "name": "Tarot"
         }
-      },
-      "type": "n8n-nodes-base.convertToFile",
-      "typeVersion": 1.1,
-      "position": [
-        -32,
-        -480
-      ],
-      "id": "fe5190bd-d7d9-471e-9197-158346084945",
-      "name": "Convert Deck for Writing"
-    },
-    {
-      "parameters": {
-        "operation": "toJson",
-        "mode": "each",
-        "options": {
-          "fileName": "={{ $json.Directory + $json.Card.replaceAll(\" \",\"_\") + \".json\" }}"
-        }
-      },
-      "type": "n8n-nodes-base.convertToFile",
-      "typeVersion": 1.1,
-      "position": [
-        -544,
-        -720
-      ],
-      "id": "0c8e80b7-cd67-4705-88e1-745f78358b56",
-      "name": "Convert Card for Writing"
-    }
-  ],
-  "pinData": {},
-  "connections": {
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "Read Character Image Spreadsheet",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Read Character Image Spreadsheet": {
-      "main": [
-        [
-          {
-            "node": "Read Table and Extract Rows",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Read Table and Extract Rows": {
-      "main": [
-        [
-          {
-            "node": "Change Card Name and Extract Orientation",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Change Card Name and Extract Orientation": {
-      "main": [
-        [
-          {
-            "node": "Define Images For Card",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Add Definitions Per Card": {
-      "main": [
-        [
-          {
-            "node": "Convert Card for Writing",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Add Definitions for Deck",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Group Card into Cards",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Define Images For Card": {
-      "main": [
-        [
-          {
-            "node": "Add Additional Fields to the Card",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Add Additional Fields to the Card": {
-      "main": [
-        [
-          {
-            "node": "Group Card Parts into a Card",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Group Card Parts into a Card": {
-      "main": [
-        [
-          {
-            "node": "Add Definitions Per Card",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Write Each Card to Disk": {
-      "main": [
-        []
-      ]
-    },
-    "Add Definitions for Deck": {
-      "main": [
-        [
-          {
-            "node": "Combine into a Deck",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Group Card into Cards": {
-      "main": [
-        [
-          {
-            "node": "Combine into a Deck",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "Combine into a Deck": {
-      "main": [
-        [
-          {
-            "node": "Convert Deck for Writing",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Convert Deck for Writing": {
-      "main": [
-        [
-          {
-            "node": "Write the Deck to Disk",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Convert Card for Writing": {
-      "main": [
-        [
-          {
-            "node": "Write Each Card to Disk",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    }
-  },
-  "active": false,
-  "settings": {
-    "executionOrder": "v1",
-    "availableInMCP": false
-  },
-  "versionId": "08c15248-4b0d-4e2b-bb42-a903a88cd26b",
-  "meta": {
-    "instanceId": "d7f41a3bc4c9824ed68d95186cb055000c790e15bf2666fbda9ebc1cffc1c54a"
-  },
-  "id": "JBpDoXhs88XKuV43",
-  "tags": [
-    {
-      "updatedAt": "2026-01-17T09:49:33.753Z",
-      "createdAt": "2026-01-17T09:49:33.753Z",
-      "id": "le5jHhS05Ml58VC3",
-      "name": "File"
-    },
-    {
-      "updatedAt": "2026-01-06T23:17:18.501Z",
-      "createdAt": "2026-01-06T23:17:18.501Z",
-      "id": "m8CyFbu2Pe5sniJX",
-      "name": "Tarot"
-    }
-  ]
+    ]
 }

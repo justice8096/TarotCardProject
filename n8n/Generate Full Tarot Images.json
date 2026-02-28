@@ -1,321 +1,345 @@
 {
-  "name": "Generate Full Tarot Images",
-  "nodes": [
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -1360,
-        64
-      ],
-      "id": "2d35ef15-c9b6-4a7b-83ec-dd67ed853546",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
-      "parameters": {
-        "fileSelector": "D:/data/CardImages.ods",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.readWriteFile",
-      "typeVersion": 1.1,
-      "position": [
-        -1216,
-        208
-      ],
-      "id": "ebef5912-af43-480c-82be-6924d47a92de",
-      "name": "Read Character Image Spreadsheet"
-    },
-    {
-      "parameters": {
-        "operation": "ods",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.extractFromFile",
-      "typeVersion": 1.1,
-      "position": [
-        -1040,
-        64
-      ],
-      "id": "d953647f-8744-432a-bd0f-b576b9afeacb",
-      "name": "Read Table and Extract Rows"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "fdc9d1d9-7028-4bc3-8580-04d6b7791644",
-              "name": "Card",
-              "value": "={{ $json.Card.trim().replaceAll(' ', '_') }}",
-              "type": "string"
-            },
-            {
-              "id": "c5712c59-65fc-4b09-bedd-d4a2dfdacbf4",
-              "name": "Orientation",
-              "value": "={{ $json[\"Character Name\"].split('(')[1].replace(')', '').trim() }}",
-              "type": "string"
-            },
-            {
-              "id": "3c58de13-de05-4741-99fc-30c6d7c205f9",
-              "name": "Positive Prompt",
-              "value": "={{ $json[\"ComfyUI Positive Prompt\"].trim() }}",
-              "type": "string"
-            },
-            {
-              "id": "1749e39e-9229-4ded-b833-b5a01a5c4d68",
-              "name": "Negative Prompt",
-              "value": "={{ $json[\"ComfyUI Negative Prompt\"].trim() }}",
-              "type": "string"
-            },
-            {
-              "id": "a801412f-bf2b-4096-8736-619782c29697",
-              "name": "Directory",
-              "value": "d:\\data\\Full_Images",
-              "type": "string"
-            }
-          ]
+    "name": "Generate Full Tarot Images",
+    "nodes": [
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.manualTrigger",
+            "typeVersion": 1,
+            "position": [
+                -1360,
+                64
+            ],
+            "id": "2d35ef15-c9b6-4a7b-83ec-dd67ed853546",
+            "name": "When clicking ‘Execute workflow’"
         },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -896,
-        208
-      ],
-      "id": "325acd55-5b1a-4460-9806-63993c11a487",
-      "name": "Change Card Name and Extract Orientation",
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "method": "=POST",
-        "url": "=http://127.0.0.1:8188/prompt",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"prompt\": {\n    \"81\": {\n      \"inputs\": {\n        \"vae_name\": \"ae.safetensors\"\n      },\n      \"class_type\": \"VAELoader\",\n      \"_meta\": {\n        \"title\": \"Load VAE\"\n      }\n    },\n    \"82\": {\n      \"inputs\": {\n        \"clip_name1\": \"clip_l_hidream.safetensors\",\n        \"clip_name2\": \"clip_g_hidream.safetensors\",\n        \"clip_name3\": \"t5xxl_fp8_e4m3fn_scaled.safetensors\",\n        \"clip_name4\": \"llama_3.1_8b_instruct_fp8_scaled.safetensors\"\n      },\n      \"class_type\": \"QuadrupleCLIPLoader\",\n      \"_meta\": {\n        \"title\": \"QuadrupleCLIPLoader\"\n      }\n    },\n    \"84\": {\n      \"inputs\": {\n        \"shift\": 3.0,\n        \"model\": [\n          \"94\",\n          0\n        ]\n      },\n      \"class_type\": \"ModelSamplingSD3\",\n      \"_meta\": {\n        \"title\": \"ModelSamplingSD3\"\n      }\n    },\n    \"86\": {\n      \"inputs\": {\n        \"width\": 1024,\n        \"height\": 1024,\n        \"batch_size\": 1\n      },\n      \"class_type\": \"EmptySD3LatentImage\",\n      \"_meta\": {\n        \"title\": \"EmptySD3LatentImage\"\n      }\n    },\n    \"89\": {\n      \"inputs\": {\n        \"samples\": [\n          \"93\",\n          0\n        ],\n        \"vae\": [\n          \"81\",\n          0\n        ]\n      },\n      \"class_type\": \"VAEDecode\",\n      \"_meta\": {\n        \"title\": \"VAE Decode\"\n      }\n    },\n    \"93\": {\n      \"inputs\": {\n        \"seed\": 281470000745471,\n        \"steps\": 55 ,\n        \"cfg\": 7,\n        \"sampler_name\": \"euler\",\n        \"scheduler\": \"normal\",\n        \"denoise\": 1,\n        \"model\": [\n          \"84\",\n          0\n        ],\n        \"positive\": [\n          \"98\",\n          0\n        ],\n        \"negative\": [\n          \"99\",\n          0\n        ],\n        \"latent_image\": [\n          \"86\",\n          0\n        ]\n      },\n      \"class_type\": \"KSampler\",\n      \"_meta\": {\n        \"title\": \"KSampler\"\n      }\n    },\n    \"94\": {\n      \"inputs\": {\n        \"unet_name\": \"hidream_i1_full_fp8.safetensors\",\n        \"weight_dtype\": \"default\"\n      },\n      \"class_type\": \"UNETLoader\",\n      \"_meta\": {\n        \"title\": \"Load Diffusion Model\"\n      }\n    },\n    \"98\": {\n      \"inputs\": {\n        \"text\": [\n          \"107\",\n          0\n        ],\n        \"clip\": [\n          \"82\",\n          0\n        ]\n      },\n      \"class_type\": \"CLIPTextEncode\",\n      \"_meta\": {\n        \"title\": \"CLIP Text Encode (Prompt)\"\n      }\n    },\n    \"99\": {\n      \"inputs\": {\n        \"text\": [\n          \"100\",\n          0\n        ],\n        \"clip\": [\n          \"82\",\n          0\n        ]\n      },\n      \"class_type\": \"CLIPTextEncode\",\n      \"_meta\": {\n        \"title\": \"CLIP Text Encode (Prompt)\"\n      }\n    },\n    \"100\": {\n      \"inputs\": {\n        \"value\": \"{{$json['Negative Prompt']}}\"\n      },\n      \"class_type\": \"PrimitiveStringMultiline\",\n      \"_meta\": {\n        \"title\": \"Negative Prompt\"\n      }\n    },\n    \"101\": {\n      \"inputs\": {\n        \"output_path\": [\n          \"105\",\n          0\n        ],\n        \"filename_prefix\": \"IMG\",\n        \"filename_delimiter\": \"_\",\n        \"filename_suffix\": [\n          \"102\",\n          0\n        ],\n        \"extension\": \"png\",\n        \"filename_number_padding\": 1,\n        \"filename_number\": \"off\",\n        \"embeded_workflow\": true,\n        \"images\": [\n          \"89\",\n          0\n        ]\n      },\n      \"class_type\": \"ImageBatchSaver\",\n      \"_meta\": {\n        \"title\": \"Image Batch Saver\"\n      }\n    },\n    \"102\": {\n      \"inputs\": {\n        \"string_a\": [\n          \"103\",\n          0\n        ],\n        \"string_b\": [\n          \"104\",\n          0\n        ],\n        \"delimiter\": \"_\"\n      },\n      \"class_type\": \"StringConcatenate\",\n      \"_meta\": {\n        \"title\": \"Concatenate\"\n      }\n    },\n    \"103\": {\n      \"inputs\": {\n        \"value\": \"{{$json.Card}}\"\n      },\n      \"class_type\": \"PrimitiveString\",\n      \"_meta\": {\n        \"title\": \"Card\"\n      }\n    },\n    \"104\": {\n      \"inputs\": {\n        \"value\": \"{{$json.Orientation}}\"\n      },\n      \"class_type\": \"PrimitiveString\",\n      \"_meta\": {\n        \"title\": \"Orientation\"\n      }\n    },\n    \"105\": {\n      \"inputs\": {\n        \"value\": \"D:\\\\\\\\data\\\\\\\\Full_Images\"\n      },\n      \"class_type\": \"PrimitiveString\",\n      \"_meta\": {\n        \"title\": \"Directory\"\n      }\n    },\n    \"107\": {\n      \"inputs\": {\n        \"value\": \"{{ $json['Positive Prompt'] }}\"\n      },\n      \"class_type\": \"PrimitiveStringMultiline\",\n      \"_meta\": {\n        \"title\": \"Positive Prompt\"\n      }\n    }\n  }\n}",
-        "options": {
-          "redirect": {
-            "redirect": {}
-          }
+        {
+            "parameters": {
+                "fileSelector": "={{ $('Set Global Parameters').first().json.LegacySpreadsheetPath }}",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.readWriteFile",
+            "typeVersion": 1.1,
+            "position": [
+                -1024,
+                208
+            ],
+            "id": "ebef5912-af43-480c-82be-6924d47a92de",
+            "name": "Read Character Image Spreadsheet"
+        },
+        {
+            "parameters": {
+                "operation": "ods",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.extractFromFile",
+            "typeVersion": 1.1,
+            "position": [
+                -848,
+                64
+            ],
+            "id": "d953647f-8744-432a-bd0f-b576b9afeacb",
+            "name": "Read Table and Extract Rows"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "fdc9d1d9-7028-4bc3-8580-04d6b7791644",
+                            "name": "Card",
+                            "value": "={{ $json.Card.trim().replaceAll(' ', '_') }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "c5712c59-65fc-4b09-bedd-d4a2dfdacbf4",
+                            "name": "Orientation",
+                            "value": "={{ $json[\"Character Name\"].split('(')[1].replace(')', '').trim() }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "3c58de13-de05-4741-99fc-30c6d7c205f9",
+                            "name": "Positive Prompt",
+                            "value": "={{ $json[\"ComfyUI Positive Prompt\"].trim() }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "1749e39e-9229-4ded-b833-b5a01a5c4d68",
+                            "name": "Negative Prompt",
+                            "value": "={{ $json[\"ComfyUI Negative Prompt\"].trim() }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "a801412f-bf2b-4096-8736-619782c29697",
+                            "name": "Directory",
+                            "value": "={{ $('Set Global Parameters').first().json.FullImagesDir }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -704,
+                208
+            ],
+            "id": "325acd55-5b1a-4460-9806-63993c11a487",
+            "name": "Change Card Name and Extract Orientation",
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "method": "=POST",
+                "url": "=http://127.0.0.1:8188/prompt",
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "={\n  \"prompt\": {\n    \"81\": {\n      \"inputs\": {\n        \"vae_name\": \"ae.safetensors\"\n      },\n      \"class_type\": \"VAELoader\",\n      \"_meta\": {\n        \"title\": \"Load VAE\"\n      }\n    },\n    \"82\": {\n      \"inputs\": {\n        \"clip_name1\": \"clip_l_hidream.safetensors\",\n        \"clip_name2\": \"clip_g_hidream.safetensors\",\n        \"clip_name3\": \"t5xxl_fp8_e4m3fn_scaled.safetensors\",\n        \"clip_name4\": \"llama_3.1_8b_instruct_fp8_scaled.safetensors\"\n      },\n      \"class_type\": \"QuadrupleCLIPLoader\",\n      \"_meta\": {\n        \"title\": \"QuadrupleCLIPLoader\"\n      }\n    },\n    \"84\": {\n      \"inputs\": {\n        \"shift\": 3.0,\n        \"model\": [\n          \"94\",\n          0\n        ]\n      },\n      \"class_type\": \"ModelSamplingSD3\",\n      \"_meta\": {\n        \"title\": \"ModelSamplingSD3\"\n      }\n    },\n    \"86\": {\n      \"inputs\": {\n        \"width\": 1024,\n        \"height\": 1024,\n        \"batch_size\": 1\n      },\n      \"class_type\": \"EmptySD3LatentImage\",\n      \"_meta\": {\n        \"title\": \"EmptySD3LatentImage\"\n      }\n    },\n    \"89\": {\n      \"inputs\": {\n        \"samples\": [\n          \"93\",\n          0\n        ],\n        \"vae\": [\n          \"81\",\n          0\n        ]\n      },\n      \"class_type\": \"VAEDecode\",\n      \"_meta\": {\n        \"title\": \"VAE Decode\"\n      }\n    },\n    \"93\": {\n      \"inputs\": {\n        \"seed\": 281470000745471,\n        \"steps\": 55 ,\n        \"cfg\": 7,\n        \"sampler_name\": \"euler\",\n        \"scheduler\": \"normal\",\n        \"denoise\": 1,\n        \"model\": [\n          \"84\",\n          0\n        ],\n        \"positive\": [\n          \"98\",\n          0\n        ],\n        \"negative\": [\n          \"99\",\n          0\n        ],\n        \"latent_image\": [\n          \"86\",\n          0\n        ]\n      },\n      \"class_type\": \"KSampler\",\n      \"_meta\": {\n        \"title\": \"KSampler\"\n      }\n    },\n    \"94\": {\n      \"inputs\": {\n        \"unet_name\": \"hidream_i1_full_fp8.safetensors\",\n        \"weight_dtype\": \"default\"\n      },\n      \"class_type\": \"UNETLoader\",\n      \"_meta\": {\n        \"title\": \"Load Diffusion Model\"\n      }\n    },\n    \"98\": {\n      \"inputs\": {\n        \"text\": [\n          \"107\",\n          0\n        ],\n        \"clip\": [\n          \"82\",\n          0\n        ]\n      },\n      \"class_type\": \"CLIPTextEncode\",\n      \"_meta\": {\n        \"title\": \"CLIP Text Encode (Prompt)\"\n      }\n    },\n    \"99\": {\n      \"inputs\": {\n        \"text\": [\n          \"100\",\n          0\n        ],\n        \"clip\": [\n          \"82\",\n          0\n        ]\n      },\n      \"class_type\": \"CLIPTextEncode\",\n      \"_meta\": {\n        \"title\": \"CLIP Text Encode (Prompt)\"\n      }\n    },\n    \"100\": {\n      \"inputs\": {\n        \"value\": \"{{$json['Negative Prompt']}}\"\n      },\n      \"class_type\": \"PrimitiveStringMultiline\",\n      \"_meta\": {\n        \"title\": \"Negative Prompt\"\n      }\n    },\n    \"101\": {\n      \"inputs\": {\n        \"output_path\": [\n          \"105\",\n          0\n        ],\n        \"filename_prefix\": \"IMG\",\n        \"filename_delimiter\": \"_\",\n        \"filename_suffix\": [\n          \"102\",\n          0\n        ],\n        \"extension\": \"png\",\n        \"filename_number_padding\": 1,\n        \"filename_number\": \"off\",\n        \"embeded_workflow\": true,\n        \"images\": [\n          \"89\",\n          0\n        ]\n      },\n      \"class_type\": \"ImageBatchSaver\",\n      \"_meta\": {\n        \"title\": \"Image Batch Saver\"\n      }\n    },\n    \"102\": {\n      \"inputs\": {\n        \"string_a\": [\n          \"103\",\n          0\n        ],\n        \"string_b\": [\n          \"104\",\n          0\n        ],\n        \"delimiter\": \"_\"\n      },\n      \"class_type\": \"StringConcatenate\",\n      \"_meta\": {\n        \"title\": \"Concatenate\"\n      }\n    },\n    \"103\": {\n      \"inputs\": {\n        \"value\": \"{{$json.Card}}\"\n      },\n      \"class_type\": \"PrimitiveString\",\n      \"_meta\": {\n        \"title\": \"Card\"\n      }\n    },\n    \"104\": {\n      \"inputs\": {\n        \"value\": \"{{$json.Orientation}}\"\n      },\n      \"class_type\": \"PrimitiveString\",\n      \"_meta\": {\n        \"title\": \"Orientation\"\n      }\n    },\n    \"105\": {\n      \"inputs\": {\n        \"value\": \"D:\\\\\\\\data\\\\\\\\Full_Images\"\n      },\n      \"class_type\": \"PrimitiveString\",\n      \"_meta\": {\n        \"title\": \"Directory\"\n      }\n    },\n    \"107\": {\n      \"inputs\": {\n        \"value\": \"{{ $json['Positive Prompt'] }}\"\n      },\n      \"class_type\": \"PrimitiveStringMultiline\",\n      \"_meta\": {\n        \"title\": \"Positive Prompt\"\n      }\n    }\n  }\n}",
+                "options": {
+                    "redirect": {
+                        "redirect": {}
+                    }
+                }
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [
+                -128,
+                432
+            ],
+            "id": "eee71e68-af9b-4e86-927d-1aac7dc72c09",
+            "name": "Send to ComfyUI Individual Image Prompts",
+            "alwaysOutputData": false,
+            "executeOnce": false,
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "method": "=GET",
+                "url": "=http://127.0.0.1:8188/history/{{$json.prompt_id}}",
+                "options": {
+                    "redirect": {
+                        "redirect": {}
+                    }
+                }
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [
+                0,
+                32
+            ],
+            "id": "ff968f16-867c-4671-9ba4-0ee3fac1260a",
+            "name": "Get Image Status",
+            "alwaysOutputData": false,
+            "executeOnce": false,
+            "retryOnFail": false,
+            "maxTries": 5,
+            "waitBetweenTries": 5000,
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "operation": "write",
+                "fileName": "={{ $('Set Global Parameters').first().json.ErrorsDir }}",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.readWriteFile",
+            "typeVersion": 1.1,
+            "position": [
+                272,
+                208
+            ],
+            "id": "c9fb8ed8-f650-4eb4-bf9c-e11c4e1e6608",
+            "name": "Read/Write Files from Disk",
+            "onError": "continueRegularOutput"
+        },
+        {
+            "parameters": {
+                "operation": "toJson",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.convertToFile",
+            "typeVersion": 1.1,
+            "position": [
+                128,
+                208
+            ],
+            "id": "26c0e4c5-8bf8-4b91-bd18-07a442b564e0",
+            "name": "Convert to File",
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.wait",
+            "typeVersion": 1.1,
+            "position": [
+                -192,
+                288
+            ],
+            "id": "81be9210-6f6b-4493-958a-1168ae136d87",
+            "name": "Wait",
+            "webhookId": "06a97843-3048-405c-a86d-529726a188f5",
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "jsCode": "const allItems = $input.all(); // Get all incoming items [web:18][web:31]\n\nconst start = 248;  // inclusive\nconst end = 250;     // exclusive\n//51\n\nreturn allItems.slice(start, end);\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -640,
+                496
+            ],
+            "id": "f6c79b62-07a7-4e53-8d03-6b48e51e5dc8",
+            "name": "Code in JavaScript"
+        },
+        {
+            "parameters": {
+                "jsCode": "const fs = require('fs');\n// ── Machine configuration ──────────────────────────────────────────────────────────────────────────────\n// Edit config.json to change paths for your machine. Do not edit this node.\nconst CONFIG_PATH = process.env.TAROT_CONFIG || 'D:/TarotCardProject/config.json';\n// ─────────────────────────────────────────────────────────────────────────────────\nconst config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));\n\nreturn [{ json: {\n    FullImagesDir:         config.FullImagesDir         || (config.DataDir + '/Full_Images'),\n    ErrorsDir:             config.ErrorsDir             || (config.DataDir + '/errors'),\n    LegacySpreadsheetPath: config.LegacySpreadsheetPath || (config.DataDir + '/CardImages.ods'),\n    ComfyUIAPI:            config.ComfyUIAPI,\n} }];"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -1168,
+                64
+            ],
+            "id": "gfti0000-0001-4000-8000-000000000000",
+            "name": "Set Global Parameters"
         }
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        -320,
-        432
-      ],
-      "id": "eee71e68-af9b-4e86-927d-1aac7dc72c09",
-      "name": "Send to ComfyUI Individual Image Prompts",
-      "alwaysOutputData": false,
-      "executeOnce": false,
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "method": "=GET",
-        "url": "=http://127.0.0.1:8188/history/{{$json.prompt_id}}",
-        "options": {
-          "redirect": {
-            "redirect": {}
-          }
+    ],
+    "pinData": {},
+    "connections": {
+        "When clicking ‘Execute workflow’": {
+            "main": [
+                [
+                    {
+                        "node": "Set Global Parameters",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Read Character Image Spreadsheet": {
+            "main": [
+                [
+                    {
+                        "node": "Read Table and Extract Rows",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Read Table and Extract Rows": {
+            "main": [
+                [
+                    {
+                        "node": "Change Card Name and Extract Orientation",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Change Card Name and Extract Orientation": {
+            "main": [
+                [
+                    {
+                        "node": "Code in JavaScript",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Convert to File",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Send to ComfyUI Individual Image Prompts": {
+            "main": [
+                [
+                    {
+                        "node": "Wait",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Convert to File",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Get Image Status": {
+            "main": [
+                [],
+                []
+            ]
+        },
+        "Convert to File": {
+            "main": [
+                [
+                    {
+                        "node": "Read/Write Files from Disk",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Wait": {
+            "main": [
+                [
+                    {
+                        "node": "Get Image Status",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Code in JavaScript": {
+            "main": [
+                [
+                    {
+                        "node": "Send to ComfyUI Individual Image Prompts",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Set Global Parameters": {
+            "main": [
+                [
+                    {
+                        "node": "Read Character Image Spreadsheet",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         }
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        -192,
-        32
-      ],
-      "id": "ff968f16-867c-4671-9ba4-0ee3fac1260a",
-      "name": "Get Image Status",
-      "alwaysOutputData": false,
-      "executeOnce": false,
-      "retryOnFail": false,
-      "maxTries": 5,
-      "waitBetweenTries": 5000,
-      "onError": "continueErrorOutput"
     },
-    {
-      "parameters": {
-        "operation": "write",
-        "fileName": "D:/data/errors",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.readWriteFile",
-      "typeVersion": 1.1,
-      "position": [
-        80,
-        208
-      ],
-      "id": "c9fb8ed8-f650-4eb4-bf9c-e11c4e1e6608",
-      "name": "Read/Write Files from Disk",
-      "onError": "continueRegularOutput"
+    "active": false,
+    "settings": {
+        "executionOrder": "v1",
+        "availableInMCP": false
     },
-    {
-      "parameters": {
-        "operation": "toJson",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.convertToFile",
-      "typeVersion": 1.1,
-      "position": [
-        -64,
-        208
-      ],
-      "id": "26c0e4c5-8bf8-4b91-bd18-07a442b564e0",
-      "name": "Convert to File",
-      "onError": "continueErrorOutput"
+    "versionId": "8a72b950-1c47-44c1-98ec-8b390c955bda",
+    "meta": {
+        "instanceId": "d7f41a3bc4c9824ed68d95186cb055000c790e15bf2666fbda9ebc1cffc1c54a"
     },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        -384,
-        288
-      ],
-      "id": "81be9210-6f6b-4493-958a-1168ae136d87",
-      "name": "Wait",
-      "webhookId": "06a97843-3048-405c-a86d-529726a188f5",
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "jsCode": "const allItems = $input.all(); // Get all incoming items [web:18][web:31]\n\nconst start = 248;  // inclusive\nconst end = 250;     // exclusive\n//51\n\nreturn allItems.slice(start, end);\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -832,
-        496
-      ],
-      "id": "f6c79b62-07a7-4e53-8d03-6b48e51e5dc8",
-      "name": "Code in JavaScript"
-    }
-  ],
-  "pinData": {},
-  "connections": {
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "Read Character Image Spreadsheet",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Read Character Image Spreadsheet": {
-      "main": [
-        [
-          {
-            "node": "Read Table and Extract Rows",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Read Table and Extract Rows": {
-      "main": [
-        [
-          {
-            "node": "Change Card Name and Extract Orientation",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Change Card Name and Extract Orientation": {
-      "main": [
-        [
-          {
-            "node": "Code in JavaScript",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Convert to File",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send to ComfyUI Individual Image Prompts": {
-      "main": [
-        [
-          {
-            "node": "Wait",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Convert to File",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Image Status": {
-      "main": [
-        [],
-        []
-      ]
-    },
-    "Convert to File": {
-      "main": [
-        [
-          {
-            "node": "Read/Write Files from Disk",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Wait": {
-      "main": [
-        [
-          {
-            "node": "Get Image Status",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code in JavaScript": {
-      "main": [
-        [
-          {
-            "node": "Send to ComfyUI Individual Image Prompts",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    }
-  },
-  "active": false,
-  "settings": {
-    "executionOrder": "v1",
-    "availableInMCP": false
-  },
-  "versionId": "8a72b950-1c47-44c1-98ec-8b390c955bda",
-  "meta": {
-    "instanceId": "d7f41a3bc4c9824ed68d95186cb055000c790e15bf2666fbda9ebc1cffc1c54a"
-  },
-  "id": "fpCw2WR7vLsurdIk",
-  "tags": []
+    "id": "fpCw2WR7vLsurdIk",
+    "tags": []
 }

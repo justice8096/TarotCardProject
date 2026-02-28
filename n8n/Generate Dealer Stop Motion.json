@@ -5,51 +5,23 @@
             "parameters": {},
             "type": "n8n-nodes-base.manualTrigger",
             "typeVersion": 1,
-            "position": [-1800, 0],
+            "position": [
+                -1800,
+                0
+            ],
             "id": "sm0001-0001-4000-8000-000000000001",
             "name": "When clicking 'Execute workflow'"
         },
         {
             "parameters": {
-                "assignments": {
-                    "assignments": [
-                        {
-                            "id": "sm0002-0001-4000-8000-000000000001",
-                            "name": "DeckJsonPath",
-                            "value": "D:/data/cards/Standard/Deck.json",
-                            "type": "string"
-                        },
-                        {
-                            "id": "sm0002-0002-4000-8000-000000000002",
-                            "name": "ComfyUIInputDir",
-                            "value": "D:/ComfyUI_windows_portable/ComfyUI/input",
-                            "type": "string"
-                        },
-                        {
-                            "id": "sm0002-0003-4000-8000-000000000003",
-                            "name": "ComfyUIOutputDir",
-                            "value": "D:/ComfyUI_windows_portable/ComfyUI/output",
-                            "type": "string"
-                        },
-                        {
-                            "id": "sm0002-0004-4000-8000-000000000004",
-                            "name": "ComfyUIAPI",
-                            "value": "http://127.0.0.1:8188",
-                            "type": "string"
-                        },
-                        {
-                            "id": "sm0002-0005-4000-8000-000000000005",
-                            "name": "AnimationTypes",
-                            "value": "Cut,Fan,Merge,Rotate",
-                            "type": "string"
-                        }
-                    ]
-                },
-                "options": {}
+                "jsCode": "const fs = require('fs');\n// ── Machine configuration ──────────────────────────────────────────────────────────────────────────────\n// Edit config.json to change paths for your machine. Do not edit this node.\nconst CONFIG_PATH = process.env.TAROT_CONFIG || 'D:/TarotCardProject/config.json';\n// ─────────────────────────────────────────────────────────────────────────────────\nconst config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));\n\nreturn [{ json: {\n    // Machine-specific (from config.json)\n    DeckJsonPath:     config.DefaultDeckJsonPath,\n    ComfyUIAPI:       config.ComfyUIAPI,\n    ComfyUIInputDir:  config.ComfyUIInputDir  || (config.ComfyUIDir + '/input'),\n    ComfyUIOutputDir: config.ComfyUIOutputDir || (config.ComfyUIDir + '/output'),\n    // Workflow-specific\n    AnimationTypes: 'Cut,Fan,Merge,Rotate',\n} }];"
             },
-            "type": "n8n-nodes-base.set",
-            "typeVersion": 3.4,
-            "position": [-1560, 0],
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -1560,
+                0
+            ],
             "id": "sm0001-0002-4000-8000-000000000002",
             "name": "Set Global Parameters"
         },
@@ -59,7 +31,10 @@
             },
             "type": "n8n-nodes-base.code",
             "typeVersion": 2,
-            "position": [-1320, 0],
+            "position": [
+                -1320,
+                0
+            ],
             "id": "sm0001-0003-4000-8000-000000000003",
             "name": "Read Deck.json"
         },
@@ -69,7 +44,10 @@
             },
             "type": "n8n-nodes-base.code",
             "typeVersion": 2,
-            "position": [-1080, 0],
+            "position": [
+                -1080,
+                0
+            ],
             "id": "sm0001-0004-4000-8000-000000000004",
             "name": "Build Keyframe Job List"
         },
@@ -84,7 +62,10 @@
             },
             "type": "n8n-nodes-base.httpRequest",
             "typeVersion": 4.3,
-            "position": [-840, 0],
+            "position": [
+                -840,
+                0
+            ],
             "id": "sm0001-0005-4000-8000-000000000005",
             "name": "Submit Keyframe to ComfyUI",
             "executeOnce": false
@@ -95,7 +76,10 @@
             },
             "type": "n8n-nodes-base.code",
             "typeVersion": 2,
-            "position": [-600, 0],
+            "position": [
+                -600,
+                0
+            ],
             "id": "sm0001-0006-4000-8000-000000000006",
             "name": "Capture Keyframe Prompt ID"
         },
@@ -106,7 +90,10 @@
             },
             "type": "n8n-nodes-base.wait",
             "typeVersion": 1.1,
-            "position": [-360, 0],
+            "position": [
+                -360,
+                0
+            ],
             "id": "sm0001-0007-4000-8000-000000000007",
             "name": "Wait for Keyframe"
         },
@@ -117,7 +104,10 @@
             },
             "type": "n8n-nodes-base.httpRequest",
             "typeVersion": 4.3,
-            "position": [-120, 0],
+            "position": [
+                -120,
+                0
+            ],
             "id": "sm0001-0008-4000-8000-000000000008",
             "name": "Poll Keyframe Status"
         },
@@ -127,7 +117,10 @@
             },
             "type": "n8n-nodes-base.code",
             "typeVersion": 2,
-            "position": [120, 0],
+            "position": [
+                120,
+                0
+            ],
             "id": "sm0001-0009-4000-8000-000000000009",
             "name": "Extract Keyframe Path"
         },
@@ -137,7 +130,10 @@
             },
             "type": "n8n-nodes-base.code",
             "typeVersion": 2,
-            "position": [360, 0],
+            "position": [
+                360,
+                0
+            ],
             "id": "sm0001-0010-4000-8000-000000000010",
             "name": "Build Interpolation Job List"
         },
@@ -147,7 +143,10 @@
             },
             "type": "n8n-nodes-base.code",
             "typeVersion": 2,
-            "position": [600, 0],
+            "position": [
+                600,
+                0
+            ],
             "id": "sm0001-0011-4000-8000-000000000011",
             "name": "Prepare Copy Command"
         },
@@ -157,7 +156,10 @@
             },
             "type": "n8n-nodes-base.executeCommand",
             "typeVersion": 1,
-            "position": [840, 0],
+            "position": [
+                840,
+                0
+            ],
             "id": "sm0001-0012-4000-8000-000000000012",
             "name": "Copy Keyframes to ComfyUI Input"
         },
@@ -172,7 +174,10 @@
             },
             "type": "n8n-nodes-base.httpRequest",
             "typeVersion": 4.3,
-            "position": [1080, 0],
+            "position": [
+                1080,
+                0
+            ],
             "id": "sm0001-0013-4000-8000-000000000013",
             "name": "Submit Interpolation to ComfyUI",
             "executeOnce": false
@@ -183,7 +188,10 @@
             },
             "type": "n8n-nodes-base.code",
             "typeVersion": 2,
-            "position": [1320, 0],
+            "position": [
+                1320,
+                0
+            ],
             "id": "sm0001-0014-4000-8000-000000000014",
             "name": "Capture Interp Prompt ID"
         },
@@ -194,7 +202,10 @@
             },
             "type": "n8n-nodes-base.wait",
             "typeVersion": 1.1,
-            "position": [1560, 0],
+            "position": [
+                1560,
+                0
+            ],
             "id": "sm0001-0015-4000-8000-000000000015",
             "name": "Wait for Interpolation"
         },
@@ -205,7 +216,10 @@
             },
             "type": "n8n-nodes-base.httpRequest",
             "typeVersion": 4.3,
-            "position": [1800, 0],
+            "position": [
+                1800,
+                0
+            ],
             "id": "sm0001-0016-4000-8000-000000000016",
             "name": "Poll Interpolation Status"
         },
@@ -215,7 +229,10 @@
             },
             "type": "n8n-nodes-base.code",
             "typeVersion": 2,
-            "position": [2040, 0],
+            "position": [
+                2040,
+                0
+            ],
             "id": "sm0001-0017-4000-8000-000000000017",
             "name": "Extract Clip Path"
         },
@@ -225,7 +242,10 @@
             },
             "type": "n8n-nodes-base.code",
             "typeVersion": 2,
-            "position": [2280, 0],
+            "position": [
+                2280,
+                0
+            ],
             "id": "sm0001-0018-4000-8000-000000000018",
             "name": "Build FFmpeg Concat Commands"
         },
@@ -235,7 +255,10 @@
             },
             "type": "n8n-nodes-base.executeCommand",
             "typeVersion": 1,
-            "position": [2520, 0],
+            "position": [
+                2520,
+                0
+            ],
             "id": "sm0001-0019-4000-8000-000000000019",
             "name": "FFmpeg Concat Clips"
         },
@@ -245,68 +268,223 @@
             },
             "type": "n8n-nodes-base.code",
             "typeVersion": 2,
-            "position": [2760, 0],
+            "position": [
+                2760,
+                0
+            ],
             "id": "sm0001-0020-4000-8000-000000000020",
             "name": "Report Results"
         }
     ],
     "connections": {
         "When clicking 'Execute workflow'": {
-            "main": [[{"node": "Set Global Parameters", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Set Global Parameters",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Set Global Parameters": {
-            "main": [[{"node": "Read Deck.json", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Read Deck.json",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Read Deck.json": {
-            "main": [[{"node": "Build Keyframe Job List", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Build Keyframe Job List",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Build Keyframe Job List": {
-            "main": [[{"node": "Submit Keyframe to ComfyUI", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Submit Keyframe to ComfyUI",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Submit Keyframe to ComfyUI": {
-            "main": [[{"node": "Capture Keyframe Prompt ID", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Capture Keyframe Prompt ID",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Capture Keyframe Prompt ID": {
-            "main": [[{"node": "Wait for Keyframe", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Wait for Keyframe",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Wait for Keyframe": {
-            "main": [[{"node": "Poll Keyframe Status", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Poll Keyframe Status",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Poll Keyframe Status": {
-            "main": [[{"node": "Extract Keyframe Path", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Extract Keyframe Path",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Extract Keyframe Path": {
-            "main": [[{"node": "Build Interpolation Job List", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Build Interpolation Job List",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Build Interpolation Job List": {
-            "main": [[{"node": "Prepare Copy Command", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Prepare Copy Command",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Prepare Copy Command": {
-            "main": [[{"node": "Copy Keyframes to ComfyUI Input", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Copy Keyframes to ComfyUI Input",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Copy Keyframes to ComfyUI Input": {
-            "main": [[{"node": "Submit Interpolation to ComfyUI", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Submit Interpolation to ComfyUI",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Submit Interpolation to ComfyUI": {
-            "main": [[{"node": "Capture Interp Prompt ID", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Capture Interp Prompt ID",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Capture Interp Prompt ID": {
-            "main": [[{"node": "Wait for Interpolation", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Wait for Interpolation",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Wait for Interpolation": {
-            "main": [[{"node": "Poll Interpolation Status", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Poll Interpolation Status",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Poll Interpolation Status": {
-            "main": [[{"node": "Extract Clip Path", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Extract Clip Path",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Extract Clip Path": {
-            "main": [[{"node": "Build FFmpeg Concat Commands", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Build FFmpeg Concat Commands",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "Build FFmpeg Concat Commands": {
-            "main": [[{"node": "FFmpeg Concat Clips", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "FFmpeg Concat Clips",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         },
         "FFmpeg Concat Clips": {
-            "main": [[{"node": "Report Results", "type": "main", "index": 0}]]
+            "main": [
+                [
+                    {
+                        "node": "Report Results",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         }
     },
     "pinData": {},

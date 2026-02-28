@@ -1,0 +1,21 @@
+{
+    "_comment": "Machine-specific configuration for the TarotCardProject. Edit this file to match your machine. Do NOT edit path values inside the n8n workflow nodes — change them here instead.",
+    "_usage": "Set the TAROT_CONFIG environment variable to the absolute path of this file, or leave unset to use the default path hardcoded in each workflow's 'Set Global Parameters' node.",
+
+    "DataDir":             "D:/data",
+    "CardsDir":            "D:/data/cards",
+    "DefaultDeckDir":      "D:/data/cards/Standard",
+    "DefaultDeckJsonPath": "D:/data/cards/Standard/Deck.json",
+    "LegacyDeckJsonPath":  "D:/data/cards/Deck.json",
+
+    "FullImagesDir":       "D:/data/Full_Images",
+    "CardPartImagesDir":   "D:/data/Card_Part_Images",
+    "ErrorsDir":           "D:/data/errors",
+
+    "SpreadsheetPath":       "D:/data/TarotSpreadsheet2.ods",
+    "LegacySpreadsheetPath": "D:/data/CardImages.ods",
+
+    "ComfyUIDir":    "D:/ComfyUI_windows_portable/ComfyUI",
+    "ComfyUIAPI":    "http://127.0.0.1:8188",
+    "OllamaAPI":     "http://127.0.0.1:11434"
+}
