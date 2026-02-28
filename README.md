@@ -16,4 +16,7 @@ A tarot card layout, spread and reader system. Differs from Rider-Waite by havin
 - [n8n](https://n8n.io) — orchestration and automation
 - [ComfyUI](https://github.com/comfyanonymous/ComfyUI) — image and video generation
 - [Perplexity](https://www.perplexity.ai) — research
+- [Claude](https://claude.ai) - code co-generation
+- [huggingFace](https://huggingface.co) - repository of AI models and associated tools
+- [Ollama](https://ollama.com) - source of ollama tool to run local small language model AI, and repository
 - TypeScript
