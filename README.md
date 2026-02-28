@@ -124,3 +124,108 @@ python update_workflow_paths.py
 ```
 
 > Note: The script is not idempotent for workflows that insert a new node (workflows 5–10). Run it only on fresh workflow JSON files.
+
+---
+
+## Checking and Installing n8n Node Packages
+
+`setup_n8n_nodes.py` scans every workflow JSON, identifies which npm packages they require, and checks whether any community packages need to be installed.
+
+### Check only (default)
+
+```cmd
+python setup_n8n_nodes.py
+```
+
+Reports which packages are built-in vs. community, then for community packages checks installation status via the n8n REST API (falling back to a filesystem check if n8n is not running).
+
+### Check and install missing packages
+
+```cmd
+python setup_n8n_nodes.py --install
+```
+
+Calls `n8n install <package>` for any community package that is not yet installed. Requires `n8n` to be on the system PATH.
+
+### Options
+
+| Flag | Default | Purpose |
+|------|---------|---------|
+| `--install` | off | Install missing community packages automatically |
+| `--api-url <url>` | `http://localhost:5678` | n8n base URL for the REST API check |
+
+### How package names are resolved
+
+n8n node types follow the pattern `package.NodeClass` or `@scope/package.NodeClass`. The script strips the node-class suffix:
+
+| Node type | Resolved package |
+|-----------|-----------------|
+| `n8n-nodes-base.code` | `n8n-nodes-base` (built-in) |
+| `@n8n/n8n-nodes-langchain.ollama` | `@n8n/n8n-nodes-langchain` (built-in) |
+| `n8n-nodes-mypkg.myNode` | `n8n-nodes-mypkg` (community — checked/installed) |
+
+Built-in packages (`n8n-nodes-base`, `@n8n/n8n-nodes-langchain`, `@n8n/n8n-nodes-ai`) are always skipped — they ship with n8n and cannot be installed separately.
+
+---
+
+## Checking and Installing ComfyUI Custom Nodes
+
+`setup_comfyui_nodes.py` scans every ComfyUI workflow JSON, identifies which custom node packages they require, and checks whether those packages are installed in your ComfyUI `custom_nodes/` directory.
+
+### Check only (default)
+
+```cmd
+python setup_comfyui_nodes.py
+```
+
+Reports each custom node type as one of:
+- `[OK]` — installed (found by URL, folder name, or Python file scan)
+- `[!!]` — missing, with the GitHub URL to install it
+- `[??]` — unknown (not in ComfyUI Manager's registry; may need manual investigation)
+
+### Check and install missing packages
+
+```cmd
+python setup_comfyui_nodes.py --install
+```
+
+Tries ComfyUI Manager REST API first, falls back to `git clone`. Requires ComfyUI to be running for the API path, or `git` on PATH for the fallback.
+
+### Options
+
+| Flag | Default | Purpose |
+|------|---------|---------|
+| `--install` | off | Install missing packages automatically |
+| `--comfyui-dir <path>` | from `config.json` | Override the ComfyUI installation path |
+
+### How node detection works
+
+The script handles three ComfyUI workflow formats:
+- **GUI format** (`.json` with `nodes[]` array) — uses the `type` field of each node
+- **API format** (`.json` with `{nodeId: {class_type, inputs}}`) — uses the `class_type` field
+- **n8n-embedded API format** (files containing `{{ $json... }}` n8n expressions) — preprocessed before parsing
+
+Each detected `class_type` is classified as:
+
+| Classification | Action |
+|----------------|--------|
+| UUID proxy widget (`xxxxxxxx-xxxx-...`) | Skipped — internal ComfyUI GUI state |
+| Frontend-only (`MarkdownNote`) | Skipped — rendered by browser, no Python backend |
+| Core ComfyUI node | Skipped — scanned dynamically from ComfyUI Python files |
+| Custom node | Checked against ComfyUI Manager's `extension-node-map.json` |
+
+### Custom nodes currently used by this project
+
+| Node type | Package | GitHub |
+|-----------|---------|--------|
+| `VHS_VideoCombine` | ComfyUI-VideoHelperSuite | https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite |
+| `RMBG`, `AILab_ImagePreview` | ComfyUI-RMBG | https://github.com/1038lab/ComfyUI-RMBG |
+| `ColorPalette`, `PalleteTransferClustering` | ComfyUI-Color_Transfer | https://github.com/45uee/ComfyUI-Color_Transfer |
+| `ImageBatchSaver` | ComfyUI-Batch-Process | https://github.com/Zar4X/ComfyUI-Batch-Process |
+| `ImageConcanateOfUtils` | comfyui-utils-nodes | https://github.com/zhangp365/ComfyUI-utils-nodes |
+| `LayerUtility: RoundedRectangle` | ComfyUI_LayerStyle | https://github.com/chflame163/ComfyUI_LayerStyle |
+| `Basic data handling: PathSaveImageRGBA` | ComfyUI-basic_data_handling | https://github.com/StableLlama/ComfyUI-basic_data_handling |
+| `chaosaiart_Number` | Chaosaiart-Nodes | https://github.com/chaosaiart/Chaosaiart-Nodes |
+| `LoadImageFromPath_`, `MultilineText` | **Unknown** — in disabled pack `comfyui_realtimenodes_disabled` |
+
+> **Note on `[??]` nodes:** `LoadImageFromPath_` and `MultilineText` exist only inside the disabled pack `comfyui_realtimenodes_disabled`. They are used by `Change_Card_To_Pallette.json`, `Make_Images_For_Card.json`, `Make_Deck_Front_Transparent.json`, and `Make_Symmetric_Card.json`. If those workflows fail to load, re-enable or reinstall that pack.
