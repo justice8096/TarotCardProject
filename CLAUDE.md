@@ -137,22 +137,27 @@ The "done" output of SplitInBatches sends the original input items — not the e
 **Use a single self-contained Code node** that loops over all jobs internally, submits each one, polls until done, and returns all results at once:
 
 ```javascript
-const axios = require('axios');
+// NOTE: require('axios') CRASHES the task runner — use require('http') instead
+// See "HTTP request pattern" section in n8n Code Node Sandbox Restrictions below
+const http = require('http');
+const https = require('https');
+// ... (add httpPost/httpGet helpers — see HTTP request pattern section)
+
 const allJobs = $input.all().map(item => item.json);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const results = [];
 
 for (const job of allJobs) {
   // submit to ComfyUI
-  const submitRes = await axios.post(comfyUIAPI + '/prompt', { prompt: comfyPrompt });
-  const promptId = submitRes.data.prompt_id;
+  const submitData = await httpPost(comfyUIAPI + '/prompt', { prompt: comfyPrompt });
+  const promptId = submitData.prompt_id;
 
   // poll until done
   let done = false;
   for (let attempt = 0; attempt < 60 && !done; attempt++) {
     await sleep(3000);
-    const historyRes = await axios.get(comfyUIAPI + '/history/' + promptId);
-    const entry = historyRes.data[promptId];
+    const historyData = await httpGet(comfyUIAPI + '/history/' + promptId);
+    const entry = historyData[promptId];
     if (entry?.outputs?.['7']?.images?.length > 0) {
       results.push({ ...job, SavedFilename: entry.outputs['7'].images[0].filename });
       done = true;
@@ -244,18 +249,55 @@ These apply to **all Code nodes** in n8n. Test environment: n8n 2.7.5, self-host
 | API | Error | Status |
 |-----|-------|--------|
 | `fetch()` | `fetch is not defined` | Blocked — global not available |
-| `require('http')` | `Module 'http' is disallowed` | Blocked — built-in HTTP modules |
-| `require('https')` | `Module 'https' is disallowed` | Blocked — built-in HTTP modules |
+| `require('http')` | `Module 'http' is disallowed` | Blocked — **unless** `NODE_FUNCTION_ALLOW_BUILTIN=*` is set |
+| `require('https')` | `Module 'https' is disallowed` | Blocked — **unless** `NODE_FUNCTION_ALLOW_BUILTIN=*` is set |
+| `require('axios')` | Task runner crash / `TypeError: Cannot assign to read only property 'toString'` | **BROKEN** — `preventPrototypePollution()` freezes `FormData.prototype`; axios's `form-data` dep crashes on load |
+| `new URL(str)` | `URL is not defined` | Blocked — not in vm context's `getNativeVariables()` |
 | `$helpers.httpRequest()` | `$helpers is not defined` | Not available in Code nodes (only in custom node SDK) |
 
 ### What works
 
 | API | How to enable | Notes |
 |-----|---------------|-------|
-| `require('axios')` | Set `NODE_FUNCTION_ALLOW_EXTERNAL=*` | Ships bundled with n8n; cleanest HTTP option |
+| `require('http')` | Set `NODE_FUNCTION_ALLOW_BUILTIN=*` | **Use this instead of axios** for HTTP calls; unaffected by frozen prototypes |
+| `require('https')` | Set `NODE_FUNCTION_ALLOW_BUILTIN=*` | Same as http for HTTPS |
+| `require('url')` | Set `NODE_FUNCTION_ALLOW_BUILTIN=*` | Provides `URL` class if needed (or use regex parsing — see below) |
 | `require('fs')` | Set `NODE_FUNCTION_ALLOW_BUILTIN=*` | File read/write/copy operations |
 | `require('path')` | Set `NODE_FUNCTION_ALLOW_BUILTIN=*` | Path joining |
 | `require('child_process')` | Set `NODE_FUNCTION_ALLOW_BUILTIN=*` | Run shell commands (replaces Execute Command node) |
+
+### HTTP request pattern (use instead of axios)
+
+```javascript
+const http = require('http');
+const https = require('https');
+
+const httpRequest = (method, urlStr, body) => new Promise((resolve, reject) => {
+  // Parse URL manually — new URL() is NOT available in vm context
+  const m = urlStr.match(/^(https?):\/\/([^:/]+)(?::(\d+))?(\/?[^?]*)(\?.*)?$/);
+  const protocol = m[1], hostname = m[2];
+  const port = m[3] ? parseInt(m[3]) : (protocol === 'https' ? 443 : 80);
+  const path = (m[4] || '/') + (m[5] || '');
+  const lib = protocol === 'https' ? https : http;
+  const options = { hostname, port, path, method, headers: {} };
+  if (body) {
+    options.headers['Content-Type'] = 'application/json';
+    options.headers['Content-Length'] = Buffer.byteLength(body);
+  }
+  const req = lib.request(options, (res) => {
+    let data = '';
+    res.on('data', (chunk) => { data += chunk; });
+    res.on('end', () => { try { resolve(JSON.parse(data)); } catch(e) { resolve(data); } });
+  });
+  req.on('error', reject);
+  if (body) req.write(body);
+  req.end();
+});
+const httpPost = (url, bodyObj) => httpRequest('POST', url, JSON.stringify(bodyObj));
+const httpGet  = (url)          => httpRequest('GET',  url, null);
+```
+
+**Why not axios?** n8n's task runner runs `preventPrototypePollution()` at startup, which calls `Object.freeze(fn.prototype)` on every global function including `FormData`. When `require('axios')` is called, its bundled `form-data` dependency immediately tries to set `FormData.prototype.toString`, which throws `TypeError: Cannot assign to read only property 'toString'`. This crashes the task runner process, producing the generic "Node execution failed" error with ~150ms timing. The Node.js built-in `http`/`https` modules are unaffected.
 
 ### Required n8n startup flags
 
