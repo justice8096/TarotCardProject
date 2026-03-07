@@ -1,0 +1,191 @@
+{
+  "name": "Generate FOCUST Upright Stills",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1280,
+        -768
+      ],
+      "id": "gfu0-0001-4000-8000-000000000001",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "gfu0-p001",
+              "name": "DeckJsonPath",
+              "value": "D:/data/cards/Standard/Deck.json",
+              "type": "string"
+            },
+            {
+              "id": "gfu0-p002",
+              "name": "TestCardFilter",
+              "value": "Ace of Cups",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1056,
+        -768
+      ],
+      "id": "gfu0-0002-4000-8000-000000000002",
+      "name": "Set Global Parameters"
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $json.DeckJsonPath }}",
+        "options": {
+          "dataPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -832,
+        -768
+      ],
+      "id": "gfu0-0003-4000-8000-000000000003",
+      "name": "Read Deck.json"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -608,
+        -768
+      ],
+      "id": "gfu0-0004-4000-8000-000000000004",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\n\nlet sharp;\ntry {\n  sharp = require('sharp');\n} catch(e) {\n  throw new Error('[FOCUST] sharp module not available in n8n: ' + e.message);\n}\n\nconst params = $('Set Global Parameters').first().json;\nconst testCardFilter = (params.TestCardFilter || '').trim();\n\nconst raw = $input.first().json;\nconst deck = raw.data !== undefined ? raw.data : raw;\n\nconst deckDir = ((deck.Assets && deck.Assets.Directory)\n  ? deck.Assets.Directory\n  : 'D:/data/cards/Standard').replace(/\\//g, path.sep);\n\nconst cardRefs = deck.Cards;\nif (!cardRefs || cardRefs.length === 0) {\n  throw new Error('[FOCUST] No Cards found in Deck.json.');\n}\n\nconst N_STILLS = 6;\nconst OUT_SIZE = 512;\n\nconst filteredCards = testCardFilter\n  ? cardRefs.filter(c => c.Card === testCardFilter)\n  : cardRefs;\n\nif (filteredCards.length === 0) {\n  throw new Error('[FOCUST] No cards matched filter: ' + JSON.stringify(testCardFilter));\n}\n\nconst results = { processed: 0, skipped: 0, failed: 0, cards: [] };\n\nfor (const cardRef of filteredCards) {\n  const cardName = cardRef.Card;\n  const cardFilePath = path.join(deckDir, cardRef.File.replace(/\\//g, path.sep));\n\n  let cardRaw;\n  try {\n    cardRaw = JSON.parse(fs.readFileSync(cardFilePath, 'utf8').replace(/^﻿/, ''));\n  } catch(e) {\n    console.warn('[FOCUST] Cannot read card: ' + cardName + ': ' + e.message);\n    results.failed++;\n    results.cards.push({ card: cardName, status: 'failed', reason: 'Cannot read card file: ' + e.message });\n    continue;\n  }\n\n  const card = cardRaw['data.Cards'] || cardRaw;\n  const cardDir = (card.Directory || path.join(deckDir, 'Cards')).replace(/\\//g, path.sep);\n\n  const uprightImageName = card.Assets && card.Assets.UprightImage;\n  if (!uprightImageName) {\n    results.skipped++;\n    results.cards.push({ card: cardName, status: 'skipped', reason: 'No Assets.UprightImage' });\n    continue;\n  }\n\n  const uprightRecord = (card.records || []).find(r => r.Orientation === 'upright');\n  if (!uprightRecord) {\n    results.skipped++;\n    results.cards.push({ card: cardName, status: 'skipped', reason: 'No upright record' });\n    continue;\n  }\n\n  const cardImageName = uprightRecord.Assets && uprightRecord.Assets.CardImage;\n  if (!cardImageName) {\n    results.skipped++;\n    results.cards.push({ card: cardName, status: 'skipped', reason: 'No upright record Assets.CardImage' });\n    continue;\n  }\n\n  const uprightImagePath = path.join(cardDir, uprightImageName);\n  const cardImagePath = path.join(cardDir, cardImageName);\n\n  if (!fs.existsSync(uprightImagePath)) {\n    results.skipped++;\n    results.cards.push({ card: cardName, status: 'skipped', reason: 'UprightImage not found: ' + uprightImagePath });\n    continue;\n  }\n  if (!fs.existsSync(cardImagePath)) {\n    results.skipped++;\n    results.cards.push({ card: cardName, status: 'skipped', reason: 'CardImage not found: ' + cardImagePath });\n    continue;\n  }\n\n  // Get image dimensions\n  let uprightMeta, cardMeta;\n  try {\n    uprightMeta = await sharp(uprightImagePath).metadata();\n    cardMeta = await sharp(cardImagePath).metadata();\n  } catch(e) {\n    results.failed++;\n    results.cards.push({ card: cardName, status: 'failed', reason: 'Cannot read image metadata: ' + e.message });\n    continue;\n  }\n\n  const uw = uprightMeta.width;   // e.g. 680\n  const uh = uprightMeta.height;  // e.g. 1100\n  const cw = cardMeta.width;      // e.g. 512\n  const ch = cardMeta.height;     // e.g. 512\n\n  // CardImage sits in the top-right of UprightImage with a small border.\n  // Derived from template matching: right margin ~6px, top margin ~56px.\n  const cx = Math.max(0, uw - cw - 6);\n  const cy = 56;\n\n  const slug = cardName.replace(/[()]/g, '').replace(/\\s+/g, '_');\n  const stillNames = Array.from({ length: N_STILLS }, (_, i) =>\n    'FOCUST_UPRIGHT_' + slug + '_' + String(i).padStart(2, '0') + '.png');\n  const stillPaths = stillNames.map(n => path.join(cardDir, n));\n\n  if (stillPaths.every(p => fs.existsSync(p))) {\n    console.warn('[FOCUST] Stills already exist for: ' + cardName + ', skipping.');\n    if (!uprightRecord.Assets) uprightRecord.Assets = {};\n    uprightRecord.Assets.FocusUprightT = stillNames;\n    fs.writeFileSync(cardFilePath, JSON.stringify(cardRaw, null, 2), 'utf8');\n    results.skipped++;\n    results.cards.push({ card: cardName, status: 'skipped', reason: 'Already generated' });\n    continue;\n  }\n\n  let generatedAll = true;\n  for (let i = 0; i < N_STILLS; i++) {\n    const t = i / (N_STILLS - 1);\n    const left   = Math.round(cx * t);\n    const top    = Math.round(cy * t);\n    const right  = Math.round(uw - (uw - (cx + cw)) * t);\n    const bottom = Math.round(uh - (uh - (cy + ch)) * t);\n    const width  = right - left;\n    const height = bottom - top;\n\n    try {\n      await sharp(uprightImagePath)\n        .extract({ left, top, width, height })\n        .resize(OUT_SIZE, OUT_SIZE)\n        .png()\n        .toFile(stillPaths[i]);\n    } catch(e) {\n      console.warn('[FOCUST] sharp error frame ' + i + ' of ' + cardName + ': ' + e.message);\n      results.failed++;\n      results.cards.push({ card: cardName, status: 'failed', reason: 'sharp error frame ' + i + ': ' + e.message });\n      generatedAll = false;\n      break;\n    }\n  }\n\n  if (!generatedAll) continue;\n\n  if (!uprightRecord.Assets) uprightRecord.Assets = {};\n  uprightRecord.Assets.FocusUprightT = stillNames;\n  fs.writeFileSync(cardFilePath, JSON.stringify(cardRaw, null, 2), 'utf8');\n\n  results.processed++;\n  results.cards.push({\n    card: cardName,\n    status: 'generated',\n    stills: stillNames,\n    cropOrigin: [cx, cy],\n    cardImageSize: [cw, ch]\n  });\n}\n\nif (results.processed === 0 && results.failed === 0 && results.skipped === 0) {\n  throw new Error('[FOCUST] No cards processed. Check TestCardFilter and Deck.json Cards array.');\n}\n\nreturn [{ json: results }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -384,
+        -768
+      ],
+      "id": "gfu0-0005-4000-8000-000000000005",
+      "name": "Generate FOCUST Upright Stills"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "gfu0-r001",
+              "name": "Summary",
+              "value": "={{ 'Generated: ' + $json.processed + '  |  Skipped: ' + $json.skipped + '  |  Failed: ' + $json.failed }}",
+              "type": "string"
+            },
+            {
+              "id": "gfu0-r002",
+              "name": "Cards",
+              "value": "={{ $json.cards }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        -768
+      ],
+      "id": "gfu0-0006-4000-8000-000000000006",
+      "name": "Report Results"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Set Global Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Global Parameters": {
+      "main": [
+        [
+          {
+            "node": "Read Deck.json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Deck.json": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Generate FOCUST Upright Stills",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate FOCUST Upright Stills": {
+      "main": [
+        [
+          {
+            "node": "Report Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "meta": {
+    "instanceId": "d7f41a3bc4c9824ed68d95186cb055000c790e15bf2666fbda9ebc1cffc1c54a"
+  },
+  "tags": [
+    {
+      "name": "Tarot"
+    },
+    {
+      "name": "Images"
+    }
+  ]
+}
