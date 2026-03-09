@@ -25,6 +25,16 @@ Perplexity/        Research docs
 - Dealer animations output: `D:/data/Dealer_Animations/`
 - Tarot spreadsheet: `data/TarotSpreadsheet2.ods`
 
+## Executables
+
+| Tool | Path | Notes |
+|------|------|-------|
+| ffmpeg | `D:/ComfyUI_windows_portable/ffmpeg-8.0.1-full_build/bin/ffmpeg.exe` | Video concat, format conversion |
+| n8n | `D:/n8n/` (run via `npm start`) | Orchestration; installed as npm dep in `D:/n8n/package.json` |
+| Node.js | `C:/Program Files/nodejs/node.exe` | Runtime for n8n |
+| Python | `C:/Users/justi/AppData/Local/Microsoft/WindowsApps/python.exe` | |
+| ComfyUI | `D:/ComfyUI_windows_portable/ComfyUI/` | Image/video generation; API at `http://127.0.0.1:8188` |
+
 ## ComfyUI Installation
 
 - **Path**: `D:/ComfyUI_windows_portable/ComfyUI/`
