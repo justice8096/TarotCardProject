@@ -396,8 +396,8 @@ QuadrupleCLIPLoader(2) → CLIPTextEncode(3,4) → KSampler(7)
 EmptySD3LatentImage(6) → KSampler(7)
 VAELoader(8) → VAEDecode(9)
 KSampler(7) → VAEDecode(9) → SaveImage(10) + BiRefNetRMBG(11)
-BiRefNetRMBG(11) → TripoSRSampler(13) [image + mask]
-LoadTripoSRModel(12) → TripoSRSampler(13) → SaveTripoSRMesh(14)
+BiRefNetRMBG(11) → TripoSRSampler_(13) [image only, no mask]
+LoadTripoSRModel_(12) → TripoSRSampler_(13) → SaveTripoSRMesh(14)
 ```
 
 ### File Naming
@@ -417,9 +417,15 @@ LoadTripoSRModel(12) → TripoSRSampler(13) → SaveTripoSRMesh(14)
 
 ### Prerequisites
 
-- TripoSR model auto-downloads on first run (~1GB from HuggingFace)
+- TripoSR model: `models/triposr/model.ckpt` (~1.6GB, download from `stabilityai/TripoSR` on HuggingFace)
 - Python `trimesh` package: `pip install trimesh` for GLB→OBJ conversion
 - ComfyUI custom nodes already installed: `comfyui-rmbg`, `comfyui-mixlab-nodes` (TripoSR)
+
+### Critical Compatibility Notes (3D)
+
+8. **TripoSR node names have trailing underscores**: `LoadTripoSRModel_` and `TripoSRSampler_` (not `LoadTripoSRModel` / `TripoSRSampler`)
+9. **TripoSRSampler_ mask input causes `Cannot handle this data type` error** — pass only the `image` output from BiRefNetRMBG (output index 0), do NOT pass the `mask` (output index 1)
+10. **BiRefNetRMBG requires explicit optional params** — set `mask_blur: 0`, `mask_offset: 0`, etc. to avoid `'mask_blur'` KeyError
 
 ### Future: SPAR3D Upgrade
 
