@@ -5,7 +5,10 @@
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
-      "position": [-1504, -768],
+      "position": [
+        -1504,
+        -768
+      ],
       "id": "g3d0-0001-4000-8000-000000000001",
       "name": "When clicking 'Execute workflow'"
     },
@@ -13,20 +16,52 @@
       "parameters": {
         "assignments": {
           "assignments": [
-            { "id": "g3d0-p001", "name": "DeckJsonPath", "value": "D:/data/cards/Standard/Deck.json", "type": "string" },
-            { "id": "g3d0-p002", "name": "TestCardFilter", "value": "", "type": "string" },
-            { "id": "g3d0-p003", "name": "ComfyUIAPI", "value": "http://127.0.0.1:8188", "type": "string" },
-            { "id": "g3d0-p004", "name": "Orientations", "value": "upright,reversed,between", "type": "string" },
-            { "id": "g3d0-p006", "name": "SkipExisting", "value": "true", "type": "string" },
-            { "id": "g3d0-p007", "name": "Hunyuan3DEnabled", "value": "true", "type": "string" },
-            { "id": "g3d0-p008", "name": "MultiViewEnabled", "value": "true", "type": "string" }
+            {
+              "id": "g3d0-p001",
+              "name": "DeckJsonPath",
+              "value": "D:/data/cards/Standard/Deck.json",
+              "type": "string"
+            },
+            {
+              "id": "g3d0-p002",
+              "name": "TestCardFilter",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "g3d0-p003",
+              "name": "ComfyUIAPI",
+              "value": "http://127.0.0.1:8188",
+              "type": "string"
+            },
+            {
+              "id": "g3d0-p004",
+              "name": "Orientations",
+              "value": "upright,reversed,between",
+              "type": "string"
+            },
+            {
+              "id": "g3d0-p006",
+              "name": "SkipExisting",
+              "value": "true",
+              "type": "string"
+            },
+            {
+              "id": "g3d0-p007",
+              "name": "Hunyuan3DEnabled",
+              "value": "true",
+              "type": "string"
+            }
           ]
         },
         "options": {}
       },
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
-      "position": [-1280, -768],
+      "position": [
+        -1280,
+        -768
+      ],
       "id": "g3d0-0002-4000-8000-000000000002",
       "name": "Set Global Parameters"
     },
@@ -36,17 +71,23 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [-1056, -768],
+      "position": [
+        -1056,
+        -768
+      ],
       "id": "g3d0-0003-4000-8000-000000000003",
       "name": "Read & Parse Deck.json"
     },
     {
       "parameters": {
-        "jsCode": "// ============================================================\n// Build 3D Object Job List\n// ============================================================\n// Reads each card JSON and builds jobs for the Hunyuan3D v2.1\n// multi-view pipeline: Upscale → Multi-View → Hunyuan3D → Refine.\n// Adds intermediate filenames and Deck.json settings for each\n// stage. Detects insertable/overridable assets at every stage.\n// Falls back to TripoSR settings if Hunyuan3D is disabled.\n// ============================================================\n\nconst fs = require('fs');\nconst path = require('path');\n\nconst params = $('Set Global Parameters').first().json;\nconst testCardFilter = (params.TestCardFilter || '').trim();\nconst orientations = (params.Orientations || 'upright,reversed,between').split(',').map(s => s.trim());\nconst skipExisting = params.SkipExisting !== 'false';\n\nconst raw = $input.first().json;\nconst deck = raw.data !== undefined ? raw.data : raw;\n\nconst deckDir = ((deck.Assets && deck.Assets.Directory)\n  ? deck.Assets.Directory\n  : 'D:/data/cards/Standard').replace(/\\//g, path.sep);\n\n// Read 3D settings from Deck.json with safe defaults\nconst models3D = (deck.Models && deck.Models['3D']) || {};\nconst samplers3D = (deck.Samplers && deck.Samplers['3D']) || {};\n\n// Model references\nconst upscaleModel = models3D.UpscaleModel || 'RealESRGAN_x4plus.pth';\nconst multiViewCheckpoint = models3D.MultiViewCheckpoint || 'stable_zero123.ckpt';\nconst hunyuan3DCheckpoint = models3D.Hunyuan3DCheckpoint || 'hunyuan_3d_v2.1.safetensors';\nconst birefnetModel = models3D.BiRefNetModel || 'BiRefNet-general';\n\n// Multi-view settings\nconst mvSettings = samplers3D.MultiView || {};\n// Hunyuan3D settings\nconst h3dSettings = samplers3D.Hunyuan3D || {};\n// TripoSR fallback settings\nconst tripoResolution = Math.min(samplers3D.Resolution || 256, 512);\nconst tripoThreshold = samplers3D.Threshold || 15.0;\nconst tripoChunkSize = Math.min(samplers3D.ChunkSize || 8192, 10000);\n\nconst cardRefs = deck.Cards;\nif (!cardRefs || cardRefs.length === 0) {\n  throw new Error('[Build 3D Job List] No Cards found in Deck.json.');\n}\n\nconst filteredCards = testCardFilter\n  ? cardRefs.filter(c => c.Card === testCardFilter)\n  : cardRefs;\n\nif (filteredCards.length === 0) {\n  throw new Error('[Build 3D Job List] No cards matched filter: ' + JSON.stringify(testCardFilter));\n}\n\nconst jobs = [];\nconst skippedNoImage = [];\n\nfor (const cardRef of filteredCards) {\n  const cardName = cardRef.Card;\n  const cardSlug = cardName.replace(/[()]/g, '').replace(/\\s+/g, '_');\n  const cardFilePath = path.join(deckDir, cardRef.File.replace(/\\//g, path.sep));\n\n  let cardRaw;\n  try {\n    cardRaw = JSON.parse(fs.readFileSync(cardFilePath, 'utf8').replace(/^\\uFEFF/, ''));\n  } catch(e) {\n    console.warn('[Build 3D Job List] Cannot read card: ' + cardName + ': ' + e.message);\n    continue;\n  }\n\n  const card = cardRaw['data.Cards'] || cardRaw;\n  const cardDir = (card.Directory || path.join(deckDir, 'Cards')).replace(/\\//g, path.sep);\n  const records = card.records || [];\n\n  for (const orientation of orientations) {\n    const record = records.find(r => r.Orientation === orientation);\n    if (!record) continue;\n\n    const glbFilename = 'MODEL_' + cardSlug + '_' + orientation + '.glb';\n    const glbPath = path.join(cardDir, glbFilename);\n\n    if (skipExisting && fs.existsSync(glbPath)) {\n      continue;\n    }\n\n    // Source card image\n    let cardImgFilename;\n    if (orientation === 'upright') {\n      cardImgFilename = 'CARDIMG_' + cardSlug + '_upright.png';\n    } else {\n      cardImgFilename = 'CARDIMGUPRIGHT_' + cardSlug + '_' + orientation + '.png';\n    }\n    const cardImgPath = path.join(cardDir, cardImgFilename);\n\n    if (!fs.existsSync(cardImgPath)) {\n      skippedNoImage.push(cardName + ' ' + orientation + ' (expected: ' + cardImgFilename + ')');\n      continue;\n    }\n\n    // Intermediate filenames (insertable assets)\n    const upscaledFilename = 'UPSCALED_' + cardSlug + '_' + orientation + '.png';\n    const upscaledPath = path.join(cardDir, upscaledFilename);\n    const noBgFilename = 'NOBG_' + cardSlug + '_' + orientation + '.png';\n    const noBgPath = path.join(cardDir, noBgFilename);\n\n    // Multi-view filenames\n    const mvPrefix = 'MV_' + cardSlug + '_' + orientation;\n    const mvFrontFilename = mvPrefix + '_front.png';\n    const mvLeftFilename = mvPrefix + '_left.png';\n    const mvBackFilename = mvPrefix + '_back.png';\n    const mvRightFilename = mvPrefix + '_right.png';\n    const mvFrontPath = path.join(cardDir, mvFrontFilename);\n    const mvLeftPath = path.join(cardDir, mvLeftFilename);\n    const mvBackPath = path.join(cardDir, mvBackFilename);\n    const mvRightPath = path.join(cardDir, mvRightFilename);\n\n    // Detect existing insertable assets\n    const noBgExists = fs.existsSync(noBgPath);\n    const upscaledExists = fs.existsSync(upscaledPath);\n    const mvAllExist = fs.existsSync(mvFrontPath) && fs.existsSync(mvLeftPath)\n      && fs.existsSync(mvBackPath) && fs.existsSync(mvRightPath);\n\n    jobs.push({\n      CardName: cardName,\n      CardSlug: cardSlug,\n      Orientation: orientation,\n      CardDir: cardDir,\n      CardFilePath: cardFilePath,\n      SourceImagePath: cardImgPath,\n      SourceImageFilename: cardImgFilename,\n      GLBFilename: glbFilename,\n      OBJFilename: 'MODEL_' + cardSlug + '_' + orientation + '.obj',\n      RefFilename: '3DREF_' + cardSlug + '_' + orientation + '.png',\n      // Model references (from Deck.json with safe defaults)\n      UpscaleModel: upscaleModel,\n      MultiViewCheckpoint: multiViewCheckpoint,\n      Hunyuan3DCheckpoint: hunyuan3DCheckpoint,\n      BiRefNetModel: birefnetModel,\n      // Stage A intermediates\n      UpscaledFilename: upscaledFilename,\n      UpscaledPath: upscaledPath,\n      UpscaledExists: upscaledExists,\n      NoBgFilename: noBgFilename,\n      NoBgPath: noBgPath,\n      NoBgExists: noBgExists,\n      // Stage B intermediates (multi-view)\n      MVPrefix: mvPrefix,\n      MVFrontFilename: mvFrontFilename,\n      MVLeftFilename: mvLeftFilename,\n      MVBackFilename: mvBackFilename,\n      MVRightFilename: mvRightFilename,\n      MVFrontPath: mvFrontPath,\n      MVLeftPath: mvLeftPath,\n      MVBackPath: mvBackPath,\n      MVRightPath: mvRightPath,\n      MVAllExist: mvAllExist,\n      // Multi-view sampler settings\n      MVWidth: mvSettings.Width || 256,\n      MVHeight: mvSettings.Height || 256,\n      MVSteps: mvSettings.Steps || 50,\n      MVCFG: mvSettings.CFG || 4.0,\n      MVSampler: mvSettings.Sampler || 'euler',\n      MVScheduler: mvSettings.Scheduler || 'sgm_uniform',\n      // Hunyuan3D sampler settings\n      H3DLatentRes: h3dSettings.LatentResolution || 3072,\n      H3DSteps: h3dSettings.Steps || 30,\n      H3DCFG: h3dSettings.CFG || 5.5,\n      H3DSampler: h3dSettings.Sampler || 'euler',\n      H3DScheduler: h3dSettings.Scheduler || 'sgm_uniform',\n      H3DOctreeRes: h3dSettings.OctreeResolution || 256,\n      H3DNumChunks: h3dSettings.NumChunks || 8000,\n      H3DMeshAlgo: h3dSettings.MeshAlgorithm || 'surface net',\n      H3DMeshThreshold: h3dSettings.MeshThreshold || 0.6,\n      // TripoSR fallback settings\n      TripoResolution: tripoResolution,\n      TripoThreshold: tripoThreshold,\n      TripoChunkSize: tripoChunkSize\n    });\n  }\n}\n\nif (skippedNoImage.length > 0) {\n  console.warn('[Build 3D Job List] Skipped ' + skippedNoImage.length + ' cards with no source image:');\n  for (const s of skippedNoImage.slice(0, 10)) {\n    console.warn('  - ' + s);\n  }\n}\n\nif (jobs.length === 0) {\n  throw new Error(\n    '[Build 3D Job List] No jobs created. '\n    + 'All cards may already have GLB files, have no source image, or filter matched nothing. '\n    + 'Set SkipExisting=false to regenerate. '\n    + 'Missing images: ' + skippedNoImage.slice(0, 5).join('; ')\n  );\n}\n\nconsole.warn('[Build 3D Job List] Created ' + jobs.length + ' jobs (skipped ' + skippedNoImage.length + ' missing images).');\nreturn jobs.map(j => ({ json: j }));"
+        "jsCode": "// ============================================================\n// Build 3D Object Job List\n// ============================================================\n// Reads each card JSON and builds jobs for the Hunyuan3D v2.1\n// pipeline: Upscale \u2192 BG Removal \u2192 Hunyuan3D \u2192 Refine.\n// Falls back to TripoSR if Hunyuan3D fails or is disabled.\n// ============================================================\n\nconst fs = require('fs');\nconst path = require('path');\n\nconst params = $('Set Global Parameters').first().json;\nconst testCardFilter = (params.TestCardFilter || '').trim();\nconst orientations = (params.Orientations || 'upright,reversed,between').split(',').map(s => s.trim());\nconst skipExisting = params.SkipExisting !== 'false';\n\nconst raw = $input.first().json;\nconst deck = raw.data !== undefined ? raw.data : raw;\n\nconst deckDir = ((deck.Assets && deck.Assets.Directory)\n  ? deck.Assets.Directory\n  : 'D:/data/cards/Standard').replace(/\\//g, path.sep);\n\n// Read 3D settings from Deck.json with safe defaults\nconst models3D = (deck.Models && deck.Models['3D']) || {};\nconst samplers3D = (deck.Samplers && deck.Samplers['3D']) || {};\n\n// FIX: Read Hunyuan3D settings from Samplers.Hunyuan3D (sibling of Samplers.3D)\nconst h3dSettings = (deck.Samplers && deck.Samplers.Hunyuan3D) || {};\n\n// Model references\nconst upscaleModel = models3D.UpscaleModel || 'RealESRGAN_x4plus.pth';\nconst hunyuan3DCheckpoint = models3D.Hunyuan3DCheckpoint || 'hunyuan_3d_v2.1.safetensors';\nconst birefnetModel = models3D.BiRefNetModel || 'BiRefNet-general';\n\n// TripoSR fallback settings (from Samplers.3D)\nconst tripoResolution = Math.min(samplers3D.Resolution || 256, 512);\nconst tripoThreshold = samplers3D.Threshold || 15.0;\nconst tripoChunkSize = Math.min(samplers3D.ChunkSize || 8192, 10000);\n\nconst cardRefs = deck.Cards;\nif (!cardRefs || cardRefs.length === 0) {\n  throw new Error('[Build 3D Job List] No Cards found in Deck.json.');\n}\n\nconst filteredCards = testCardFilter\n  ? cardRefs.filter(c => c.Card === testCardFilter)\n  : cardRefs;\n\nif (filteredCards.length === 0) {\n  throw new Error('[Build 3D Job List] No cards matched filter: ' + JSON.stringify(testCardFilter));\n}\n\nconst jobs = [];\nconst skippedNoImage = [];\n\nfor (const cardRef of filteredCards) {\n  const cardName = cardRef.Card;\n  const cardSlug = cardName.replace(/[()]/g, '').replace(/\\s+/g, '_');\n  const cardFilePath = path.join(deckDir, cardRef.File.replace(/\\//g, path.sep));\n\n  let cardRaw;\n  try {\n    cardRaw = JSON.parse(fs.readFileSync(cardFilePath, 'utf8').replace(/^\\uFEFF/, ''));\n  } catch(e) {\n    console.warn('[Build 3D Job List] Cannot read card: ' + cardName + ': ' + e.message);\n    continue;\n  }\n\n  const card = cardRaw['data.Cards'] || cardRaw;\n  const cardDir = (card.Directory || path.join(deckDir, 'Cards')).replace(/\\//g, path.sep);\n  const records = card.records || [];\n\n  for (const orientation of orientations) {\n    const record = records.find(r => r.Orientation === orientation);\n    if (!record) continue;\n\n    const glbFilename = 'MODEL_' + cardSlug + '_' + orientation + '.glb';\n    const glbPath = path.join(cardDir, glbFilename);\n\n    if (skipExisting && fs.existsSync(glbPath)) {\n      continue;\n    }\n\n    // Source card image \u2014 use IMG_ prefix, try multiple case variants\n    let cardImgFilename = null;\n    let cardImgPath = null;\n    const orientCaps = orientation.charAt(0).toUpperCase() + orientation.slice(1);\n    const imgCandidates = [\n      'IMG_' + cardSlug + '_' + orientCaps + '.png',\n      'IMG_' + cardSlug + '_' + orientation + '.png',\n      'IMG_' + cardSlug + '_' + orientation.toUpperCase() + '.png'\n    ];\n    for (const candidate of imgCandidates) {\n      const candidatePath = path.join(cardDir, candidate);\n      if (fs.existsSync(candidatePath)) {\n        cardImgFilename = candidate;\n        cardImgPath = candidatePath;\n        break;\n      }\n    }\n    if (!cardImgFilename) {\n      skippedNoImage.push(cardName + ' ' + orientation + ' (tried: ' + imgCandidates.join(', ') + ')');\n      continue;\n    }\n\n    // Intermediate filenames (insertable assets)\n    const upscaledFilename = 'UPSCALED_' + cardSlug + '_' + orientation + '.png';\n    const upscaledPath = path.join(cardDir, upscaledFilename);\n    const noBgFilename = 'NOBG_' + cardSlug + '_' + orientation + '.png';\n    const noBgPath = path.join(cardDir, noBgFilename);\n\n    // Detect existing insertable assets\n    const noBgExists = fs.existsSync(noBgPath);\n    const upscaledExists = fs.existsSync(upscaledPath);\n\n    jobs.push({\n      CardName: cardName,\n      CardSlug: cardSlug,\n      Orientation: orientation,\n      CardDir: cardDir,\n      CardFilePath: cardFilePath,\n      SourceImagePath: cardImgPath,\n      SourceImageFilename: cardImgFilename,\n      GLBFilename: glbFilename,\n      OBJFilename: 'MODEL_' + cardSlug + '_' + orientation + '.obj',\n      RefFilename: '3DREF_' + cardSlug + '_' + orientation + '.png',\n      // Model references\n      UpscaleModel: upscaleModel,\n      Hunyuan3DCheckpoint: hunyuan3DCheckpoint,\n      BiRefNetModel: birefnetModel,\n      // Stage A intermediates\n      UpscaledFilename: upscaledFilename,\n      UpscaledPath: upscaledPath,\n      UpscaledExists: upscaledExists,\n      NoBgFilename: noBgFilename,\n      NoBgPath: noBgPath,\n      NoBgExists: noBgExists,\n      // Hunyuan3D sampler settings (from Deck.json Samplers.Hunyuan3D)\n      H3DLatentRes: h3dSettings.LatentResolution || 3072,\n      H3DSteps: h3dSettings.Steps || 30,\n      H3DCFG: h3dSettings.CFG || 5.5,\n      H3DSampler: h3dSettings.Sampler || 'euler',\n      H3DScheduler: h3dSettings.Scheduler || 'sgm_uniform',\n      H3DOctreeRes: h3dSettings.OctreeResolution || 256,\n      H3DNumChunks: h3dSettings.NumChunks || 8000,\n      H3DMeshAlgo: h3dSettings.MeshAlgorithm || 'surface net',\n      H3DMeshThreshold: h3dSettings.MeshThreshold || 0.6,\n      // TripoSR fallback settings\n      TripoResolution: tripoResolution,\n      TripoThreshold: tripoThreshold,\n      TripoChunkSize: tripoChunkSize\n    });\n  }\n}\n\nif (skippedNoImage.length > 0) {\n  console.warn('[Build 3D Job List] Skipped ' + skippedNoImage.length + ' cards with no source image:');\n  for (const s of skippedNoImage.slice(0, 10)) {\n    console.warn('  - ' + s);\n  }\n}\n\nif (jobs.length === 0) {\n  throw new Error('[Build 3D Job List] No jobs created. Check card images (IMG_ prefix) exist and SkipExisting settings.');\n}\n\nconsole.warn('[Build 3D Job List] Created ' + jobs.length + ' jobs');\nreturn jobs.map(j => ({ json: j }));"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [-832, -768],
+      "position": [
+        -832,
+        -768
+      ],
       "id": "g3d0-0005-4000-8000-000000000005",
       "name": "Build 3D Job List"
     },
@@ -56,27 +97,23 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [-608, -768],
+      "position": [
+        -608,
+        -768
+      ],
       "id": "g3d0-0020-4000-8000-000000000020",
       "name": "Upscale & Prep Source Images"
     },
     {
       "parameters": {
-        "jsCode": "// ============================================================\n// Generate Multi-View Images (Stage B)\n// ============================================================\n// For each job, generates 4 consistent views (front, right,\n// back, left) using StableZero123 from the NOBG image.\n// Views are at azimuths 0, 90, 180, 270 degrees.\n// Skips if all 4 MV images already exist (insertable assets).\n// Clears VRAM after all jobs via POST /free.\n// ============================================================\n\nconst http = require('http');\nconst fs = require('fs');\nconst path = require('path');\n\nconst httpRequest = (method, urlStr, body) => new Promise((resolve, reject) => {\n  const m = urlStr.match(/^(https?):\\/\\/([^:/]+)(?::(\\d+))?(\\/?[^?]*)(\\?.*)?$/);\n  if (!m) return reject(new Error('Bad URL: ' + urlStr));\n  const options = { hostname: m[2], port: m[3] ? parseInt(m[3]) : 80, path: (m[4] || '/') + (m[5] || ''), method, headers: {} };\n  if (body) { options.headers['Content-Type'] = 'application/json'; options.headers['Content-Length'] = Buffer.byteLength(body); }\n  const req = http.request(options, (res) => {\n    let data = '';\n    res.on('data', (chunk) => { data += chunk; });\n    res.on('end', () => { try { resolve(JSON.parse(data)); } catch(e) { resolve(data); } });\n  });\n  req.on('error', reject);\n  if (body) req.write(body);\n  req.end();\n});\nconst httpPost = (url, obj) => httpRequest('POST', url, JSON.stringify(obj));\nconst httpGet  = (url)      => httpRequest('GET',  url, null);\nconst sleep = ms => new Promise(r => setTimeout(r, ms));\n\nconst params = $('Set Global Parameters').first().json;\nconst comfyAPI = (params.ComfyUIAPI || 'http://127.0.0.1:8188').replace(/\\/$/, '');\nconst skipExisting = params.SkipExisting !== 'false';\nconst multiViewEnabled = params.MultiViewEnabled !== 'false';\nconst comfyInputDir = 'D:/ComfyUI_windows_portable/ComfyUI/input';\nconst comfyOutputDir = 'D:/ComfyUI_windows_portable/ComfyUI/output';\n\nconst allJobs = $input.all().map(item => item.json);\nconst results = [];\n\nif (!multiViewEnabled) {\n  console.warn('[Stage B] Multi-view disabled, passing through all jobs.');\n  return allJobs.map(j => ({ json: { ...j, StageBStatus: 'disabled' } }));\n}\n\nfor (let idx = 0; idx < allJobs.length; idx++) {\n  const job = allJobs[idx];\n\n  // Skip if Stage A failed\n  if (job.StageAStatus === 'failed' || job.StageAStatus === 'timeout') {\n    results.push({ ...job, StageBStatus: 'skipped_no_nobg' });\n    continue;\n  }\n\n  // Skip if all 4 MV images already exist\n  if (skipExisting && job.MVAllExist) {\n    console.warn('[Stage B] (' + (idx+1) + '/' + allJobs.length + ') All MV exist, skipping: ' + job.CardName + ' ' + job.Orientation);\n    results.push({ ...job, StageBStatus: 'exists' });\n    continue;\n  }\n\n  console.warn('[Stage B] (' + (idx+1) + '/' + allJobs.length + ') Multi-view: ' + job.CardName + ' ' + job.Orientation);\n\n  // Ensure NOBG image is in ComfyUI input\n  const nobgInInput = path.join(comfyInputDir, job.NoBgFilename);\n  if (!fs.existsSync(nobgInInput)) {\n    try {\n      fs.copyFileSync(job.NoBgPath, nobgInInput);\n    } catch(e) {\n      results.push({ ...job, StageBStatus: 'failed', StageBReason: 'Copy NOBG to input: ' + e.message });\n      continue;\n    }\n  }\n\n  // StableZero123 multi-view prompt: 4 views at 0/90/180/270 deg azimuth\n  const mvOutputPrefix = 'MULTIVIEW_' + job.CardSlug + '_' + job.Orientation;\n  const comfyPrompt = {\n    \"1\": { \"class_type\": \"unCLIPCheckpointLoader\", \"inputs\": { \"ckpt_name\": job.MultiViewCheckpoint }, \"_meta\": { \"title\": \"Load StableZero123\" } },\n    \"2\": { \"class_type\": \"LoadImage\", \"inputs\": { \"image\": job.NoBgFilename }, \"_meta\": { \"title\": \"Load NOBG Image\" } },\n    \"3\": {\n      \"class_type\": \"StableZero123_Conditioning_Batched\",\n      \"inputs\": {\n        \"clip_vision\": [\"1\", 3],\n        \"init_image\": [\"2\", 0],\n        \"vae\": [\"1\", 2],\n        \"width\": job.MVWidth,\n        \"height\": job.MVHeight,\n        \"batch_size\": 4,\n        \"elevation\": 0.0,\n        \"azimuth\": 0.0,\n        \"elevation_batch_increment\": 0.0,\n        \"azimuth_batch_increment\": 90.0\n      },\n      \"_meta\": { \"title\": \"StableZero123 4-View Conditioning\" }\n    },\n    \"4\": {\n      \"class_type\": \"KSampler\",\n      \"inputs\": {\n        \"model\": [\"1\", 0],\n        \"positive\": [\"3\", 0],\n        \"negative\": [\"3\", 1],\n        \"latent_image\": [\"3\", 2],\n        \"seed\": Math.floor(Math.random() * 2147483647),\n        \"steps\": job.MVSteps,\n        \"cfg\": job.MVCFG,\n        \"sampler_name\": job.MVSampler,\n        \"scheduler\": job.MVScheduler,\n        \"denoise\": 1.0\n      },\n      \"_meta\": { \"title\": \"KSampler (Multi-View)\" }\n    },\n    \"5\": { \"class_type\": \"VAEDecode\", \"inputs\": { \"samples\": [\"4\", 0], \"vae\": [\"1\", 2] }, \"_meta\": { \"title\": \"VAE Decode\" } },\n    \"6\": { \"class_type\": \"SaveImage\", \"inputs\": { \"images\": [\"5\", 0], \"filename_prefix\": mvOutputPrefix }, \"_meta\": { \"title\": \"Save Multi-View Images\" } }\n  };\n\n  let submitData;\n  try { submitData = await httpPost(comfyAPI + '/prompt', { prompt: comfyPrompt }); } catch(e) {\n    results.push({ ...job, StageBStatus: 'failed', StageBReason: 'Submit: ' + e.message }); continue;\n  }\n  if (submitData.error) { results.push({ ...job, StageBStatus: 'failed', StageBReason: 'ComfyUI: ' + JSON.stringify(submitData.error).substring(0, 300) }); continue; }\n  const promptId = submitData.prompt_id;\n  if (!promptId) { results.push({ ...job, StageBStatus: 'failed', StageBReason: 'No prompt_id' }); continue; }\n\n  // Poll for completion (up to 15 min — StableZero123 is SD-based)\n  let done = false;\n  for (let attempt = 0; attempt < 180 && !done; attempt++) {\n    await sleep(5000);\n    try {\n      const hist = await httpGet(comfyAPI + '/history/' + promptId);\n      const entry = hist[promptId];\n      if (!entry) continue;\n      if (entry.status && entry.status.completed) {\n        if (entry.status.status_str === 'error') {\n          results.push({ ...job, StageBStatus: 'failed', StageBReason: 'Execution error' }); done = true; continue;\n        }\n        // Copy and rename 4 batch output images\n        // StableZero123 batch: _00001_=0deg(front), _00002_=90deg(right), _00003_=180deg(back), _00004_=270deg(left)\n        const outputFiles = fs.readdirSync(comfyOutputDir);\n        const mvMatches = outputFiles.filter(f => f.startsWith(mvOutputPrefix) && f.endsWith('.png')).sort();\n\n        if (mvMatches.length >= 4) {\n          const viewMap = [\n            { file: mvMatches[0], dest: job.MVFrontFilename, inputName: job.MVFrontFilename },\n            { file: mvMatches[1], dest: job.MVRightFilename, inputName: job.MVRightFilename },\n            { file: mvMatches[2], dest: job.MVBackFilename, inputName: job.MVBackFilename },\n            { file: mvMatches[3], dest: job.MVLeftFilename, inputName: job.MVLeftFilename }\n          ];\n          fs.mkdirSync(job.CardDir, { recursive: true });\n          for (const v of viewMap) {\n            fs.copyFileSync(path.join(comfyOutputDir, v.file), path.join(job.CardDir, v.dest));\n            // Also copy to ComfyUI input for Stage C\n            fs.copyFileSync(path.join(comfyOutputDir, v.file), path.join(comfyInputDir, v.inputName));\n          }\n          results.push({ ...job, StageBStatus: 'generated', MVAllExist: true });\n        } else {\n          results.push({ ...job, StageBStatus: 'failed', StageBReason: 'Expected 4 images, found ' + mvMatches.length });\n        }\n        done = true;\n      }\n    } catch(e) { if (attempt % 12 === 0) console.warn('[Stage B] Poll ' + attempt + ': ' + e.message); }\n  }\n  if (!done) results.push({ ...job, StageBStatus: 'timeout' });\n}\n\n// Free VRAM between stages\ntry { await httpPost(comfyAPI + '/free', { unload_models: true, free_memory: true }); await sleep(2000); } catch(e) {}\n\nconst gen = results.filter(r => r.StageBStatus === 'generated').length;\nconst exi = results.filter(r => r.StageBStatus === 'exists').length;\nconst fail = results.filter(r => r.StageBStatus === 'failed').length;\nconsole.warn('[Stage B] Done: ' + gen + ' generated, ' + exi + ' existed, ' + fail + ' failed');\nreturn results.map(r => ({ json: r }));"
+        "jsCode": "// ============================================================\n// Generate 3D Models (Stage C)\n// ============================================================\n// For each job, generates a 3D mesh using:\n//   Tier 1: Hunyuan3D v2.1 single-view (from NOBG image)\n//   Tier 2: TripoSR fallback if Hunyuan3D fails or disabled\n// Clears VRAM via POST /free after each card.\n// ============================================================\n\nconst http = require('http');\nconst fs = require('fs');\nconst path = require('path');\n\nconst httpRequest = (method, urlStr, body) => new Promise((resolve, reject) => {\n  const m = urlStr.match(/^(https?):\\/\\/([^:/]+)(?::(\\d+))?(\\/?[^?]*)(\\?.*)?$/);\n  if (!m) return reject(new Error('Bad URL: ' + urlStr));\n  const options = { hostname: m[2], port: m[3] ? parseInt(m[3]) : 80, path: (m[4] || '/') + (m[5] || ''), method, headers: {} };\n  if (body) { options.headers['Content-Type'] = 'application/json'; options.headers['Content-Length'] = Buffer.byteLength(body); }\n  const req = http.request(options, (res) => {\n    let data = '';\n    res.on('data', (chunk) => { data += chunk; });\n    res.on('end', () => { try { resolve(JSON.parse(data)); } catch(e) { resolve(data); } });\n  });\n  req.on('error', reject);\n  if (body) req.write(body);\n  req.end();\n});\nconst httpPost = (url, obj) => httpRequest('POST', url, JSON.stringify(obj));\nconst httpGet  = (url)      => httpRequest('GET',  url, null);\nconst sleep = ms => new Promise(r => setTimeout(r, ms));\n\nconst params = $('Set Global Parameters').first().json;\nconst comfyAPI = (params.ComfyUIAPI || 'http://127.0.0.1:8188').replace(/\\/$/, '');\nconst hunyuan3DEnabled = params.Hunyuan3DEnabled !== 'false';\nconst comfyInputDir = 'D:/ComfyUI_windows_portable/ComfyUI/input';\nconst comfyOutputDir = 'D:/ComfyUI_windows_portable/ComfyUI/output';\n\n// Free VRAM before starting\ntry { await httpPost(comfyAPI + '/free', { unload_models: true, free_memory: true }); await sleep(2000); } catch(e) {}\n\nconst allJobs = $input.all().map(item => item.json);\nconst results = [];\n\nfor (let idx = 0; idx < allJobs.length; idx++) {\n  const job = allJobs[idx];\n  console.warn('[Stage C] (' + (idx+1) + '/' + allJobs.length + ') ' + job.CardName + ' ' + job.Orientation);\n\n  let generated = false;\n\n  // ------- Tier 1: Hunyuan3D v2.1 single-view -------\n  if (hunyuan3DEnabled && !generated) {\n    const genMethod = 'hunyuan3d_singleview';\n\n    // Use NOBG image, fallback to source image\n    const singleImg = job.NoBgFilename;\n    const singleInInput = path.join(comfyInputDir, singleImg);\n    if (!fs.existsSync(singleInInput) && fs.existsSync(job.NoBgPath)) {\n      fs.copyFileSync(job.NoBgPath, singleInInput);\n    }\n    // Fallback: copy source image if NOBG not available\n    if (!fs.existsSync(singleInInput)) {\n      const srcInInput = path.join(comfyInputDir, job.SourceImageFilename);\n      if (!fs.existsSync(srcInInput)) {\n        fs.copyFileSync(job.SourceImagePath, srcInInput);\n      }\n    }\n    const inputImg = fs.existsSync(singleInInput) ? singleImg : job.SourceImageFilename;\n    console.warn('[Stage C] Using input: ' + inputImg);\n\n    const comfyPrompt = {\n      \"1\":  { \"class_type\": \"unCLIPCheckpointLoader\", \"inputs\": { \"ckpt_name\": job.Hunyuan3DCheckpoint }, \"_meta\": { \"title\": \"Load Hunyuan3D v2.1\" } },\n      \"2\":  { \"class_type\": \"LoadImage\", \"inputs\": { \"image\": inputImg }, \"_meta\": { \"title\": \"Load Front View\" } },\n      \"3\":  { \"class_type\": \"CLIPVisionEncode\", \"inputs\": { \"clip_vision\": [\"1\", 3], \"image\": [\"2\", 0], \"crop\": \"center\" }, \"_meta\": { \"title\": \"Encode Image\" } },\n      \"4\":  { \"class_type\": \"Hunyuan3Dv2Conditioning\", \"inputs\": { \"clip_vision_output\": [\"3\", 0] }, \"_meta\": { \"title\": \"Hunyuan3D Conditioning\" } },\n      \"5\":  { \"class_type\": \"EmptyLatentHunyuan3Dv2\", \"inputs\": { \"resolution\": job.H3DLatentRes, \"batch_size\": 1 }, \"_meta\": { \"title\": \"Empty 3D Latent\" } },\n      \"6\":  { \"class_type\": \"KSampler\", \"inputs\": { \"model\": [\"1\", 0], \"positive\": [\"4\", 0], \"negative\": [\"4\", 1], \"latent_image\": [\"5\", 0], \"seed\": Math.floor(Math.random() * 2147483647), \"steps\": job.H3DSteps, \"cfg\": job.H3DCFG, \"sampler_name\": job.H3DSampler, \"scheduler\": job.H3DScheduler, \"denoise\": 1.0 }, \"_meta\": { \"title\": \"KSampler\" } },\n      \"7\":  { \"class_type\": \"VAEDecodeHunyuan3D\", \"inputs\": { \"samples\": [\"6\", 0], \"vae\": [\"1\", 2], \"num_chunks\": job.H3DNumChunks, \"octree_resolution\": job.H3DOctreeRes }, \"_meta\": { \"title\": \"Decode 3D Voxels\" } },\n      \"8\":  { \"class_type\": \"VoxelToMesh\", \"inputs\": { \"voxel\": [\"7\", 0], \"algorithm\": job.H3DMeshAlgo, \"threshold\": job.H3DMeshThreshold }, \"_meta\": { \"title\": \"Voxel to Mesh\" } },\n      \"9\":  { \"class_type\": \"SaveGLB\", \"inputs\": { \"mesh\": [\"8\", 0], \"filename_prefix\": \"MODEL_\" + job.CardSlug + \"_\" + job.Orientation }, \"_meta\": { \"title\": \"Save GLB\" } }\n    };\n\n    try {\n      const submitData = await httpPost(comfyAPI + '/prompt', { prompt: comfyPrompt });\n      if (submitData.error) throw new Error('ComfyUI reject: ' + JSON.stringify(submitData.error).substring(0, 300));\n      const promptId = submitData.prompt_id;\n      if (!promptId) throw new Error('No prompt_id returned');\n\n      console.warn('[Stage C] Submitted Hunyuan3D prompt: ' + promptId);\n\n      // Poll for completion (up to 60 min)\n      let done = false;\n      for (let attempt = 0; attempt < 720 && !done; attempt++) {\n        await sleep(5000);\n        try {\n          const hist = await httpGet(comfyAPI + '/history/' + promptId);\n          const entry = hist[promptId];\n          if (!entry) continue;\n\n          const statusStr = entry.status ? entry.status.status_str : null;\n          if (statusStr === 'error') {\n            const errMsgs = (entry.status.messages || []).filter(m => m[0] === 'execution_error');\n            const errDetail = errMsgs.length > 0 ? JSON.stringify(errMsgs[0][1]).substring(0, 400) : 'Unknown execution error';\n            throw new Error(errDetail);\n          }\n          if (statusStr === 'success') {\n            results.push({ ...job, Status: 'generated', GenerationMethod: genMethod, PromptId: promptId });\n            generated = true;\n            done = true;\n            console.warn('[Stage C] Hunyuan3D success: ' + job.CardName + ' ' + job.Orientation);\n          }\n        } catch(e) {\n          if (e.message.includes('error') || e.message.includes('ComfyUI')) throw e;\n          if (attempt % 24 === 0) console.warn('[Stage C] Poll ' + attempt + ': ' + e.message);\n        }\n      }\n      if (!done) throw new Error('Timeout after 60 min');\n    } catch(e) {\n      console.warn('[Stage C] Hunyuan3D failed: ' + e.message.substring(0, 300));\n    }\n\n    // Free VRAM after Hunyuan3D attempt\n    try { await httpPost(comfyAPI + '/free', { unload_models: true, free_memory: true }); await sleep(2000); } catch(e) {}\n  }\n\n  // ------- Tier 2: TripoSR fallback -------\n  if (!generated) {\n    console.warn('[Stage C] Falling back to TripoSR for ' + job.CardName + ' ' + job.Orientation);\n\n    // Copy source image to ComfyUI input\n    const srcInInput = path.join(comfyInputDir, job.SourceImageFilename);\n    if (!fs.existsSync(srcInInput)) {\n      try {\n        fs.copyFileSync(job.SourceImagePath, srcInInput);\n      } catch(e) {\n        results.push({ ...job, Status: 'failed', GenerationMethod: 'triposr_failed', Reason: 'Copy: ' + e.message });\n        continue;\n      }\n    }\n\n    const tripoPrompt = {\n      \"1\": { \"class_type\": \"LoadImage\", \"inputs\": { \"image\": job.SourceImageFilename }, \"_meta\": { \"title\": \"Load Card Image\" } },\n      \"2\": { \"class_type\": \"BiRefNetRMBG\", \"inputs\": { \"image\": [\"1\", 0], \"model\": job.BiRefNetModel, \"mask_blur\": 0, \"mask_offset\": 0, \"invert_output\": false, \"refine_foreground\": true, \"background\": \"Alpha\", \"background_color\": \"#222222\" }, \"_meta\": { \"title\": \"Remove Background\" } },\n      \"3\": { \"class_type\": \"SaveImage\", \"inputs\": { \"filename_prefix\": \"3DREF_\" + job.CardSlug + \"_\" + job.Orientation, \"images\": [\"2\", 0] }, \"_meta\": { \"title\": \"Save 3D Ref\" } },\n      \"4\": { \"class_type\": \"LoadTripoSRModel_\", \"inputs\": { \"chunk_size\": job.TripoChunkSize }, \"_meta\": { \"title\": \"Load TripoSR\" } },\n      \"5\": { \"class_type\": \"TripoSRSampler_\", \"inputs\": { \"model\": [\"4\", 0], \"image\": [\"2\", 0], \"resolution\": job.TripoResolution, \"threshold\": job.TripoThreshold, \"device\": \"auto\" }, \"_meta\": { \"title\": \"TripoSR Sampler\" } },\n      \"6\": { \"class_type\": \"SaveTripoSRMesh\", \"inputs\": { \"mesh\": [\"5\", 0], \"filename_prefix\": \"MODEL_\" + job.CardSlug + \"_\" + job.Orientation }, \"_meta\": { \"title\": \"Save Mesh\" } }\n    };\n\n    try {\n      const submitData = await httpPost(comfyAPI + '/prompt', { prompt: tripoPrompt });\n      if (submitData.error) throw new Error('ComfyUI: ' + JSON.stringify(submitData.error).substring(0, 300));\n      const promptId = submitData.prompt_id;\n      if (!promptId) throw new Error('No prompt_id');\n\n      let done = false;\n      for (let attempt = 0; attempt < 360 && !done; attempt++) {\n        await sleep(5000);\n        try {\n          const hist = await httpGet(comfyAPI + '/history/' + promptId);\n          const entry = hist[promptId];\n          if (!entry) continue;\n\n          const statusStr = entry.status ? entry.status.status_str : null;\n          if (statusStr === 'error') throw new Error('TripoSR execution error');\n          if (statusStr === 'success') {\n            results.push({ ...job, Status: 'generated', GenerationMethod: 'triposr', PromptId: promptId });\n            generated = true;\n            done = true;\n          }\n        } catch(e) {\n          if (e.message.includes('error')) throw e;\n          if (attempt % 12 === 0) console.warn('[Stage C] TripoSR poll ' + attempt + ': ' + e.message);\n        }\n      }\n      if (!done) throw new Error('TripoSR timeout after 30 min');\n    } catch(e) {\n      console.warn('[Stage C] TripoSR also failed: ' + e.message.substring(0, 200));\n      results.push({ ...job, Status: 'failed', GenerationMethod: 'all_failed', Reason: e.message.substring(0, 300) });\n    }\n\n    // Free VRAM after TripoSR\n    try { await httpPost(comfyAPI + '/free', { unload_models: true, free_memory: true }); await sleep(2000); } catch(e) {}\n  }\n}\n\nif (results.length === 0) {\n  throw new Error('[Stage C] No results produced. Check ComfyUI is running.');\n}\n\nconst byMethod = {};\nfor (const r of results) { byMethod[r.GenerationMethod || 'unknown'] = (byMethod[r.GenerationMethod || 'unknown'] || 0) + 1; }\nconsole.warn('[Stage C] Done: ' + JSON.stringify(byMethod));\nreturn results.map(r => ({ json: r }));"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [-384, -768],
-      "id": "g3d0-0021-4000-8000-000000000021",
-      "name": "Generate Multi-View Images"
-    },
-    {
-      "parameters": {
-        "jsCode": "// ============================================================\n// Generate 3D Models (Stage C)\n// ============================================================\n// For each job, generates a 3D mesh using Hunyuan3D v2.1.\n// Tier 1: Multi-view (front/left/back/right) if available.\n// Tier 2: Single-view (front only) if MV images missing.\n// Tier 3: TripoSR fallback if Hunyuan3D fails or disabled.\n// Clears VRAM via POST /free after each card.\n// ============================================================\n\nconst http = require('http');\nconst fs = require('fs');\nconst path = require('path');\n\nconst httpRequest = (method, urlStr, body) => new Promise((resolve, reject) => {\n  const m = urlStr.match(/^(https?):\\/\\/([^:/]+)(?::(\\d+))?(\\/?[^?]*)(\\?.*)?$/);\n  if (!m) return reject(new Error('Bad URL: ' + urlStr));\n  const options = { hostname: m[2], port: m[3] ? parseInt(m[3]) : 80, path: (m[4] || '/') + (m[5] || ''), method, headers: {} };\n  if (body) { options.headers['Content-Type'] = 'application/json'; options.headers['Content-Length'] = Buffer.byteLength(body); }\n  const req = http.request(options, (res) => {\n    let data = '';\n    res.on('data', (chunk) => { data += chunk; });\n    res.on('end', () => { try { resolve(JSON.parse(data)); } catch(e) { resolve(data); } });\n  });\n  req.on('error', reject);\n  if (body) req.write(body);\n  req.end();\n});\nconst httpPost = (url, obj) => httpRequest('POST', url, JSON.stringify(obj));\nconst httpGet  = (url)      => httpRequest('GET',  url, null);\nconst sleep = ms => new Promise(r => setTimeout(r, ms));\n\nconst params = $('Set Global Parameters').first().json;\nconst comfyAPI = (params.ComfyUIAPI || 'http://127.0.0.1:8188').replace(/\\/$/, '');\nconst hunyuan3DEnabled = params.Hunyuan3DEnabled !== 'false';\nconst comfyInputDir = 'D:/ComfyUI_windows_portable/ComfyUI/input';\nconst comfyOutputDir = 'D:/ComfyUI_windows_portable/ComfyUI/output';\n\nconst allJobs = $input.all().map(item => item.json);\nconst results = [];\n\nfor (let idx = 0; idx < allJobs.length; idx++) {\n  const job = allJobs[idx];\n  console.warn('[Stage C] (' + (idx+1) + '/' + allJobs.length + ') ' + job.CardName + ' ' + job.Orientation);\n\n  let generated = false;\n\n  // ------- Tier 1 & 2: Hunyuan3D v2.1 -------\n  if (hunyuan3DEnabled && !generated) {\n    const hasMultiView = job.MVAllExist || (job.StageBStatus === 'generated' || job.StageBStatus === 'exists');\n\n    // Build Hunyuan3D prompt\n    let comfyPrompt;\n    let genMethod;\n\n    if (hasMultiView) {\n      // Tier 1: Multi-view Hunyuan3D\n      genMethod = 'hunyuan3d_multiview';\n      // Ensure MV images are in ComfyUI input\n      for (const mvFile of [job.MVFrontFilename, job.MVLeftFilename, job.MVBackFilename, job.MVRightFilename]) {\n        const mvInInput = path.join(comfyInputDir, mvFile);\n        if (!fs.existsSync(mvInInput)) {\n          const mvInCard = path.join(job.CardDir, mvFile);\n          if (fs.existsSync(mvInCard)) fs.copyFileSync(mvInCard, mvInInput);\n        }\n      }\n\n      comfyPrompt = {\n        \"1\":  { \"class_type\": \"unCLIPCheckpointLoader\", \"inputs\": { \"ckpt_name\": job.Hunyuan3DCheckpoint }, \"_meta\": { \"title\": \"Load Hunyuan3D v2.1\" } },\n        \"2\":  { \"class_type\": \"LoadImage\", \"inputs\": { \"image\": job.MVFrontFilename }, \"_meta\": { \"title\": \"Front View\" } },\n        \"3\":  { \"class_type\": \"LoadImage\", \"inputs\": { \"image\": job.MVLeftFilename }, \"_meta\": { \"title\": \"Left View\" } },\n        \"4\":  { \"class_type\": \"LoadImage\", \"inputs\": { \"image\": job.MVBackFilename }, \"_meta\": { \"title\": \"Back View\" } },\n        \"5\":  { \"class_type\": \"LoadImage\", \"inputs\": { \"image\": job.MVRightFilename }, \"_meta\": { \"title\": \"Right View\" } },\n        \"6\":  { \"class_type\": \"CLIPVisionEncode\", \"inputs\": { \"clip_vision\": [\"1\", 3], \"image\": [\"2\", 0], \"crop\": \"center\" }, \"_meta\": { \"title\": \"Encode Front\" } },\n        \"7\":  { \"class_type\": \"CLIPVisionEncode\", \"inputs\": { \"clip_vision\": [\"1\", 3], \"image\": [\"3\", 0], \"crop\": \"center\" }, \"_meta\": { \"title\": \"Encode Left\" } },\n        \"8\":  { \"class_type\": \"CLIPVisionEncode\", \"inputs\": { \"clip_vision\": [\"1\", 3], \"image\": [\"4\", 0], \"crop\": \"center\" }, \"_meta\": { \"title\": \"Encode Back\" } },\n        \"9\":  { \"class_type\": \"CLIPVisionEncode\", \"inputs\": { \"clip_vision\": [\"1\", 3], \"image\": [\"5\", 0], \"crop\": \"center\" }, \"_meta\": { \"title\": \"Encode Right\" } },\n        \"10\": { \"class_type\": \"Hunyuan3Dv2ConditioningMultiView\", \"inputs\": { \"front\": [\"6\", 0], \"left\": [\"7\", 0], \"back\": [\"8\", 0], \"right\": [\"9\", 0] }, \"_meta\": { \"title\": \"Multi-View Conditioning\" } },\n        \"11\": { \"class_type\": \"EmptyLatentHunyuan3Dv2\", \"inputs\": { \"resolution\": job.H3DLatentRes, \"batch_size\": 1 }, \"_meta\": { \"title\": \"Empty 3D Latent\" } },\n        \"12\": { \"class_type\": \"KSampler\", \"inputs\": { \"model\": [\"1\", 0], \"positive\": [\"10\", 0], \"negative\": [\"10\", 1], \"latent_image\": [\"11\", 0], \"seed\": Math.floor(Math.random() * 2147483647), \"steps\": job.H3DSteps, \"cfg\": job.H3DCFG, \"sampler_name\": job.H3DSampler, \"scheduler\": job.H3DScheduler, \"denoise\": 1.0 }, \"_meta\": { \"title\": \"KSampler (Hunyuan3D)\" } },\n        \"13\": { \"class_type\": \"VAEDecodeHunyuan3D\", \"inputs\": { \"samples\": [\"12\", 0], \"vae\": [\"1\", 2], \"num_chunks\": job.H3DNumChunks, \"octree_resolution\": job.H3DOctreeRes }, \"_meta\": { \"title\": \"Decode 3D Voxels\" } },\n        \"14\": { \"class_type\": \"VoxelToMesh\", \"inputs\": { \"voxel\": [\"13\", 0], \"algorithm\": job.H3DMeshAlgo, \"threshold\": job.H3DMeshThreshold }, \"_meta\": { \"title\": \"Voxel to Mesh\" } },\n        \"15\": { \"class_type\": \"SaveGLB\", \"inputs\": { \"mesh\": [\"14\", 0], \"filename_prefix\": \"MODEL_\" + job.CardSlug + \"_\" + job.Orientation }, \"_meta\": { \"title\": \"Save 3D Model\" } }\n      };\n    } else {\n      // Tier 2: Single-view Hunyuan3D\n      genMethod = 'hunyuan3d_singleview';\n      // Use the NOBG image as single front view\n      const singleImg = job.NoBgFilename;\n      const singleInInput = path.join(comfyInputDir, singleImg);\n      if (!fs.existsSync(singleInInput) && fs.existsSync(job.NoBgPath)) {\n        fs.copyFileSync(job.NoBgPath, singleInInput);\n      }\n      if (!fs.existsSync(singleInInput)) {\n        // Also try source image as last resort\n        fs.copyFileSync(job.SourceImagePath, path.join(comfyInputDir, job.SourceImageFilename));\n      }\n\n      const inputImg = fs.existsSync(singleInInput) ? singleImg : job.SourceImageFilename;\n\n      comfyPrompt = {\n        \"1\":  { \"class_type\": \"unCLIPCheckpointLoader\", \"inputs\": { \"ckpt_name\": job.Hunyuan3DCheckpoint }, \"_meta\": { \"title\": \"Load Hunyuan3D v2.1\" } },\n        \"2\":  { \"class_type\": \"LoadImage\", \"inputs\": { \"image\": inputImg }, \"_meta\": { \"title\": \"Load Front View\" } },\n        \"6\":  { \"class_type\": \"CLIPVisionEncode\", \"inputs\": { \"clip_vision\": [\"1\", 3], \"image\": [\"2\", 0], \"crop\": \"center\" }, \"_meta\": { \"title\": \"Encode Front\" } },\n        \"10\": { \"class_type\": \"Hunyuan3Dv2Conditioning\", \"inputs\": { \"clip_vision_output\": [\"6\", 0] }, \"_meta\": { \"title\": \"Single-View Conditioning\" } },\n        \"11\": { \"class_type\": \"EmptyLatentHunyuan3Dv2\", \"inputs\": { \"resolution\": job.H3DLatentRes, \"batch_size\": 1 }, \"_meta\": { \"title\": \"Empty 3D Latent\" } },\n        \"12\": { \"class_type\": \"KSampler\", \"inputs\": { \"model\": [\"1\", 0], \"positive\": [\"10\", 0], \"negative\": [\"10\", 1], \"latent_image\": [\"11\", 0], \"seed\": Math.floor(Math.random() * 2147483647), \"steps\": job.H3DSteps, \"cfg\": job.H3DCFG, \"sampler_name\": job.H3DSampler, \"scheduler\": job.H3DScheduler, \"denoise\": 1.0 }, \"_meta\": { \"title\": \"KSampler (Hunyuan3D)\" } },\n        \"13\": { \"class_type\": \"VAEDecodeHunyuan3D\", \"inputs\": { \"samples\": [\"12\", 0], \"vae\": [\"1\", 2], \"num_chunks\": job.H3DNumChunks, \"octree_resolution\": job.H3DOctreeRes }, \"_meta\": { \"title\": \"Decode 3D Voxels\" } },\n        \"14\": { \"class_type\": \"VoxelToMesh\", \"inputs\": { \"voxel\": [\"13\", 0], \"algorithm\": job.H3DMeshAlgo, \"threshold\": job.H3DMeshThreshold }, \"_meta\": { \"title\": \"Voxel to Mesh\" } },\n        \"15\": { \"class_type\": \"SaveGLB\", \"inputs\": { \"mesh\": [\"14\", 0], \"filename_prefix\": \"MODEL_\" + job.CardSlug + \"_\" + job.Orientation }, \"_meta\": { \"title\": \"Save 3D Model\" } }\n      };\n    }\n\n    // Submit Hunyuan3D prompt\n    try {\n      const submitData = await httpPost(comfyAPI + '/prompt', { prompt: comfyPrompt });\n      if (submitData.error) throw new Error('ComfyUI: ' + JSON.stringify(submitData.error).substring(0, 300));\n      const promptId = submitData.prompt_id;\n      if (!promptId) throw new Error('No prompt_id returned');\n\n      // Poll for completion (up to 60 min — Hunyuan3D with CPU offloading is slow)\n      let done = false;\n      for (let attempt = 0; attempt < 720 && !done; attempt++) {\n        await sleep(5000);\n        try {\n          const hist = await httpGet(comfyAPI + '/history/' + promptId);\n          const entry = hist[promptId];\n          if (!entry) continue;\n          if (entry.status && entry.status.completed) {\n            if (entry.status.status_str === 'error') {\n              const errMsgs = entry.status.messages ? entry.status.messages.filter(m => m[0] === 'execution_error') : [];\n              throw new Error(errMsgs.length > 0 ? JSON.stringify(errMsgs[0]).substring(0, 400) : 'Execution error');\n            }\n            results.push({ ...job, Status: 'generated', GenerationMethod: genMethod, PromptId: promptId });\n            generated = true;\n            done = true;\n          }\n        } catch(e) {\n          if (e.message.includes('Execution error') || e.message.includes('ComfyUI')) throw e;\n          if (attempt % 24 === 0) console.warn('[Stage C] Poll ' + attempt + ' (' + genMethod + '): ' + e.message);\n        }\n      }\n      if (!done) throw new Error('Timeout after 60 min');\n    } catch(e) {\n      console.warn('[Stage C] Hunyuan3D (' + genMethod + ') failed for ' + job.CardName + ': ' + e.message.substring(0, 200));\n    }\n\n    // Free VRAM after Hunyuan3D attempt\n    try { await httpPost(comfyAPI + '/free', { unload_models: true, free_memory: true }); await sleep(2000); } catch(e) {}\n  }\n\n  // ------- Tier 3: TripoSR fallback -------\n  if (!generated) {\n    console.warn('[Stage C] Falling back to TripoSR for ' + job.CardName + ' ' + job.Orientation);\n    // Copy source image to ComfyUI input\n    try {\n      fs.copyFileSync(job.SourceImagePath, path.join(comfyInputDir, job.SourceImageFilename));\n    } catch(e) {\n      results.push({ ...job, Status: 'failed', GenerationMethod: 'triposr_failed', Reason: 'Copy: ' + e.message });\n      continue;\n    }\n\n    const tripoPrompt = {\n      \"1\": { \"class_type\": \"LoadImage\", \"inputs\": { \"image\": job.SourceImageFilename }, \"_meta\": { \"title\": \"Load Card Image\" } },\n      \"2\": { \"class_type\": \"BiRefNetRMBG\", \"inputs\": { \"image\": [\"1\", 0], \"model\": job.BiRefNetModel, \"mask_blur\": 0, \"mask_offset\": 0, \"invert_output\": false, \"refine_foreground\": true, \"background\": \"Alpha\", \"background_color\": \"#222222\" }, \"_meta\": { \"title\": \"Remove Background\" } },\n      \"3\": { \"class_type\": \"SaveImage\", \"inputs\": { \"filename_prefix\": \"3DREF_\" + job.CardSlug + \"_\" + job.Orientation, \"images\": [\"2\", 0] }, \"_meta\": { \"title\": \"Save 3D Ref\" } },\n      \"4\": { \"class_type\": \"LoadTripoSRModel_\", \"inputs\": { \"chunk_size\": job.TripoChunkSize }, \"_meta\": { \"title\": \"Load TripoSR\" } },\n      \"5\": { \"class_type\": \"TripoSRSampler_\", \"inputs\": { \"model\": [\"4\", 0], \"image\": [\"2\", 0], \"resolution\": job.TripoResolution, \"threshold\": job.TripoThreshold, \"device\": \"auto\" }, \"_meta\": { \"title\": \"TripoSR Sampler\" } },\n      \"6\": { \"class_type\": \"SaveTripoSRMesh\", \"inputs\": { \"mesh\": [\"5\", 0], \"filename_prefix\": \"MODEL_\" + job.CardSlug + \"_\" + job.Orientation }, \"_meta\": { \"title\": \"Save Mesh\" } }\n    };\n\n    try {\n      const submitData = await httpPost(comfyAPI + '/prompt', { prompt: tripoPrompt });\n      if (submitData.error) throw new Error('ComfyUI: ' + JSON.stringify(submitData.error).substring(0, 300));\n      const promptId = submitData.prompt_id;\n      if (!promptId) throw new Error('No prompt_id');\n\n      let done = false;\n      for (let attempt = 0; attempt < 360 && !done; attempt++) {\n        await sleep(5000);\n        try {\n          const hist = await httpGet(comfyAPI + '/history/' + promptId);\n          const entry = hist[promptId];\n          if (!entry) continue;\n          if (entry.status && entry.status.completed) {\n            if (entry.status.status_str === 'error') throw new Error('TripoSR execution error');\n            results.push({ ...job, Status: 'generated', GenerationMethod: 'triposr', PromptId: promptId });\n            generated = true;\n            done = true;\n          }\n        } catch(e) {\n          if (e.message.includes('execution error')) throw e;\n          if (attempt % 12 === 0) console.warn('[Stage C] TripoSR poll ' + attempt + ': ' + e.message);\n        }\n      }\n      if (!done) throw new Error('TripoSR timeout after 30 min');\n    } catch(e) {\n      console.warn('[Stage C] TripoSR also failed: ' + e.message.substring(0, 200));\n      results.push({ ...job, Status: 'failed', GenerationMethod: 'all_failed', Reason: e.message.substring(0, 300) });\n    }\n  }\n}\n\nif (results.length === 0) {\n  throw new Error('[Stage C] No results produced. Check ComfyUI is running.');\n}\n\nconst byMethod = {};\nfor (const r of results) { byMethod[r.GenerationMethod || 'unknown'] = (byMethod[r.GenerationMethod || 'unknown'] || 0) + 1; }\nconsole.warn('[Stage C] Done: ' + JSON.stringify(byMethod));\nreturn results.map(r => ({ json: r }));"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [-160, -768],
+      "position": [
+        -384,
+        -768
+      ],
       "id": "g3d0-0022-4000-8000-000000000022",
       "name": "Generate 3D Models"
     },
@@ -86,7 +123,10 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [64, -768],
+      "position": [
+        -160,
+        -768
+      ],
       "id": "g3d0-0010-4000-8000-000000000010",
       "name": "Refine 3D Meshes"
     },
@@ -96,7 +136,10 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [288, -768],
+      "position": [
+        64,
+        -768
+      ],
       "id": "g3d0-0007-4000-8000-000000000007",
       "name": "Convert GLB to OBJ"
     },
@@ -106,7 +149,10 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [512, -768],
+      "position": [
+        288,
+        -768
+      ],
       "id": "g3d0-0008-4000-8000-000000000008",
       "name": "Report Results"
     }
@@ -114,31 +160,92 @@
   "pinData": {},
   "connections": {
     "When clicking 'Execute workflow'": {
-      "main": [[{ "node": "Set Global Parameters", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Set Global Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Set Global Parameters": {
-      "main": [[{ "node": "Read & Parse Deck.json", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Read & Parse Deck.json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Read & Parse Deck.json": {
-      "main": [[{ "node": "Build 3D Job List", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Build 3D Job List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Build 3D Job List": {
-      "main": [[{ "node": "Upscale & Prep Source Images", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Upscale & Prep Source Images",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Upscale & Prep Source Images": {
-      "main": [[{ "node": "Generate Multi-View Images", "type": "main", "index": 0 }]]
-    },
-    "Generate Multi-View Images": {
-      "main": [[{ "node": "Generate 3D Models", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Generate 3D Models",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Generate 3D Models": {
-      "main": [[{ "node": "Refine 3D Meshes", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Refine 3D Meshes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Refine 3D Meshes": {
-      "main": [[{ "node": "Convert GLB to OBJ", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Convert GLB to OBJ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Convert GLB to OBJ": {
-      "main": [[{ "node": "Report Results", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Report Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -150,7 +257,11 @@
     "instanceId": "d7f41a3bc4c9824ed68d95186cb055000c790e15bf2666fbda9ebc1cffc1c54a"
   },
   "tags": [
-    { "name": "Tarot" },
-    { "name": "3D" }
+    {
+      "name": "Tarot"
+    },
+    {
+      "name": "3D"
+    }
   ]
 }
