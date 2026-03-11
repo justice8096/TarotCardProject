@@ -47,6 +47,8 @@ Perplexity/        Research docs
 | Node Pack | Status | Notes |
 |-----------|--------|-------|
 | ComfyUI-VideoHelperSuite | Working | VHS_VideoCombine for MP4 output |
+| comfyui-rmbg | Working | BiRefNetRMBG for background removal (used by 3D pipeline) |
+| comfyui-mixlab-nodes | Working | TripoSR nodes: `LoadTripoSRModel_`, `TripoSRSampler_`, `SaveTripoSRMesh` |
 | FramePack-F1-T2V | Broken | No model loader produces FramePackMODEL type |
 | FramePack-HY | No models | diffusers/ folder is empty, needs HunyuanVideo model download |
 
@@ -377,7 +379,7 @@ Generates 3D character models from each card for AR/VR use. Uses existing card i
 3. **Remove background** — BiRefNetRMBG (RMBG-2.0), produces clean RGBA
 4. **Generate 3D mesh** — TripoSR (image-to-3D), outputs GLB with albedo textures
 5. **Refine 3D mesh** — trimesh post-processing: smooth normals, decimate, clean degenerate faces
-6. **Upscale textures** — ComfyUI pass to upscale albedo textures for higher detail
+6. **Upscale textures** — Pillow lanczos 2x on GLB albedo textures (currently a graceful no-op: TripoSR outputs vertex colors, not UV-mapped textures; will activate after SPAR3D upgrade)
 7. **Convert GLB to OBJ** — Python trimesh via `execFileSync`, produces OBJ+MTL
 
 ### n8n Workflow
@@ -389,8 +391,9 @@ Set Global Parameters (DeckJsonPath, TestCardFilter, Orientations, TripoSRResolu
             └─ Generate Back-View Images (Code: DreamShaper 8 txt2img, skip if exists)
                  └─ Generate All 3D Models (Code: http loop, submits chained ComfyUI workflow, polls)
                       └─ Refine 3D Meshes (Code: trimesh smooth/decimate/clean)
-                           └─ Convert GLB to OBJ (Code: fs+child_process, copies from ComfyUI output, converts)
-                                └─ Report Results
+                           └─ Upscale Textures (Code: Pillow lanczos 2x on GLB albedo textures)
+                                └─ Convert GLB to OBJ (Code: trimesh GLB→OBJ conversion)
+                                     └─ Report Results
 ```
 
 ### ComfyUI Node Chain — 3D Generation (single prompt per card)
@@ -444,7 +447,7 @@ Post-generation mesh cleanup applied in the "Refine 3D Meshes" Code node:
 1. **Smooth normals** — Laplacian smoothing to reduce TripoSR staircase artifacts
 2. **Decimate** — Reduce polygon count while preserving shape (target: ~50k faces)
 3. **Clean degenerate faces** — Remove zero-area triangles, non-manifold edges, duplicate vertices
-4. **Texture upscaling** — ComfyUI upscale pass on extracted albedo textures (2x via RealESRGAN or similar)
+4. **Texture upscaling** — Pillow lanczos 2x on extracted albedo textures (graceful no-op with TripoSR vertex colors; future: ComfyUI RealESRGAN after SPAR3D upgrade)
 
 Artist override: drop a hand-refined `MODEL_*_*.glb` into the card directory and set `SkipExisting=true` to bypass regeneration.
 
