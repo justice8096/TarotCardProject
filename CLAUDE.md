@@ -368,11 +368,11 @@ Set Global Parameters
 
 ## Generate Card 3D Objects — Architecture
 
-Generates 3D character models from each card for AR/VR use. Multi-stage pipeline: image generation → background removal → 3D mesh generation → format conversion.
+Generates 3D character models from each card for AR/VR use. Uses existing card images as input: background removal → 3D mesh generation → format conversion.
 
 ### Pipeline Stages
 
-1. **Generate 3D-optimized image** — HiDream I1 (1024x1024), front-facing character on plain background
+1. **Load existing card image** — `CARDIMG_*_upright.png` for upright, `CARDIMGUPRIGHT_*_<orientation>.png` for reversed/between
 2. **Remove background** — BiRefNetRMBG (RMBG-2.0), produces clean RGBA
 3. **Generate 3D mesh** — TripoSR (image-to-3D), outputs GLB with albedo textures
 4. **Convert GLB to OBJ** — Python trimesh via `execFileSync`, produces OBJ+MTL
@@ -391,13 +391,9 @@ Set Global Parameters (DeckJsonPath, TestCardFilter, Orientations, TripoSRResolu
 ### ComfyUI Node Chain (single prompt per card)
 
 ```
-UNETLoader(1) → ModelSamplingSD3(5) → KSampler(7)
-QuadrupleCLIPLoader(2) → CLIPTextEncode(3,4) → KSampler(7)
-EmptySD3LatentImage(6) → KSampler(7)
-VAELoader(8) → VAEDecode(9)
-KSampler(7) → VAEDecode(9) → SaveImage(10) + BiRefNetRMBG(11)
-BiRefNetRMBG(11) → TripoSRSampler_(13) [image only, no mask]
-LoadTripoSRModel_(12) → TripoSRSampler_(13) → SaveTripoSRMesh(14)
+LoadImage(1) → BiRefNetRMBG(2) → SaveImage(3) [bg-removed ref]
+BiRefNetRMBG(2) → TripoSRSampler_(5) [image only, no mask]
+LoadTripoSRModel_(4) → TripoSRSampler_(5) → SaveTripoSRMesh(6)
 ```
 
 ### File Naming
@@ -412,7 +408,6 @@ LoadTripoSRModel_(12) → TripoSRSampler_(13) → SaveTripoSRMesh(14)
 
 - **TripoSRResolution**: 512 (balance of detail vs VRAM). Range: 128–12288.
 - **TripoSR threshold**: 25.0 (mesh density control)
-- **KSampler**: steps=30, cfg=7, euler, normal scheduler
 - **BiRefNetRMBG model**: BiRefNet-general
 
 ### Prerequisites
