@@ -368,11 +368,11 @@ Set Global Parameters
 
 ## Generate Card 3D Objects — Architecture
 
-Generates 3D character models from each card for AR/VR use. Multi-stage pipeline: image generation → background removal → 3D mesh generation → format conversion.
+Generates 3D character models from each card for AR/VR use. Uses existing card images as input: background removal → 3D mesh generation → format conversion.
 
 ### Pipeline Stages
 
-1. **Generate 3D-optimized image** — HiDream I1 (1024x1024), front-facing character on plain background
+1. **Load existing card image** — `CARDIMG_*_upright.png` for upright, `CARDIMGUPRIGHT_*_<orientation>.png` for reversed/between
 2. **Remove background** — BiRefNetRMBG (RMBG-2.0), produces clean RGBA
 3. **Generate 3D mesh** — TripoSR (image-to-3D), outputs GLB with albedo textures
 4. **Convert GLB to OBJ** — Python trimesh via `execFileSync`, produces OBJ+MTL
@@ -391,13 +391,9 @@ Set Global Parameters (DeckJsonPath, TestCardFilter, Orientations, TripoSRResolu
 ### ComfyUI Node Chain (single prompt per card)
 
 ```
-UNETLoader(1) → ModelSamplingSD3(5) → KSampler(7)
-QuadrupleCLIPLoader(2) → CLIPTextEncode(3,4) → KSampler(7)
-EmptySD3LatentImage(6) → KSampler(7)
-VAELoader(8) → VAEDecode(9)
-KSampler(7) → VAEDecode(9) → SaveImage(10) + BiRefNetRMBG(11)
-BiRefNetRMBG(11) → TripoSRSampler(13) [image + mask]
-LoadTripoSRModel(12) → TripoSRSampler(13) → SaveTripoSRMesh(14)
+LoadImage(1) → BiRefNetRMBG(2) → SaveImage(3) [bg-removed ref]
+BiRefNetRMBG(2) → TripoSRSampler_(5) [image only, no mask]
+LoadTripoSRModel_(4) → TripoSRSampler_(5) → SaveTripoSRMesh(6)
 ```
 
 ### File Naming
@@ -412,14 +408,19 @@ LoadTripoSRModel(12) → TripoSRSampler(13) → SaveTripoSRMesh(14)
 
 - **TripoSRResolution**: 512 (balance of detail vs VRAM). Range: 128–12288.
 - **TripoSR threshold**: 25.0 (mesh density control)
-- **KSampler**: steps=30, cfg=7, euler, normal scheduler
 - **BiRefNetRMBG model**: BiRefNet-general
 
 ### Prerequisites
 
-- TripoSR model auto-downloads on first run (~1GB from HuggingFace)
+- TripoSR model: `models/triposr/model.ckpt` (~1.6GB, download from `stabilityai/TripoSR` on HuggingFace)
 - Python `trimesh` package: `pip install trimesh` for GLB→OBJ conversion
 - ComfyUI custom nodes already installed: `comfyui-rmbg`, `comfyui-mixlab-nodes` (TripoSR)
+
+### Critical Compatibility Notes (3D)
+
+8. **TripoSR node names have trailing underscores**: `LoadTripoSRModel_` and `TripoSRSampler_` (not `LoadTripoSRModel` / `TripoSRSampler`)
+9. **TripoSRSampler_ mask input causes `Cannot handle this data type` error** — pass only the `image` output from BiRefNetRMBG (output index 0), do NOT pass the `mask` (output index 1)
+10. **BiRefNetRMBG requires explicit optional params** — set `mask_blur: 0`, `mask_offset: 0`, etc. to avoid `'mask_blur'` KeyError
 
 ### Future: SPAR3D Upgrade
 
