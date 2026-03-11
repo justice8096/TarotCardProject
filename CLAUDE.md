@@ -364,3 +364,67 @@ Set Global Parameters
                                 └─ Report Results
 ```
 
+---
+
+## Generate Card 3D Objects — Architecture
+
+Generates 3D character models from each card for AR/VR use. Multi-stage pipeline: image generation → background removal → 3D mesh generation → format conversion.
+
+### Pipeline Stages
+
+1. **Generate 3D-optimized image** — HiDream I1 (1024x1024), front-facing character on plain background
+2. **Remove background** — BiRefNetRMBG (RMBG-2.0), produces clean RGBA
+3. **Generate 3D mesh** — TripoSR (image-to-3D), outputs GLB with albedo textures
+4. **Convert GLB to OBJ** — Python trimesh via `execFileSync`, produces OBJ+MTL
+
+### n8n Workflow
+
+```
+Set Global Parameters (DeckJsonPath, TestCardFilter, Orientations, TripoSRResolution, SkipExisting)
+  └─ Read Deck.json → Extract from File
+       └─ Build 3D Job List (Code: reads card JSONs, checks for existing GLB, builds job array)
+            └─ Generate All 3D Models (Code: http loop, submits chained ComfyUI workflow, polls)
+                 └─ Convert GLB to OBJ (Code: fs+child_process, copies from ComfyUI output, converts)
+                      └─ Report Results
+```
+
+### ComfyUI Node Chain (single prompt per card)
+
+```
+UNETLoader(1) → ModelSamplingSD3(5) → KSampler(7)
+QuadrupleCLIPLoader(2) → CLIPTextEncode(3,4) → KSampler(7)
+EmptySD3LatentImage(6) → KSampler(7)
+VAELoader(8) → VAEDecode(9)
+KSampler(7) → VAEDecode(9) → SaveImage(10) + BiRefNetRMBG(11)
+BiRefNetRMBG(11) → TripoSRSampler(13) [image + mask]
+LoadTripoSRModel(12) → TripoSRSampler(13) → SaveTripoSRMesh(14)
+```
+
+### File Naming
+
+| File | Purpose |
+|------|---------|
+| `3DREF_{CardSlug}_{orientation}.png` | 3D-optimized source image |
+| `MODEL_{CardSlug}_{orientation}.glb` | 3D mesh (GLB, primary) |
+| `MODEL_{CardSlug}_{orientation}.obj` | 3D mesh (OBJ, secondary) |
+
+### Key Parameters
+
+- **TripoSRResolution**: 512 (balance of detail vs VRAM). Range: 128–12288.
+- **TripoSR threshold**: 25.0 (mesh density control)
+- **KSampler**: steps=30, cfg=7, euler, normal scheduler
+- **BiRefNetRMBG model**: BiRefNet-general
+
+### Prerequisites
+
+- TripoSR model auto-downloads on first run (~1GB from HuggingFace)
+- Python `trimesh` package: `pip install trimesh` for GLB→OBJ conversion
+- ComfyUI custom nodes already installed: `comfyui-rmbg`, `comfyui-mixlab-nodes` (TripoSR)
+
+### Future: SPAR3D Upgrade
+
+If TripoSR quality is insufficient, swap to SPAR3D (Stability AI):
+- Better backside reconstruction, editable point cloud, 0.7s generation
+- Same 6GB VRAM budget, albedo textures included
+- Install: clone `Stability-AI/stable-point-aware-3d` into `custom_nodes/`
+

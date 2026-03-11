@@ -1,0 +1,247 @@
+{
+  "name": "Generate Card 3D Objects",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1280,
+        -768
+      ],
+      "id": "g3d0-0001-4000-8000-000000000001",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "g3d0-p001",
+              "name": "DeckJsonPath",
+              "value": "D:/data/cards/Standard/Deck.json",
+              "type": "string"
+            },
+            {
+              "id": "g3d0-p002",
+              "name": "TestCardFilter",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "g3d0-p003",
+              "name": "ComfyUIAPI",
+              "value": "http://127.0.0.1:8188",
+              "type": "string"
+            },
+            {
+              "id": "g3d0-p004",
+              "name": "Orientations",
+              "value": "upright,reversed,between",
+              "type": "string"
+            },
+            {
+              "id": "g3d0-p005",
+              "name": "TripoSRResolution",
+              "value": "512",
+              "type": "string"
+            },
+            {
+              "id": "g3d0-p006",
+              "name": "SkipExisting",
+              "value": "true",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1056,
+        -768
+      ],
+      "id": "g3d0-0002-4000-8000-000000000002",
+      "name": "Set Global Parameters"
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $json.DeckJsonPath }}",
+        "options": {
+          "dataPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -832,
+        -768
+      ],
+      "id": "g3d0-0003-4000-8000-000000000003",
+      "name": "Read Deck.json"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -608,
+        -768
+      ],
+      "id": "g3d0-0004-4000-8000-000000000004",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// Build 3D Object Job List\n// ============================================================\n// Reads each card JSON from the deck and builds a job list\n// for 3D object generation. Skips cards that already have\n// GLB files if SkipExisting is true.\n// ============================================================\n\nconst fs = require('fs');\nconst path = require('path');\n\nconst params = $('Set Global Parameters').first().json;\nconst testCardFilter = (params.TestCardFilter || '').trim();\nconst orientations = (params.Orientations || 'upright,reversed,between').split(',').map(s => s.trim());\nconst skipExisting = params.SkipExisting !== 'false';\n\nconst raw = $input.first().json;\nconst deck = raw.data !== undefined ? raw.data : raw;\n\nconst deckDir = ((deck.Assets && deck.Assets.Directory)\n  ? deck.Assets.Directory\n  : 'D:/data/cards/Standard').replace(/\\//g, path.sep);\n\nconst cardRefs = deck.Cards;\nif (!cardRefs || cardRefs.length === 0) {\n  throw new Error('[Build 3D Job List] No Cards found in Deck.json.');\n}\n\nconst filteredCards = testCardFilter\n  ? cardRefs.filter(c => c.Card === testCardFilter)\n  : cardRefs;\n\nif (filteredCards.length === 0) {\n  throw new Error('[Build 3D Job List] No cards matched filter: ' + JSON.stringify(testCardFilter));\n}\n\nconst jobs = [];\n\nfor (const cardRef of filteredCards) {\n  const cardName = cardRef.Card;\n  const cardSlug = cardName.replace(/[()]/g, '').replace(/\\s+/g, '_');\n  const cardFilePath = path.join(deckDir, cardRef.File.replace(/\\//g, path.sep));\n\n  let cardRaw;\n  try {\n    cardRaw = JSON.parse(fs.readFileSync(cardFilePath, 'utf8').replace(/^\\uFEFF/, ''));\n  } catch(e) {\n    console.warn('[Build 3D Job List] Cannot read card: ' + cardName + ': ' + e.message);\n    continue;\n  }\n\n  const card = cardRaw['data.Cards'] || cardRaw;\n  const cardDir = (card.Directory || path.join(deckDir, 'Cards')).replace(/\\//g, path.sep);\n  const records = card.records || [];\n\n  for (const orientation of orientations) {\n    const record = records.find(r => r.Orientation === orientation);\n    if (!record) continue;\n\n    const glbFilename = 'MODEL_' + cardSlug + '_' + orientation + '.glb';\n    const glbPath = path.join(cardDir, glbFilename);\n\n    // Skip if GLB already exists\n    if (skipExisting && fs.existsSync(glbPath)) {\n      console.warn('[Build 3D Job List] GLB exists, skipping: ' + cardName + ' ' + orientation);\n      continue;\n    }\n\n    // Build the positive prompt from the card description\n    const description = record.Description || cardName + ' tarot card character';\n    const positivePrompt = 'Front-facing portrait of ' + description\n      + ', centered, full body, simple flat gray background, studio lighting, '\n      + 'symmetrical pose, high detail, 3D reference sheet style, single character';\n    const negativePrompt = 'blurry, low quality, multiple characters, complex background, '\n      + 'text, watermark, side view, back view, cropped, out of frame';\n\n    jobs.push({\n      CardName: cardName,\n      CardSlug: cardSlug,\n      Orientation: orientation,\n      CardDir: cardDir,\n      CardFilePath: cardFilePath,\n      PositivePrompt: positivePrompt,\n      NegativePrompt: negativePrompt,\n      RefFilename: '3DREF_' + cardSlug + '_' + orientation + '.png',\n      GLBFilename: glbFilename,\n      OBJFilename: 'MODEL_' + cardSlug + '_' + orientation + '.obj'\n    });\n  }\n}\n\nif (jobs.length === 0) {\n  throw new Error(\n    '[Build 3D Job List] No jobs created. '\n    + 'All cards may already have GLB files, or TestCardFilter matched nothing. '\n    + 'Set SkipExisting=false to regenerate.'\n  );\n}\n\nconsole.warn('[Build 3D Job List] Created ' + jobs.length + ' jobs.');\nreturn jobs.map(j => ({ json: j }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -384,
+        -768
+      ],
+      "id": "g3d0-0005-4000-8000-000000000005",
+      "name": "Build 3D Job List"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// Generate All 3D Models\n// ============================================================\n// For each job, submits a chained ComfyUI workflow that:\n//   Stage 1: Generates a 3D-optimized character image (HiDream I1)\n//   Stage 2: Removes the background (BiRefNetRMBG)\n//   Stage 3: Generates a 3D mesh (TripoSR)\n// Then polls for completion and records the output.\n// ============================================================\n\nconst http = require('http');\nconst fs = require('fs');\nconst path = require('path');\n\n// --- HTTP helpers (require('http'), NOT axios) ---\nconst httpRequest = (method, urlStr, body) => new Promise((resolve, reject) => {\n  const m = urlStr.match(/^(https?):(\\/\\/)([^:/]+)(?::(\\d+))?(\\/[^?]*)?(\\?.*)?$/);\n  if (!m) return reject(new Error('Bad URL: ' + urlStr));\n  const hostname = m[3];\n  const port = m[4] ? parseInt(m[4]) : 80;\n  const reqPath = (m[5] || '/') + (m[6] || '');\n  const options = { hostname, port, path: reqPath, method, headers: {} };\n  if (body) {\n    options.headers['Content-Type'] = 'application/json';\n    options.headers['Content-Length'] = Buffer.byteLength(body);\n  }\n  const req = http.request(options, (res) => {\n    let data = '';\n    res.on('data', (chunk) => { data += chunk; });\n    res.on('end', () => {\n      try { resolve(JSON.parse(data)); } catch(e) { resolve(data); }\n    });\n  });\n  req.on('error', reject);\n  if (body) req.write(body);\n  req.end();\n});\nconst httpPost = (url, bodyObj) => httpRequest('POST', url, JSON.stringify(bodyObj));\nconst httpGet  = (url)          => httpRequest('GET',  url, null);\n\nconst sleep = ms => new Promise(r => setTimeout(r, ms));\n\nconst params = $('Set Global Parameters').first().json;\nconst comfyAPI = (params.ComfyUIAPI || 'http://127.0.0.1:8188').replace(/\\/$/, '');\nconst tripoResolution = parseInt(params.TripoSRResolution || '512');\n\nconst allJobs = $input.all().map(item => item.json);\nconst results = [];\n\nfor (let idx = 0; idx < allJobs.length; idx++) {\n  const job = allJobs[idx];\n  console.warn('[3D Gen] (' + (idx+1) + '/' + allJobs.length + ') ' + job.CardName + ' ' + job.Orientation);\n\n  // Unique seed per job for variety\n  const seed = Math.floor(Math.random() * 999999999999);\n\n  // Build the ComfyUI API prompt - 3-stage chained workflow\n  // Stage 1: Image generation (HiDream I1)\n  // Stage 2: Background removal (BiRefNetRMBG)\n  // Stage 3: TripoSR mesh generation\n  const comfyPrompt = {\n    // --- Stage 1: Image Generation ---\n    \"1\": {\n      \"inputs\": {\n        \"unet_name\": \"hidream_i1_full_fp8.safetensors\",\n        \"weight_dtype\": \"default\"\n      },\n      \"class_type\": \"UNETLoader\",\n      \"_meta\": { \"title\": \"Load HiDream I1\" }\n    },\n    \"2\": {\n      \"inputs\": {\n        \"clip_name1\": \"clip_l_hidream.safetensors\",\n        \"clip_name2\": \"clip_g_hidream.safetensors\",\n        \"clip_name3\": \"t5xxl_fp8_e4m3fn_scaled.safetensors\",\n        \"clip_name4\": \"llama_3.1_8b_instruct_fp8_scaled.safetensors\"\n      },\n      \"class_type\": \"QuadrupleCLIPLoader\",\n      \"_meta\": { \"title\": \"Load CLIP Encoders\" }\n    },\n    \"3\": {\n      \"inputs\": {\n        \"text\": job.PositivePrompt,\n        \"clip\": [\"2\", 0]\n      },\n      \"class_type\": \"CLIPTextEncode\",\n      \"_meta\": { \"title\": \"Positive Prompt\" }\n    },\n    \"4\": {\n      \"inputs\": {\n        \"text\": job.NegativePrompt,\n        \"clip\": [\"2\", 0]\n      },\n      \"class_type\": \"CLIPTextEncode\",\n      \"_meta\": { \"title\": \"Negative Prompt\" }\n    },\n    \"5\": {\n      \"inputs\": {\n        \"shift\": 3.0,\n        \"model\": [\"1\", 0]\n      },\n      \"class_type\": \"ModelSamplingSD3\",\n      \"_meta\": { \"title\": \"ModelSamplingSD3\" }\n    },\n    \"6\": {\n      \"inputs\": {\n        \"width\": 1024,\n        \"height\": 1024,\n        \"batch_size\": 1\n      },\n      \"class_type\": \"EmptySD3LatentImage\",\n      \"_meta\": { \"title\": \"Empty Latent\" }\n    },\n    \"7\": {\n      \"inputs\": {\n        \"seed\": seed,\n        \"steps\": 30,\n        \"cfg\": 7,\n        \"sampler_name\": \"euler\",\n        \"scheduler\": \"normal\",\n        \"denoise\": 1,\n        \"model\": [\"5\", 0],\n        \"positive\": [\"3\", 0],\n        \"negative\": [\"4\", 0],\n        \"latent_image\": [\"6\", 0]\n      },\n      \"class_type\": \"KSampler\",\n      \"_meta\": { \"title\": \"KSampler\" }\n    },\n    \"8\": {\n      \"inputs\": {\n        \"vae_name\": \"ae.safetensors\"\n      },\n      \"class_type\": \"VAELoader\",\n      \"_meta\": { \"title\": \"Load VAE\" }\n    },\n    \"9\": {\n      \"inputs\": {\n        \"samples\": [\"7\", 0],\n        \"vae\": [\"8\", 0]\n      },\n      \"class_type\": \"VAEDecode\",\n      \"_meta\": { \"title\": \"VAE Decode\" }\n    },\n    // Save the 3D reference image\n    \"10\": {\n      \"inputs\": {\n        \"filename_prefix\": \"3DREF_\" + job.CardSlug + \"_\" + job.Orientation,\n        \"images\": [\"9\", 0]\n      },\n      \"class_type\": \"SaveImage\",\n      \"_meta\": { \"title\": \"Save 3D Ref Image\" }\n    },\n    // --- Stage 2: Background Removal ---\n    \"11\": {\n      \"inputs\": {\n        \"image\": [\"9\", 0],\n        \"model\": \"BiRefNet-general\"\n      },\n      \"class_type\": \"BiRefNetRMBG\",\n      \"_meta\": { \"title\": \"Remove Background\" }\n    },\n    // --- Stage 3: TripoSR 3D Generation ---\n    \"12\": {\n      \"inputs\": {\n        \"chunk_size\": 8192\n      },\n      \"class_type\": \"LoadTripoSRModel\",\n      \"_meta\": { \"title\": \"Load TripoSR Model\" }\n    },\n    \"13\": {\n      \"inputs\": {\n        \"model\": [\"12\", 0],\n        \"image\": [\"11\", 0],\n        \"mask\": [\"11\", 1],\n        \"resolution\": tripoResolution,\n        \"threshold\": 25.0,\n        \"device\": \"auto\"\n      },\n      \"class_type\": \"TripoSRSampler\",\n      \"_meta\": { \"title\": \"TripoSR Sampler\" }\n    },\n    \"14\": {\n      \"inputs\": {\n        \"mesh\": [\"13\", 0],\n        \"filename_prefix\": \"MODEL_\" + job.CardSlug + \"_\" + job.Orientation\n      },\n      \"class_type\": \"SaveTripoSRMesh\",\n      \"_meta\": { \"title\": \"Save 3D Mesh (GLB)\" }\n    }\n  };\n\n  // Submit to ComfyUI\n  let submitData;\n  try {\n    submitData = await httpPost(comfyAPI + '/prompt', { prompt: comfyPrompt });\n  } catch(e) {\n    console.warn('[3D Gen] Submit failed for ' + job.CardName + ': ' + e.message);\n    results.push({ ...job, Status: 'failed', Reason: 'Submit error: ' + e.message });\n    continue;\n  }\n\n  if (submitData.error) {\n    console.warn('[3D Gen] ComfyUI error: ' + JSON.stringify(submitData.error));\n    results.push({ ...job, Status: 'failed', Reason: 'ComfyUI error: ' + JSON.stringify(submitData.error).substring(0, 500) });\n    continue;\n  }\n\n  const promptId = submitData.prompt_id;\n  if (!promptId) {\n    results.push({ ...job, Status: 'failed', Reason: 'No prompt_id returned' });\n    continue;\n  }\n\n  // Poll for completion (up to 30 min per job)\n  let done = false;\n  const maxAttempts = 360; // 360 x 5s = 30 min\n  for (let attempt = 0; attempt < maxAttempts && !done; attempt++) {\n    await sleep(5000);\n    try {\n      const historyData = await httpGet(comfyAPI + '/history/' + promptId);\n      const entry = historyData[promptId];\n      if (!entry) continue;\n\n      // Check if the workflow completed (node 14 is the output node)\n      if (entry.status && entry.status.completed) {\n        // Check for errors\n        if (entry.status.status_str === 'error') {\n          const nodeErrors = entry.status.messages\n            ? entry.status.messages.filter(m => m[0] === 'execution_error').map(m => m[1])\n            : [];\n          const errMsg = nodeErrors.length > 0\n            ? JSON.stringify(nodeErrors[0]).substring(0, 500)\n            : 'Unknown ComfyUI execution error';\n          results.push({ ...job, Status: 'failed', Reason: errMsg });\n          done = true;\n          continue;\n        }\n\n        // Success\n        const outputs = entry.outputs || {};\n        const savedImage = outputs['10'];\n        const savedMesh = outputs['14'];\n\n        results.push({\n          ...job,\n          Status: 'generated',\n          PromptId: promptId,\n          RefImageOutput: savedImage ? JSON.stringify(savedImage).substring(0, 200) : 'unknown',\n          MeshOutput: savedMesh ? JSON.stringify(savedMesh).substring(0, 200) : 'unknown'\n        });\n        done = true;\n      }\n    } catch(e) {\n      // Polling error - continue retrying\n      if (attempt % 12 === 0) {\n        console.warn('[3D Gen] Poll attempt ' + attempt + ' for ' + job.CardName + ': ' + e.message);\n      }\n    }\n  }\n\n  if (!done) {\n    results.push({ ...job, Status: 'timeout', Reason: 'Timed out after 30 min' });\n  }\n}\n\nif (results.length === 0) {\n  throw new Error('[Generate 3D Models] No results produced. Check ComfyUI is running.');\n}\n\nreturn results.map(r => ({ json: r }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        -768
+      ],
+      "id": "g3d0-0006-4000-8000-000000000006",
+      "name": "Generate All 3D Models"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// Convert GLB to OBJ\n// ============================================================\n// For each generated GLB file, converts to OBJ format using\n// Python trimesh. Also copies GLB files from ComfyUI output\n// directory to the card directory.\n// ============================================================\n\nconst fs = require('fs');\nconst path = require('path');\nconst { execFileSync } = require('child_process');\n\nconst allItems = $input.all().map(item => item.json);\nconst results = [];\n\n// ComfyUI saves meshes to its output directory\nconst comfyOutputDir = 'D:/ComfyUI_windows_portable/ComfyUI/output';\n\nfor (const item of allItems) {\n  if (item.Status !== 'generated') {\n    results.push(item);\n    continue;\n  }\n\n  const cardDir = item.CardDir;\n  const glbFilename = item.GLBFilename;\n  const objFilename = item.OBJFilename;\n  const glbDestPath = path.join(cardDir, glbFilename);\n  const objDestPath = path.join(cardDir, objFilename);\n\n  // Find the GLB file in ComfyUI output\n  // SaveTripoSRMesh saves as {filename_prefix}_{5-digit-number}.glb\n  const prefix = 'MODEL_' + item.CardSlug + '_' + item.Orientation;\n  let glbSourcePath = null;\n\n  try {\n    const outputFiles = fs.readdirSync(comfyOutputDir);\n    const matches = outputFiles\n      .filter(f => f.startsWith(prefix) && f.endsWith('.glb'))\n      .sort()\n      .reverse(); // Most recent first\n    if (matches.length > 0) {\n      glbSourcePath = path.join(comfyOutputDir, matches[0]);\n    }\n  } catch(e) {\n    results.push({ ...item, Status: 'failed', Reason: 'Cannot read ComfyUI output dir: ' + e.message });\n    continue;\n  }\n\n  if (!glbSourcePath || !fs.existsSync(glbSourcePath)) {\n    results.push({ ...item, Status: 'failed', Reason: 'GLB not found in ComfyUI output for prefix: ' + prefix });\n    continue;\n  }\n\n  // Copy GLB to card directory\n  try {\n    fs.mkdirSync(cardDir, { recursive: true });\n    fs.copyFileSync(glbSourcePath, glbDestPath);\n  } catch(e) {\n    results.push({ ...item, Status: 'failed', Reason: 'Failed to copy GLB: ' + e.message });\n    continue;\n  }\n\n  // Also copy the 3D reference image from ComfyUI output\n  const refPrefix = '3DREF_' + item.CardSlug + '_' + item.Orientation;\n  try {\n    const outputFiles = fs.readdirSync(comfyOutputDir);\n    const refMatches = outputFiles\n      .filter(f => f.startsWith(refPrefix) && f.endsWith('.png'))\n      .sort()\n      .reverse();\n    if (refMatches.length > 0) {\n      const refSourcePath = path.join(comfyOutputDir, refMatches[0]);\n      const refDestPath = path.join(cardDir, item.RefFilename);\n      fs.copyFileSync(refSourcePath, refDestPath);\n    }\n  } catch(e) {\n    console.warn('[GLB->OBJ] Could not copy ref image: ' + e.message);\n  }\n\n  // Convert GLB to OBJ using Python trimesh via execFileSync\n  // execFileSync avoids shell injection by passing args as array\n  try {\n    const pyCode = 'import trimesh, sys; m = trimesh.load(sys.argv[1]); '\n      + 'm = trimesh.util.concatenate(list(m.geometry.values())) if hasattr(m, \"geometry\") and isinstance(m.geometry, dict) else m; '\n      + 'm.export(sys.argv[2])';\n\n    execFileSync('python', [\n      '-c', pyCode,\n      glbDestPath.replace(/\\\\/g, '/'),\n      objDestPath.replace(/\\\\/g, '/')\n    ], { encoding: 'utf8', timeout: 60000 });\n\n    const glbSize = fs.statSync(glbDestPath).size;\n    const objSize = fs.existsSync(objDestPath) ? fs.statSync(objDestPath).size : 0;\n\n    results.push({\n      ...item,\n      Status: 'completed',\n      GLBPath: glbDestPath,\n      OBJPath: objDestPath,\n      GLBSizeKB: Math.round(glbSize / 1024),\n      OBJSizeKB: Math.round(objSize / 1024)\n    });\n  } catch(e) {\n    // GLB was saved but OBJ conversion failed - still partial success\n    results.push({\n      ...item,\n      Status: 'partial',\n      GLBPath: glbDestPath,\n      Reason: 'GLB saved but OBJ conversion failed: ' + e.message.substring(0, 300)\n    });\n  }\n}\n\nreturn results.map(r => ({ json: r }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        64,
+        -768
+      ],
+      "id": "g3d0-0007-4000-8000-000000000007",
+      "name": "Convert GLB to OBJ"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// Report Results\n// ============================================================\n\nconst allItems = $input.all().map(item => item.json);\n\nconst completed = allItems.filter(i => i.Status === 'completed');\nconst partial   = allItems.filter(i => i.Status === 'partial');\nconst failed    = allItems.filter(i => i.Status === 'failed');\nconst timeout   = allItems.filter(i => i.Status === 'timeout');\n\nconst summary = {\n  Total: allItems.length,\n  Completed: completed.length,\n  Partial: partial.length,\n  Failed: failed.length,\n  Timeout: timeout.length,\n  Details: allItems.map(i => ({\n    Card: i.CardName,\n    Orientation: i.Orientation,\n    Status: i.Status,\n    GLBPath: i.GLBPath || '',\n    OBJPath: i.OBJPath || '',\n    GLBSizeKB: i.GLBSizeKB || 0,\n    OBJSizeKB: i.OBJSizeKB || 0,\n    Reason: i.Reason || ''\n  }))\n};\n\nconsole.warn('=== 3D Object Generation Complete ===');\nconsole.warn('Completed: ' + completed.length + '  Partial: ' + partial.length\n  + '  Failed: ' + failed.length + '  Timeout: ' + timeout.length);\n\nif (failed.length > 0) {\n  console.warn('Failed cards:');\n  for (const f of failed) {\n    console.warn('  - ' + f.CardName + ' ' + f.Orientation + ': ' + (f.Reason || 'unknown'));\n  }\n}\n\nreturn [{ json: summary }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        -768
+      ],
+      "id": "g3d0-0008-4000-8000-000000000008",
+      "name": "Report Results"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Set Global Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Global Parameters": {
+      "main": [
+        [
+          {
+            "node": "Read Deck.json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Deck.json": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Build 3D Job List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build 3D Job List": {
+      "main": [
+        [
+          {
+            "node": "Generate All 3D Models",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate All 3D Models": {
+      "main": [
+        [
+          {
+            "node": "Convert GLB to OBJ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert GLB to OBJ": {
+      "main": [
+        [
+          {
+            "node": "Report Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "meta": {
+    "instanceId": "d7f41a3bc4c9824ed68d95186cb055000c790e15bf2666fbda9ebc1cffc1c54a"
+  },
+  "tags": [
+    {
+      "name": "Tarot"
+    },
+    {
+      "name": "3D"
+    }
+  ]
+}
