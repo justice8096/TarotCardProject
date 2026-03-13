@@ -95,3 +95,83 @@ A tarot card layout, spread and reader system. Differs from Rider-Waite by havin
 | Model | Notes |
 |-------|-------|
 | [RMBG 2.0](https://huggingface.co/briaai/RMBG-2.0) | Background removal |
+
+## Workflow Data Flow
+
+Each n8n workflow reads from or writes to the deck and card JSON files. The table below shows which workflows populate which fields.
+
+### Deck.json
+
+`Deck.json` is the master configuration file for a deck. It stores deck-level settings (models, samplers, prompts, geometry) and a `Cards[]` array referencing each card's JSON file.
+
+| Field | Written By | Description |
+|-------|-----------|-------------|
+| `Name`, `Version` | Generate Deck Structure, Normalize Deck Structure | Deck identity |
+| `Assets.*` | Generate Deck Structure, Normalize Deck Structure | Output paths for deck-level media (animations, images) |
+| `Geometries.*` | Generate Deck Structure, Normalize Deck Structure | Layout dimensions, frame rates |
+| `Prompts.{Cut,Fan,Merge,Rotate}` | Generate Deck Structure | Dealer animation prompts (keyframes + negative) |
+| `Prompts.{BackImage,FrontImage,Music,Narration}` | Normalize Deck Structure | Deck-wide generation prompts |
+| `Models.*` | Manual / Normalize Deck Structure | Model file selections (defaults built in) |
+| `Samplers.*` | Manual / Normalize Deck Structure | Inference parameters (defaults built in) |
+| `Cards[]` | Generate Deck Structure | Array of `{ Card, File }` references to card JSONs |
+
+### Card JSONs (`Cards/{CardName}.json`)
+
+Each card JSON has metadata at `data.Cards` (card-level) and a `records[]` array with one entry per orientation (upright, reversed, between).
+
+#### Card-level fields (`data.Cards`)
+
+| Field | Written By | Description |
+|-------|-----------|-------------|
+| `Card` | Generate Deck Structure | Card name |
+| `Directory` | Generate Deck Structure | Card directory path |
+| `Assets.UprightImage` | Generate Deck Structure | Upright card image filename |
+| `Assets.ReversedImage` | Generate Deck Structure | Reversed card image filename |
+| `Prompts.UprightImage` | Generate Deck Structure | Image generation prompts for upright |
+| `Prompts.ReversedImage` | Generate Deck Structure | Image generation prompts for reversed |
+
+#### Per-orientation fields (`records[]`)
+
+Each card has 3 records: upright, reversed, and between.
+
+| Field | Written By | Description |
+|-------|-----------|-------------|
+| `Orientation` | Generate Deck Structure | "upright", "reversed", or "between" |
+| `Description` | Add Meanings (via Ollama) | Card meaning description |
+| `Keywords` | Add Meanings (via Ollama) | Comma-delimited keywords |
+| `Advice` | Add Meanings (via Ollama) | Practical guidance text |
+| `Affirmation` | Add Meanings (via Ollama) | Affirmation statement |
+| `Category` | Generate Deck Structure (empty) | Category tags |
+| `Prompts.CharacterImage.*` | Update Card JSONs from Spreadsheet | `CharacterName`, `Positive`, `Negative` prompts |
+| `Prompts.Narration.*` | Generate Narration Styles (via Ollama) | `Voice`, `Tone`, `Pace`, `Emphasis`, `De-emphasis` |
+| `Prompts.Image.*` | Generate Deck Structure | `Positive`, `Negative` prompts |
+| `Assets.Image` | Generate Deck Structure (filename) | Generated character image |
+| `Assets.CardImage` | Generate Deck Structure (filename) | Processed card illustration |
+| `Assets.Narration` | Generate Deck Structure (filename) | Narration MP3 |
+| `Assets.Music` | Generate Deck Structure (filename) | Background music MP3 |
+| `Assets.Movie` | Generate Deck Structure (filename) | Animation video |
+| `Assets.PalletImage` | Generate Deck Structure (filename) | Palette reference image |
+| `Assets.Object` | Generate Deck Structure (filename) | 3D model OBJ |
+| `Assets.FocusUpright` | Generate Focus Upright Stills | Array of 6 focus frame filenames |
+| `Assets.FocusUprightT` | Generate FOCUST Upright Stills, Generate FOCUS Upright Blend Stills | Array of 14 focus frame filenames |
+| `Assets.FocusReversedT` | Generate FOCUST Reversed Stills | Array of 14 focus frame filenames |
+
+### Workflow Summary
+
+| Workflow | Reads | Writes | Output |
+|----------|-------|--------|--------|
+| **Generate Deck Structure** | Spreadsheet (ODS) | Deck.json, Card JSONs | Creates initial deck + card files |
+| **Update Card JSONs from Spreadsheet** | Spreadsheet (ODS), Card JSONs | Card JSONs | Updates `Prompts.CharacterImage` |
+| **Normalize Deck Structure** | Deck.json | Deck_normalized.json | Ensures all sections/defaults exist |
+| **Add Meanings** | Card JSONs | Card JSONs | Fills `Description`, `Keywords`, `Advice`, `Affirmation` via LLM |
+| **Generate Narration Styles** | Card JSONs | Card JSONs | Fills `Prompts.Narration` fields via LLM |
+| **Generate Focus Upright Stills** | Deck.json, Card JSONs | Card JSONs + PNG files | Writes `Assets.FocusUpright` array |
+| **Generate FOCUST Upright Stills** | Deck.json, Card JSONs | Card JSONs + PNG files | Writes `Assets.FocusUprightT` array |
+| **Generate FOCUS Upright Blend Stills** | Deck.json, Card JSONs | Card JSONs + PNG files | Merges into `Assets.FocusUprightT` array |
+| **Generate FOCUST Reversed Stills** | Deck.json, Card JSONs | Card JSONs + PNG files | Writes `Assets.FocusReversedT` array |
+| **Generate Card Tarot Images** | Deck.json, Card JSONs | PNG files only | Generates card images via ComfyUI |
+| **Generate Full Tarot Images** | Deck.json, Card JSONs | PNG files only | Generates full card images via ComfyUI |
+| **Generate Pallette Tarot Images** | Deck.json, Card JSONs | PNG files only | Generates palette-style images via ComfyUI |
+| **Generate Card Faces** | Deck.json, Card JSONs | PNG files only | Renders card face layouts with text |
+| **Generate Card Narrations** | Deck.json, Card JSONs | MP3 files only | Generates speech audio via Orpheus |
+| **Generate Dealer Stop Motion** | Deck.json | PNG + MP4 files only | Generates dealer animations via ComfyUI + FFmpeg |
