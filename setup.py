@@ -18,6 +18,7 @@ import argparse
 import json
 import os
 import re
+import shutil
 import sys
 
 # ── Defaults (current values) ────────────────────────────────────────────────
@@ -157,79 +158,134 @@ def main():
     print(f"  ComfyUI directory: {new_comfyui}")
     print()
 
-    if new_data == cur_data and new_comfyui == cur_comfyui:
-        print("  No changes needed — paths already match.")
-        return
-
-    # ── 1. Update config.json ────────────────────────────────────────────────
-
-    print("  Updating config.json ...")
-    config = read_json(CONFIG_PATH) if os.path.isfile(CONFIG_PATH) else {}
-
-    config["DataDir"] = new_data
-    config["CardsDir"] = new_data + "/cards"
-    config["DefaultDeckDir"] = new_data + "/cards/Standard"
-    config["DefaultDeckJsonPath"] = new_data + "/cards/Standard/Deck.json"
-    config["LegacyDeckJsonPath"] = new_data + "/cards/Deck.json"
-    config["FullImagesDir"] = new_data + "/Full_Images"
-    config["CardPartImagesDir"] = new_data + "/Card_Part_Images"
-    config["ErrorsDir"] = new_data + "/errors"
-    config["SpreadsheetPath"] = new_data + "/TarotSpreadsheet2.ods"
-    config["LegacySpreadsheetPath"] = new_data + "/CardImages.ods"
-    config["ComfyUIDir"] = new_comfyui
-
-    write_json(CONFIG_PATH, config)
-    print("    OK config.json")
-
-    # ── 2. Update n8n workflow JSONs ─────────────────────────────────────────
+    paths_changed = not (new_data == cur_data and new_comfyui == cur_comfyui)
 
     changed_count = 0
-    for dirname in [N8N_DIR, COMFYUI_DIR]:
-        if not os.path.isdir(dirname):
-            print(f"    SKIP {dirname} (not found)")
-            continue
-        for fname in sorted(os.listdir(dirname)):
-            if not fname.endswith(".json"):
+
+    if paths_changed:
+        # ── 1. Update config.json ────────────────────────────────────────
+
+        print("  Updating config.json ...")
+        config = read_json(CONFIG_PATH) if os.path.isfile(CONFIG_PATH) else {}
+
+        config["DataDir"] = new_data
+        config["CardsDir"] = new_data + "/cards"
+        config["DefaultDeckDir"] = new_data + "/cards/Standard"
+        config["DefaultDeckJsonPath"] = new_data + "/cards/Standard/Deck.json"
+        config["LegacyDeckJsonPath"] = new_data + "/cards/Deck.json"
+        config["FullImagesDir"] = new_data + "/Full_Images"
+        config["CardPartImagesDir"] = new_data + "/Card_Part_Images"
+        config["ErrorsDir"] = new_data + "/errors"
+        config["SpreadsheetPath"] = new_data + "/TarotSpreadsheet2.ods"
+        config["LegacySpreadsheetPath"] = new_data + "/CardImages.ods"
+        config["ComfyUIDir"] = new_comfyui
+
+        write_json(CONFIG_PATH, config)
+        print("    OK config.json")
+
+        # ── 2. Update n8n + ComfyUI workflow JSONs ───────────────────────
+
+        for dirname in [N8N_DIR, COMFYUI_DIR]:
+            if not os.path.isdir(dirname):
+                print(f"    SKIP {dirname} (not found)")
                 continue
-            fpath = os.path.join(dirname, fname)
-            if update_workflow_file(fpath, cur_data, new_data, cur_comfyui, new_comfyui):
-                relpath = os.path.relpath(fpath, SCRIPT_DIR)
-                print(f"    OK {relpath}")
+            for fname in sorted(os.listdir(dirname)):
+                if not fname.endswith(".json"):
+                    continue
+                fpath = os.path.join(dirname, fname)
+                if update_workflow_file(fpath, cur_data, new_data, cur_comfyui, new_comfyui):
+                    relpath = os.path.relpath(fpath, SCRIPT_DIR)
+                    print(f"    OK {relpath}")
+                    changed_count += 1
+
+        # ── 3. Update launch.json ────────────────────────────────────────
+
+        launch_path = os.path.join(SCRIPT_DIR, ".claude", "launch.json")
+        if os.path.isfile(launch_path):
+            if update_workflow_file(launch_path, cur_data, new_data, cur_comfyui, new_comfyui):
+                print("    OK .claude/launch.json")
                 changed_count += 1
 
-    # ── 3. Update launch.json ────────────────────────────────────────────────
+        # ── 4. Update update_workflow_paths.py ───────────────────────────
 
-    launch_path = os.path.join(SCRIPT_DIR, ".claude", "launch.json")
-    if os.path.isfile(launch_path):
-        if update_workflow_file(launch_path, cur_data, new_data, cur_comfyui, new_comfyui):
-            print("    OK .claude/launch.json")
-            changed_count += 1
+        uwp_path = os.path.join(SCRIPT_DIR, "update_workflow_paths.py")
+        if os.path.isfile(uwp_path):
+            with open(uwp_path, "r", encoding="utf-8") as f:
+                uwp_text = f.read()
+            uwp_updated = replace_in_text(uwp_text, cur_data, new_data, cur_comfyui, new_comfyui)
+            if uwp_updated != uwp_text:
+                with open(uwp_path, "w", encoding="utf-8") as f:
+                    f.write(uwp_updated)
+                print("    OK update_workflow_paths.py")
+                changed_count += 1
 
-    # ── 4. Update update_workflow_paths.py itself ────────────────────────────
+    else:
+        print("  Paths unchanged — skipping workflow updates.")
 
-    uwp_path = os.path.join(SCRIPT_DIR, "update_workflow_paths.py")
-    if os.path.isfile(uwp_path):
-        with open(uwp_path, "r", encoding="utf-8") as f:
-            uwp_text = f.read()
-        # Update the CONFIG_EXPR fallback path
-        project_dir = normalize_path(os.path.dirname(SCRIPT_DIR)) if os.path.basename(SCRIPT_DIR) != "n8n" else normalize_path(os.path.dirname(os.path.dirname(SCRIPT_DIR)))
-        # Actually, just update any D:/ paths found
-        uwp_updated = replace_in_text(uwp_text, cur_data, new_data, cur_comfyui, new_comfyui)
-        if uwp_updated != uwp_text:
-            with open(uwp_path, "w", encoding="utf-8") as f:
-                f.write(uwp_updated)
-            print("    OK update_workflow_paths.py")
-            changed_count += 1
+    # ── 5. Seed data directory from bundled files ─────────────────────────
 
-    # ── Done ─────────────────────────────────────────────────────────────────
+    print("  Seeding data directory ...")
+    bundled_data = os.path.join(SCRIPT_DIR, "data")
+    seeded = 0
+    skipped = 0
+
+    for root, dirs, files in os.walk(bundled_data):
+        for fname in files:
+            src = os.path.join(root, fname)
+            # Mirror the relative path under the target data dir
+            rel = os.path.relpath(src, bundled_data)
+            dst = os.path.join(new_data, rel).replace("\\", "/")
+            dst_dir = os.path.dirname(dst)
+
+            if os.path.exists(dst):
+                skipped += 1
+                continue
+
+            os.makedirs(dst_dir, exist_ok=True)
+            shutil.copy2(src, dst)
+            print(f"    COPY {rel}")
+            seeded += 1
+
+    if seeded:
+        print(f"    Copied {seeded} file(s) to {new_data}")
+    if skipped:
+        print(f"    Skipped {skipped} file(s) (already exist)")
+
+    # ── 6. Create output directories ─────────────────────────────────────
+
+    print("  Creating output directories ...")
+    output_dirs = [
+        new_data + "/Full_Images",
+        new_data + "/Card_Part_Images",
+        new_data + "/errors",
+        new_data + "/temp/card_faces",
+        new_data + "/cards/Standard/Keyframes",
+        new_data + "/cards/Standard/Cards",
+        new_data + "/cards/Standard/Narration",
+        new_data + "/cards/Standard/Music",
+    ]
+    created_dirs = 0
+    for d in output_dirs:
+        if not os.path.isdir(d):
+            os.makedirs(d, exist_ok=True)
+            print(f"    MKDIR {os.path.relpath(d, new_data)}")
+            created_dirs += 1
+    if created_dirs:
+        print(f"    Created {created_dirs} directory(s)")
+    else:
+        print("    All directories already exist")
+
+    # ── Done ─────────────────────────────────────────────────────────────
 
     print()
-    print(f"  Done. Updated {changed_count} file(s).")
+    print(f"  Done. Updated {changed_count} file(s), "
+          f"seeded {seeded} file(s), "
+          f"created {created_dirs} directory(s).")
     print()
     print("  Next steps:")
-    print(f"    1. Ensure '{new_data}' exists with your card data")
-    print(f"    2. Ensure '{new_comfyui}' has ComfyUI installed")
-    print("    3. Start n8n with the required flags (see CLAUDE.md)")
+    print(f"    1. Ensure '{new_comfyui}' has ComfyUI installed with required models")
+    print("    2. Start n8n with the required flags (see CLAUDE.md)")
+    print("    3. Download ComfyUI models listed in CLAUDE.md if not already present")
     print()
 
 
