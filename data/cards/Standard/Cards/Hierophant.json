@@ -1,0 +1,245 @@
+{
+  "data.Cards": {
+    "Card": "Hierophant",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_Hierophant_Upright.png",
+      "ReversedImage": "CARD_Hierophant_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_Hierophant_0.png",
+        "FOCUS_UPRIGHT_Hierophant_1.png",
+        "FOCUS_UPRIGHT_Hierophant_2.png",
+        "FOCUS_UPRIGHT_Hierophant_3.png",
+        "FOCUS_UPRIGHT_Hierophant_4.png",
+        "FOCUS_UPRIGHT_Hierophant_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_Hierophant_0.png",
+        "FOCUS_REVERSED_Hierophant_1.png",
+        "FOCUS_REVERSED_Hierophant_2.png",
+        "FOCUS_REVERSED_Hierophant_3.png",
+        "FOCUS_REVERSED_Hierophant_4.png",
+        "FOCUS_REVERSED_Hierophant_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the Hierophant card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the Hierophant card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the Hierophant card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the Hierophant card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Hierophant_upright.png",
+          "CardImage": "CARDIMG_Hierophant_upright.png",
+          "Narration": "NARRATION_Hierophant_upright.mp3",
+          "Music": "MUSIC_Hierophant_upright.mp3",
+          "Movie": "FOCUS_Hierophant_upright.mpeg",
+          "PalletImage": "PALLETEIMG_Hierophant_upright.png",
+          "Object": "MODEL_Hierophant_upright.obj",
+          "FocusUpright": [
+            "FOCUSUPRIGHTSTILL_Hierophant_0.png",
+            "FOCUSUPRIGHTSTILL_Hierophant_1.png",
+            "FOCUSUPRIGHTSTILL_Hierophant_2.png",
+            "FOCUSUPRIGHTSTILL_Hierophant_3.png",
+            "FOCUSUPRIGHTSTILL_Hierophant_4.png",
+            "FOCUSUPRIGHTSTILL_Hierophant_5.png",
+            "FOCUSUPRIGHTSTILL_Hierophant_6.png"
+          ],
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_Hierophant_00.png",
+            "FOCUST_UPRIGHT_Hierophant_01.png",
+            "FOCUST_UPRIGHT_Hierophant_02.png",
+            "FOCUST_UPRIGHT_Hierophant_03.png",
+            "FOCUST_UPRIGHT_Hierophant_04.png",
+            "FOCUST_UPRIGHT_Hierophant_05.png",
+            "FOCUS_UPRIGHT_Hierophant_07.png",
+            "FOCUS_UPRIGHT_Hierophant_08.png",
+            "FOCUS_UPRIGHT_Hierophant_09.png",
+            "FOCUS_UPRIGHT_Hierophant_10.png",
+            "FOCUS_UPRIGHT_Hierophant_11.png",
+            "FOCUS_UPRIGHT_Hierophant_12.png",
+            "FOCUS_UPRIGHT_Hierophant_13.png",
+            "FOCUS_UPRIGHT_Hierophant_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Hierophant card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the Hierophant card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Bold and inspiring",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the wisdom and tradition embodied by Moses, the divine connection, and the importance of adhering to established principles.",
+            "De-emphasis": "Avoid over-emphasizing the physical aspects such as the desert or the thunder clouds. Instead, focus on the spiritual and intellectual journey.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Hierophant card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, brass, uplifting, triumphant, majestic, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Moses",
+            "Positive": "Photorealistic Moses preserving tradition, venerable bearded prophet stone tablets flowing desert robes Sinai peak thunder clouds, awe-inspired windswept hair beard staff raised, dramatic lightning volumetric god rays detailed inscriptions sand grit wrinkles 8k biblical TarotSpreadsheet2.xlsx​",
+            "Negative": "infant basket modern suit calm beach no tablets blurry clouds low res"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Hierophant_reversed.png",
+          "CardImage": "CARDIMG_Hierophant_reversed.png",
+          "Narration": "NARRATION_Hierophant_reversed.mp3",
+          "Music": "MUSIC_Hierophant_reversed.mp3",
+          "Movie": "FOCUS_Hierophant_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_Hierophant_reversed.png",
+          "Object": "MODEL_Hierophant_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_Hierophant_00.png",
+            "FOCUST_REVERSED_Hierophant_01.png",
+            "FOCUST_REVERSED_Hierophant_02.png",
+            "FOCUST_REVERSED_Hierophant_03.png",
+            "FOCUST_REVERSED_Hierophant_04.png",
+            "FOCUST_REVERSED_Hierophant_05.png",
+            "FOCUS_REVERSED_Hierophant_07.png",
+            "FOCUS_REVERSED_Hierophant_08.png",
+            "FOCUS_REVERSED_Hierophant_09.png",
+            "FOCUS_REVERSED_Hierophant_10.png",
+            "FOCUS_REVERSED_Hierophant_11.png",
+            "FOCUS_REVERSED_Hierophant_12.png",
+            "FOCUS_REVERSED_Hierophant_13.png",
+            "FOCUS_REVERSED_Hierophant_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_Hierophant_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Hierophant card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the Hierophant card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Somber and reflective",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the hypocrisy and deceit hidden within the sacred institution",
+            "De-emphasis": "Avoid over-emphasizing the congregation's obliviousness, as they may not be fully aware of the priest's actions",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Hierophant card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, minor, introspective, contemplative, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Hypocritical priest",
+            "Positive": "Photorealistic hypocritical priest breaking rules, smug ornate vested cleric hidden forbidden tome under pulpit sly wink congregation oblivious, gothic church shadows confessional alcove, flickering candle gold embroidery beads sweat guilty detailed 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "earnest open bible sunny chapel horrified face no book cartoon vestments"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Hierophant_between.png",
+          "CardImage": "CARDIMG_Hierophant_between.png",
+          "Narration": "NARRATION_Hierophant_between.mp3",
+          "Music": "MUSIC_Hierophant_between.mp3",
+          "Movie": "FOCUS_Hierophant_between.mpeg",
+          "PalletImage": "PALLETEIMG_Hierophant_between.png",
+          "Object": "MODEL_Hierophant_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_Hierophant_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Hierophant card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the Hierophant card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Wise and contemplative",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the blend of old orthodoxy and new insight, the self-carved runes and Odin's sacrifice.",
+            "De-emphasis": "Avoid over-emphasizing the pain or blood imagery. Instead, focus on the thoughtful nature of Odin's presence.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Hierophant card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, brass, mystical, triumphant, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Odin",
+            "Positive": "Photorealistic Odin old orthodoxy new insight rune sacrifice, grizzled one-eyed wanderer ash cloak bound Yggdrasil branch self-carved runes bleeding, ravens perched misty roots thoughtful pain face, overcast woodland volumetric shafts detailed feathers bark blood 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "two cheerful eyes sunny glade no binding laughing cartoon ravens deformed tree"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

@@ -1,0 +1,231 @@
+{
+  "data.Cards": {
+    "Card": "The Lovers",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_The_Lovers_Upright.png",
+      "ReversedImage": "CARD_The_Lovers_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_The_Lovers_0.png",
+        "FOCUS_UPRIGHT_The_Lovers_1.png",
+        "FOCUS_UPRIGHT_The_Lovers_2.png",
+        "FOCUS_UPRIGHT_The_Lovers_3.png",
+        "FOCUS_UPRIGHT_The_Lovers_4.png",
+        "FOCUS_UPRIGHT_The_Lovers_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_The_Lovers_0.png",
+        "FOCUS_REVERSED_The_Lovers_1.png",
+        "FOCUS_REVERSED_The_Lovers_2.png",
+        "FOCUS_REVERSED_The_Lovers_3.png",
+        "FOCUS_REVERSED_The_Lovers_4.png",
+        "FOCUS_REVERSED_The_Lovers_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the The Lovers card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the The Lovers card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the The Lovers card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the The Lovers card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Lovers_upright.png",
+          "CardImage": "CARDIMG_The_Lovers_upright.png",
+          "Narration": "NARRATION_The_Lovers_upright.mp3",
+          "Music": "MUSIC_The_Lovers_upright.mp3",
+          "Movie": "FOCUS_The_Lovers_upright.mpeg",
+          "PalletImage": "PALLETEIMG_The_Lovers_upright.png",
+          "Object": "MODEL_The_Lovers_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_The_Lovers_00.png",
+            "FOCUST_UPRIGHT_The_Lovers_01.png",
+            "FOCUST_UPRIGHT_The_Lovers_02.png",
+            "FOCUST_UPRIGHT_The_Lovers_03.png",
+            "FOCUST_UPRIGHT_The_Lovers_04.png",
+            "FOCUST_UPRIGHT_The_Lovers_05.png",
+            "FOCUS_UPRIGHT_The_Lovers_07.png",
+            "FOCUS_UPRIGHT_The_Lovers_08.png",
+            "FOCUS_UPRIGHT_The_Lovers_09.png",
+            "FOCUS_UPRIGHT_The_Lovers_10.png",
+            "FOCUS_UPRIGHT_The_Lovers_11.png",
+            "FOCUS_UPRIGHT_The_Lovers_12.png",
+            "FOCUS_UPRIGHT_The_Lovers_13.png",
+            "FOCUS_UPRIGHT_The_Lovers_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Lovers card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the The Lovers card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Warm and Uplifting",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the deep, passionate connection between Tristan and Isolde, symbolizing a strong ethical union and love that transcends obstacles.",
+            "De-emphasis": "Avoid focusing too much on the specific medieval setting or the potion cup nearby, as the essence of this card lies in the lovers' emotional bond.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Lovers card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic, Orchestral, Strings, Harp, Flute, Romantic, Warm, Uplifting, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 100,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Tristan and Isolde",
+            "Positive": "Photorealistic Tristan Isolde ethical union, passionate medieval lovers forest embrace knight tunic lady gown intense locked gazes hands clasped, dappled sunbeams wildflowers potion cup nearby, detailed embroidery hair strands tender skin warmth 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "separated arguing modern attire dark stormy hate faces blurry forest low quality"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Lovers_reversed.png",
+          "CardImage": "CARDIMG_The_Lovers_reversed.png",
+          "Narration": "NARRATION_The_Lovers_reversed.mp3",
+          "Music": "MUSIC_The_Lovers_reversed.mp3",
+          "Movie": "FOCUS_The_Lovers_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_The_Lovers_reversed.png",
+          "Object": "MODEL_The_Lovers_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_The_Lovers_00.png",
+            "FOCUST_REVERSED_The_Lovers_01.png",
+            "FOCUST_REVERSED_The_Lovers_02.png",
+            "FOCUST_REVERSED_The_Lovers_03.png",
+            "FOCUST_REVERSED_The_Lovers_04.png",
+            "FOCUST_REVERSED_The_Lovers_05.png",
+            "FOCUS_REVERSED_The_Lovers_07.png",
+            "FOCUS_REVERSED_The_Lovers_08.png",
+            "FOCUS_REVERSED_The_Lovers_09.png",
+            "FOCUS_REVERSED_The_Lovers_10.png",
+            "FOCUS_REVERSED_The_Lovers_11.png",
+            "FOCUS_REVERSED_The_Lovers_12.png",
+            "FOCUS_REVERSED_The_Lovers_13.png",
+            "FOCUS_REVERSED_The_Lovers_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Lovers_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Lovers card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the The Lovers card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Somber and reflective",
+            "Pace": "Slow",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the ignored red flags, the terrified bride peeking, and the sinister grin of Bluebeard",
+            "De-emphasis": "Avoid over-emphasising the opulence and grandeur of the setting",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Lovers card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, minor, contemplative, ethereal, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Bluebeard",
+            "Positive": "Photorealistic Bluebeard ignored red flags, menacing blue-bearded noble velvet doublet bloody keys chamber door terrified bride peeking, opulent bloody hall torch shadows, sinister grin scars detailed chainmail undercoat blood splatters velvet sheen 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "benevolent open door happy wife daylight casual no blood cartoon keys"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Lovers_between.png",
+          "CardImage": "CARDIMG_The_Lovers_between.png",
+          "Narration": "NARRATION_The_Lovers_between.mp3",
+          "Music": "MUSIC_The_Lovers_between.mp3",
+          "Movie": "FOCUS_The_Lovers_between.mpeg",
+          "PalletImage": "PALLETEIMG_The_Lovers_between.png",
+          "Object": "MODEL_The_Lovers_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Lovers_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Lovers card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the The Lovers card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Female",
+            "Tone": "Warm and uplifting",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the themes associated with the The Lovers card in an between position.",
+            "De-emphasis": "Avoid emphasizing aspects contrary to the between orientation.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Lovers card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, woodwind, romantic, hopeful, warm, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "major"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

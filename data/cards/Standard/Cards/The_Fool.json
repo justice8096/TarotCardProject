@@ -1,0 +1,236 @@
+{
+  "data.Cards": {
+    "Card": "The Fool",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_The_Fool_Upright.png",
+      "ReversedImage": "CARD_The_Fool_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_The_Fool_0.png",
+        "FOCUS_UPRIGHT_The_Fool_1.png",
+        "FOCUS_UPRIGHT_The_Fool_2.png",
+        "FOCUS_UPRIGHT_The_Fool_3.png",
+        "FOCUS_UPRIGHT_The_Fool_4.png",
+        "FOCUS_UPRIGHT_The_Fool_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_The_Fool_0.png",
+        "FOCUS_REVERSED_The_Fool_1.png",
+        "FOCUS_REVERSED_The_Fool_2.png",
+        "FOCUS_REVERSED_The_Fool_3.png",
+        "FOCUS_REVERSED_The_Fool_4.png",
+        "FOCUS_REVERSED_The_Fool_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the The Fool card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the The Fool card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the The Fool card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the The Fool card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Fool_upright.png",
+          "CardImage": "CARDIMG_The_Fool_upright.png",
+          "Narration": "NARRATION_The_Fool_upright.mp3",
+          "Music": "MUSIC_The_Fool_upright.mp3",
+          "Movie": "FOCUS_The_Fool_upright.mpeg",
+          "PalletImage": "PALLETEIMG_The_Fool_upright.png",
+          "Object": "MODEL_The_Fool_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_The_Fool_00.png",
+            "FOCUST_UPRIGHT_The_Fool_01.png",
+            "FOCUST_UPRIGHT_The_Fool_02.png",
+            "FOCUST_UPRIGHT_The_Fool_03.png",
+            "FOCUST_UPRIGHT_The_Fool_04.png",
+            "FOCUST_UPRIGHT_The_Fool_05.png",
+            "FOCUS_UPRIGHT_The_Fool_07.png",
+            "FOCUS_UPRIGHT_The_Fool_08.png",
+            "FOCUS_UPRIGHT_The_Fool_09.png",
+            "FOCUS_UPRIGHT_The_Fool_10.png",
+            "FOCUS_UPRIGHT_The_Fool_11.png",
+            "FOCUS_UPRIGHT_The_Fool_12.png",
+            "FOCUS_UPRIGHT_The_Fool_13.png",
+            "FOCUS_UPRIGHT_The_Fool_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Fool card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the The Fool card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Bold and inspiring",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the sense of adventure, optimism, and freedom embodied by Odysseus as he embarks on a new journey",
+            "De-emphasis": "Avoid over-emphasizing the departure from Ithaca, instead focus on the potential experiences and lessons that lie ahead",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Fool card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, harp, strings, flute, uilleann pipes, ethereal, triumphant, hopeful, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Odysseus",
+            "Positive": "Photorealistic Odysseus departing Ithaca on adventure, rugged muscular Greek hero short dark beard simple wool tunic leather sandals knapsack stick shoulder, standing cliff edge gazing bright sea horizon with sails distant, carefree optimistic smile wind tousled hair, golden dawn light warm skin tones crashing waves mountains backdrop, high detail fabric texture pores dynamic pose, 8k ultra realistic TarotSpreadsheet2.xlsx​",
+            "Negative": "cartoon anime deformed ugly mutated extra limbs poorly drawn face lowres blurry text watermark overexposed underexposed artifacts modern clothes"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Fool_reversed.png",
+          "CardImage": "CARDIMG_The_Fool_reversed.png",
+          "Narration": "NARRATION_The_Fool_reversed.mp3",
+          "Music": "MUSIC_The_Fool_reversed.mp3",
+          "Movie": "FOCUS_The_Fool_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_The_Fool_reversed.png",
+          "Object": "MODEL_The_Fool_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_The_Fool_00.png",
+            "FOCUST_REVERSED_The_Fool_01.png",
+            "FOCUST_REVERSED_The_Fool_02.png",
+            "FOCUST_REVERSED_The_Fool_03.png",
+            "FOCUST_REVERSED_The_Fool_04.png",
+            "FOCUST_REVERSED_The_Fool_05.png",
+            "FOCUS_REVERSED_The_Fool_07.png",
+            "FOCUS_REVERSED_The_Fool_08.png",
+            "FOCUS_REVERSED_The_Fool_09.png",
+            "FOCUS_REVERSED_The_Fool_10.png",
+            "FOCUS_REVERSED_The_Fool_11.png",
+            "FOCUS_REVERSED_The_Fool_12.png",
+            "FOCUS_REVERSED_The_Fool_13.png",
+            "FOCUS_REVERSED_The_Fool_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Fool_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Fool card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the The Fool card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Bold and Cautionary",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the reckless disregard for limits, the impending danger, and the storm brewing",
+            "De-emphasis": "Avoid over-emphasizing the youthful exuberance of Icarus as it may detract from the cautionary message",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Fool card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, ethereal, contemplative, minor, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Icarus",
+            "Positive": "Photorealistic Icarus reckless ignoring limits, young athletic man wings melting wax feathers shedding flying too close fierce sun over jagged cliff storm brewing, panicked wide eyes clenched fists desperate flailing, harsh sunlight glare sweat dripping tanned torso, detailed dripping wax feather loss motion blur dark clouds, 8k hyperreal TarotSpreadsheet2.xlsx​",
+            "Negative": "perfect intact wings calm smile safe landing night sky clothed static plastic feathers low quality distorted proportions"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Fool_between.png",
+          "CardImage": "CARDIMG_The_Fool_between.png",
+          "Narration": "NARRATION_The_Fool_between.mp3",
+          "Music": "MUSIC_The_Fool_between.mp3",
+          "Movie": "FOCUS_The_Fool_between.mpeg",
+          "PalletImage": "PALLETEIMG_The_Fool_between.png",
+          "Object": "MODEL_The_Fool_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Fool_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Fool card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the The Fool card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Bold and inspiring",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight Perseus' bravery, determination, and the journey ahead",
+            "De-emphasis": "Avoid over-emphasizing the danger or fear associated with Medusa",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Fool card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, harp, strings, flute, ethereal, hopeful, optimistic, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Perseus",
+            "Positive": "Photorealistic Perseus poised bravery overconfidence road to Medusa, bronze armored warrior mirrored shield curved harpe sword winged sandals helmet shadow, mid-stride dusty path small cliff ahead intense determined gaze, warm overcast light reflections sweat beaded forehead rocky terrain cave hint, detailed metal engravings skin grit 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "fearful relaxed no armor urban path cartoon shield blurry deformed sword"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

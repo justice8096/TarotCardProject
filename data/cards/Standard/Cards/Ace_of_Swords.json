@@ -1,0 +1,236 @@
+{
+  "data.Cards": {
+    "Card": "Ace of Swords",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_Ace_of_Swords_Upright.png",
+      "ReversedImage": "CARD_Ace_of_Swords_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_Ace_of_Swords_0.png",
+        "FOCUS_UPRIGHT_Ace_of_Swords_1.png",
+        "FOCUS_UPRIGHT_Ace_of_Swords_2.png",
+        "FOCUS_UPRIGHT_Ace_of_Swords_3.png",
+        "FOCUS_UPRIGHT_Ace_of_Swords_4.png",
+        "FOCUS_UPRIGHT_Ace_of_Swords_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_Ace_of_Swords_0.png",
+        "FOCUS_REVERSED_Ace_of_Swords_1.png",
+        "FOCUS_REVERSED_Ace_of_Swords_2.png",
+        "FOCUS_REVERSED_Ace_of_Swords_3.png",
+        "FOCUS_REVERSED_Ace_of_Swords_4.png",
+        "FOCUS_REVERSED_Ace_of_Swords_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the Ace of Swords card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the Ace of Swords card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the Ace of Swords card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the Ace of Swords card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Ace_of_Swords_upright.png",
+          "CardImage": "CARDIMG_Ace_of_Swords_upright.png",
+          "Narration": "NARRATION_Ace_of_Swords_upright.mp3",
+          "Music": "MUSIC_Ace_of_Swords_upright.mp3",
+          "Movie": "FOCUS_Ace_of_Swords_upright.mpeg",
+          "PalletImage": "PALLETEIMG_Ace_of_Swords_upright.png",
+          "Object": "MODEL_Ace_of_Swords_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_Ace_of_Swords_00.png",
+            "FOCUST_UPRIGHT_Ace_of_Swords_01.png",
+            "FOCUST_UPRIGHT_Ace_of_Swords_02.png",
+            "FOCUST_UPRIGHT_Ace_of_Swords_03.png",
+            "FOCUST_UPRIGHT_Ace_of_Swords_04.png",
+            "FOCUST_UPRIGHT_Ace_of_Swords_05.png",
+            "FOCUS_UPRIGHT_Ace_of_Swords_07.png",
+            "FOCUS_UPRIGHT_Ace_of_Swords_08.png",
+            "FOCUS_UPRIGHT_Ace_of_Swords_09.png",
+            "FOCUS_UPRIGHT_Ace_of_Swords_10.png",
+            "FOCUS_UPRIGHT_Ace_of_Swords_11.png",
+            "FOCUS_UPRIGHT_Ace_of_Swords_12.png",
+            "FOCUS_UPRIGHT_Ace_of_Swords_13.png",
+            "FOCUS_UPRIGHT_Ace_of_Swords_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Ace of Swords card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the Ace of Swords card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Bold and inspiring",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the sharp insight, piercing gaze, and the upright sword symbolizing clarity and decisive action.",
+            "De-emphasis": "Avoid over-emphasising the owl or Athena's aegis as they are secondary elements in this card.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Ace of Swords card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, brass, minor, intense, driving, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 100,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Athena",
+            "Positive": "Photorealistic Athena sharp insight, armored goddess crown laurel upright sword cloud hand mountains clear sky light rays, piercing wise gaze detailed blade engravings aegis owl 8k TarotSpreadsheet2.xlsxâ€‹",
+            "Negative": "downward cracked crown jagged stormy no rays fearful cartoon sword low res"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Ace_of_Swords_reversed.png",
+          "CardImage": "CARDIMG_Ace_of_Swords_reversed.png",
+          "Narration": "NARRATION_Ace_of_Swords_reversed.mp3",
+          "Music": "MUSIC_Ace_of_Swords_reversed.mp3",
+          "Movie": "FOCUS_Ace_of_Swords_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_Ace_of_Swords_reversed.png",
+          "Object": "MODEL_Ace_of_Swords_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_Ace_of_Swords_00.png",
+            "FOCUST_REVERSED_Ace_of_Swords_01.png",
+            "FOCUST_REVERSED_Ace_of_Swords_02.png",
+            "FOCUST_REVERSED_Ace_of_Swords_03.png",
+            "FOCUST_REVERSED_Ace_of_Swords_04.png",
+            "FOCUST_REVERSED_Ace_of_Swords_05.png",
+            "FOCUS_REVERSED_Ace_of_Swords_07.png",
+            "FOCUS_REVERSED_Ace_of_Swords_08.png",
+            "FOCUS_REVERSED_Ace_of_Swords_09.png",
+            "FOCUS_REVERSED_Ace_of_Swords_10.png",
+            "FOCUS_REVERSED_Ace_of_Swords_11.png",
+            "FOCUS_REVERSED_Ace_of_Swords_12.png",
+            "FOCUS_REVERSED_Ace_of_Swords_13.png",
+            "FOCUS_REVERSED_Ace_of_Swords_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_Ace_of_Swords_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Ace of Swords card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the Ace of Swords card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Bold and ominous",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the vengeful, horrifying aspect of Medusa's gaze petrifying warriors",
+            "De-emphasis": "Avoid over-emphasising the fear as it may suggest a permanent state, instead focus on the transformative potential",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Ace of Swords card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, reversed, introspective, suspenseful, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 100,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Medusa",
+            "Positive": "Photorealistic Medusa weapon fear, serpentine haired gorgon lethal gaze petrifying warriors tears cave shadows crown cracked, horrified vengeful eyes detailed writhing snakes stone victims 8k TarotSpreadsheet2.xlsxâ€‹",
+            "Negative": "blind harmless calm sunny no snakes human hair cartoon gaze blurry"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Ace_of_Swords_between.png",
+          "CardImage": "CARDIMG_Ace_of_Swords_between.png",
+          "Narration": "NARRATION_Ace_of_Swords_between.mp3",
+          "Music": "MUSIC_Ace_of_Swords_between.mp3",
+          "Movie": "FOCUS_Ace_of_Swords_between.mpeg",
+          "PalletImage": "PALLETEIMG_Ace_of_Swords_between.png",
+          "Object": "MODEL_Ace_of_Swords_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_Ace_of_Swords_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Ace of Swords card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the Ace of Swords card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Bold and inspiring",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the clarity, discernment, and analytical precision embodied by Sherlock in this card.",
+            "De-emphasis": "Avoid over-emphasizing the slight crack or veil as they symbolize imperfections that are part of the process rather than the focus of this card.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Ace of Swords card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, swords (percussion), mystical, minor, contemplative, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 75,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Sherlock rationalist",
+            "Positive": "Photorealistic Sherlock like rationalist clarity heal cut, detective pipe magnifying crown slight crack mixed clouds mountains partial veil, discerning analytical gaze detailed deerstalker pipe lens 8k TarotSpreadsheet2.xlsxâ€‹",
+            "Negative": "emotional irrational dark full crack all jagged no pipe cartoon detective low quality"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

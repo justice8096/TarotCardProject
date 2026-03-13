@@ -1,0 +1,245 @@
+{
+  "data.Cards": {
+    "Card": "Five of Pentacles",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_Five_of_Pentacles_Upright.png",
+      "ReversedImage": "CARD_Five_of_Pentacles_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_Five_of_Pentacles_0.png",
+        "FOCUS_UPRIGHT_Five_of_Pentacles_1.png",
+        "FOCUS_UPRIGHT_Five_of_Pentacles_2.png",
+        "FOCUS_UPRIGHT_Five_of_Pentacles_3.png",
+        "FOCUS_UPRIGHT_Five_of_Pentacles_4.png",
+        "FOCUS_UPRIGHT_Five_of_Pentacles_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_Five_of_Pentacles_0.png",
+        "FOCUS_REVERSED_Five_of_Pentacles_1.png",
+        "FOCUS_REVERSED_Five_of_Pentacles_2.png",
+        "FOCUS_REVERSED_Five_of_Pentacles_3.png",
+        "FOCUS_REVERSED_Five_of_Pentacles_4.png",
+        "FOCUS_REVERSED_Five_of_Pentacles_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the Five of Pentacles card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the Five of Pentacles card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the Five of Pentacles card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the Five of Pentacles card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Five_of_Pentacles_upright.png",
+          "CardImage": "CARDIMG_Five_of_Pentacles_upright.png",
+          "Narration": "NARRATION_Five_of_Pentacles_upright.mp3",
+          "Music": "MUSIC_Five_of_Pentacles_upright.mp3",
+          "Movie": "FOCUS_Five_of_Pentacles_upright.mpeg",
+          "PalletImage": "PALLETEIMG_Five_of_Pentacles_upright.png",
+          "Object": "MODEL_Five_of_Pentacles_upright.obj",
+          "FocusUpright": [
+            "FOCUSUPRIGHTSTILL_Five_of_Pentacles_0.png",
+            "FOCUSUPRIGHTSTILL_Five_of_Pentacles_1.png",
+            "FOCUSUPRIGHTSTILL_Five_of_Pentacles_2.png",
+            "FOCUSUPRIGHTSTILL_Five_of_Pentacles_3.png",
+            "FOCUSUPRIGHTSTILL_Five_of_Pentacles_4.png",
+            "FOCUSUPRIGHTSTILL_Five_of_Pentacles_5.png",
+            "FOCUSUPRIGHTSTILL_Five_of_Pentacles_6.png"
+          ],
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_Five_of_Pentacles_00.png",
+            "FOCUST_UPRIGHT_Five_of_Pentacles_01.png",
+            "FOCUST_UPRIGHT_Five_of_Pentacles_02.png",
+            "FOCUST_UPRIGHT_Five_of_Pentacles_03.png",
+            "FOCUST_UPRIGHT_Five_of_Pentacles_04.png",
+            "FOCUST_UPRIGHT_Five_of_Pentacles_05.png",
+            "FOCUS_UPRIGHT_Five_of_Pentacles_07.png",
+            "FOCUS_UPRIGHT_Five_of_Pentacles_08.png",
+            "FOCUS_UPRIGHT_Five_of_Pentacles_09.png",
+            "FOCUS_UPRIGHT_Five_of_Pentacles_10.png",
+            "FOCUS_UPRIGHT_Five_of_Pentacles_11.png",
+            "FOCUS_UPRIGHT_Five_of_Pentacles_12.png",
+            "FOCUS_UPRIGHT_Five_of_Pentacles_13.png",
+            "FOCUS_UPRIGHT_Five_of_Pentacles_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Five of Pentacles card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the Five of Pentacles card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Somber and reflective",
+            "Pace": "Slow",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the struggle, hardship, and perseverance of those left out in the cold.",
+            "De-emphasis": "Avoid over-emphasizing the church itself, instead focus on the people and their plight.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Five of Pentacles card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, slow, melancholic, introspective, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 70,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Church poor",
+            "Positive": "Photorealistic church poor hardship exclusion, ragged beggars snow stained windows two pentacles blizzard crutches rags, desperate huddled faces frostbite detailed snow icicles torn cloth 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "warm inside prosperous sunny no snow healed confident cartoon rags low res"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Five_of_Pentacles_reversed.png",
+          "CardImage": "CARDIMG_Five_of_Pentacles_reversed.png",
+          "Narration": "NARRATION_Five_of_Pentacles_reversed.mp3",
+          "Music": "MUSIC_Five_of_Pentacles_reversed.mp3",
+          "Movie": "FOCUS_Five_of_Pentacles_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_Five_of_Pentacles_reversed.png",
+          "Object": "MODEL_Five_of_Pentacles_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_Five_of_Pentacles_00.png",
+            "FOCUST_REVERSED_Five_of_Pentacles_01.png",
+            "FOCUST_REVERSED_Five_of_Pentacles_02.png",
+            "FOCUST_REVERSED_Five_of_Pentacles_03.png",
+            "FOCUST_REVERSED_Five_of_Pentacles_04.png",
+            "FOCUST_REVERSED_Five_of_Pentacles_05.png",
+            "FOCUS_REVERSED_Five_of_Pentacles_07.png",
+            "FOCUS_REVERSED_Five_of_Pentacles_08.png",
+            "FOCUS_REVERSED_Five_of_Pentacles_09.png",
+            "FOCUS_REVERSED_Five_of_Pentacles_10.png",
+            "FOCUS_REVERSED_Five_of_Pentacles_11.png",
+            "FOCUS_REVERSED_Five_of_Pentacles_12.png",
+            "FOCUS_REVERSED_Five_of_Pentacles_13.png",
+            "FOCUS_REVERSED_Five_of_Pentacles_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_Five_of_Pentacles_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Five of Pentacles card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the Five of Pentacles card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Somber and reflective",
+            "Pace": "Slow",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the isolation and loneliness of Scrooge, symbolizing a need for connection and empathy.",
+            "De-emphasis": "Avoid over-emphasizing the miserly nature of Scrooge to instead focus on his potential for change.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Five of Pentacles card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, ambient, hopeful, growing, building, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 75,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Scrooge outsider",
+            "Positive": "Photorealistic Scrooge isolated poverty, miserly figure barren street locked church windows pentacles clutched cold shadows, avaricious lonely detailed frock coat frost breath chains 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "generous sharing warm church included community cartoon chains blurry"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Five_of_Pentacles_between.png",
+          "CardImage": "CARDIMG_Five_of_Pentacles_between.png",
+          "Narration": "NARRATION_Five_of_Pentacles_between.mp3",
+          "Music": "MUSIC_Five_of_Pentacles_between.mp3",
+          "Movie": "FOCUS_Five_of_Pentacles_between.mpeg",
+          "PalletImage": "PALLETEIMG_Five_of_Pentacles_between.png",
+          "Object": "MODEL_Five_of_Pentacles_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_Five_of_Pentacles_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Five of Pentacles card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the Five of Pentacles card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Somber and reflective",
+            "Pace": "Slow",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the desperate hope of the lepers seeking aid, despite their dire circumstances.",
+            "De-emphasis": "Avoid over-emphasising the disease or suffering, instead focus on their resilience and determination.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Five of Pentacles card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, slow, introspective, ethereal, hopeful, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Lepers gate",
+            "Positive": "Photorealistic lepers seeking aid gate, diseased figures partial snow windows pentacles distant warm light one crutch firm mixed desperate hope, detailed bandages snow melt 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "fully excluded all snow no light extreme despair cartoon bandages low quality"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

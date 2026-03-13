@@ -1,0 +1,236 @@
+{
+  "data.Cards": {
+    "Card": "Wheel of Fortune",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_Wheel_of_Fortune_Upright.png",
+      "ReversedImage": "CARD_Wheel_of_Fortune_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_Wheel_of_Fortune_0.png",
+        "FOCUS_UPRIGHT_Wheel_of_Fortune_1.png",
+        "FOCUS_UPRIGHT_Wheel_of_Fortune_2.png",
+        "FOCUS_UPRIGHT_Wheel_of_Fortune_3.png",
+        "FOCUS_UPRIGHT_Wheel_of_Fortune_4.png",
+        "FOCUS_UPRIGHT_Wheel_of_Fortune_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_Wheel_of_Fortune_0.png",
+        "FOCUS_REVERSED_Wheel_of_Fortune_1.png",
+        "FOCUS_REVERSED_Wheel_of_Fortune_2.png",
+        "FOCUS_REVERSED_Wheel_of_Fortune_3.png",
+        "FOCUS_REVERSED_Wheel_of_Fortune_4.png",
+        "FOCUS_REVERSED_Wheel_of_Fortune_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the Wheel of Fortune card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the Wheel of Fortune card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the Wheel of Fortune card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the Wheel of Fortune card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Wheel_of_Fortune_upright.png",
+          "CardImage": "CARDIMG_Wheel_of_Fortune_upright.png",
+          "Narration": "NARRATION_Wheel_of_Fortune_upright.mp3",
+          "Music": "MUSIC_Wheel_of_Fortune_upright.mp3",
+          "Movie": "FOCUS_Wheel_of_Fortune_upright.mpeg",
+          "PalletImage": "PALLETEIMG_Wheel_of_Fortune_upright.png",
+          "Object": "MODEL_Wheel_of_Fortune_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_Wheel_of_Fortune_00.png",
+            "FOCUST_UPRIGHT_Wheel_of_Fortune_01.png",
+            "FOCUST_UPRIGHT_Wheel_of_Fortune_02.png",
+            "FOCUST_UPRIGHT_Wheel_of_Fortune_03.png",
+            "FOCUST_UPRIGHT_Wheel_of_Fortune_04.png",
+            "FOCUST_UPRIGHT_Wheel_of_Fortune_05.png",
+            "FOCUS_UPRIGHT_Wheel_of_Fortune_07.png",
+            "FOCUS_UPRIGHT_Wheel_of_Fortune_08.png",
+            "FOCUS_UPRIGHT_Wheel_of_Fortune_09.png",
+            "FOCUS_UPRIGHT_Wheel_of_Fortune_10.png",
+            "FOCUS_UPRIGHT_Wheel_of_Fortune_11.png",
+            "FOCUS_UPRIGHT_Wheel_of_Fortune_12.png",
+            "FOCUS_UPRIGHT_Wheel_of_Fortune_13.png",
+            "FOCUS_UPRIGHT_Wheel_of_Fortune_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Wheel of Fortune card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the Wheel of Fortune card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Mystical and Empowering",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the dynamic spin of Fortuna's wheel, symbolizing the cyclic nature of luck and change.",
+            "De-emphasis": "Avoid over-emphasising the veil or blindfold, as they represent acceptance and surrender to the cycles of fate.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Wheel of Fortune card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic, Orchestral, Harp, Strings, Flute, Mystical, Cinematic, Epic, Instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Fortuna",
+            "Positive": "Photorealistic Fortuna turning luck cycles, veiled Roman goddess wheel spheres cloth blindfold cornucopia, dynamic wheel spin four creatures books snake ascending descending figures clouds, golden ethereal light detailed fabrics spheres engravings 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "broken wheel static pose dark grim no symbols cartoon veils low res deformed"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Wheel_of_Fortune_reversed.png",
+          "CardImage": "CARDIMG_Wheel_of_Fortune_reversed.png",
+          "Narration": "NARRATION_Wheel_of_Fortune_reversed.mp3",
+          "Music": "MUSIC_Wheel_of_Fortune_reversed.mp3",
+          "Movie": "FOCUS_Wheel_of_Fortune_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_Wheel_of_Fortune_reversed.png",
+          "Object": "MODEL_Wheel_of_Fortune_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_Wheel_of_Fortune_00.png",
+            "FOCUST_REVERSED_Wheel_of_Fortune_01.png",
+            "FOCUST_REVERSED_Wheel_of_Fortune_02.png",
+            "FOCUST_REVERSED_Wheel_of_Fortune_03.png",
+            "FOCUST_REVERSED_Wheel_of_Fortune_04.png",
+            "FOCUST_REVERSED_Wheel_of_Fortune_05.png",
+            "FOCUS_REVERSED_Wheel_of_Fortune_07.png",
+            "FOCUS_REVERSED_Wheel_of_Fortune_08.png",
+            "FOCUS_REVERSED_Wheel_of_Fortune_09.png",
+            "FOCUS_REVERSED_Wheel_of_Fortune_10.png",
+            "FOCUS_REVERSED_Wheel_of_Fortune_11.png",
+            "FOCUS_REVERSED_Wheel_of_Fortune_12.png",
+            "FOCUS_REVERSED_Wheel_of_Fortune_13.png",
+            "FOCUS_REVERSED_Wheel_of_Fortune_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_Wheel_of_Fortune_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Wheel of Fortune card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the Wheel of Fortune card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Somber and reflective",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the eternal struggle of Sisyphus, symbolizing cycles of hardship and perseverance in the face of adversity.",
+            "De-emphasis": "Avoid over-emphasising the despair or hopelessness, instead focus on the resilience and determination shown by Sisyphus.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Wheel of Fortune card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, ambient, ethereal, reversed, contemplative, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Sisyphus",
+            "Positive": "Photorealistic Sisyphus repeating misfortune unlearning, condemned muscular man eternally pushing boulder uphill sweat despair etched face slipping rocks, barren slope eternal loop sunset harsh shadows, detailed muscle strain boulder cracks dust veins 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "relaxed boulder top happy meadow green lush learning smile cartoon rock low quality"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Wheel_of_Fortune_between.png",
+          "CardImage": "CARDIMG_Wheel_of_Fortune_between.png",
+          "Narration": "NARRATION_Wheel_of_Fortune_between.mp3",
+          "Music": "MUSIC_Wheel_of_Fortune_between.mp3",
+          "Movie": "FOCUS_Wheel_of_Fortune_between.mpeg",
+          "PalletImage": "PALLETEIMG_Wheel_of_Fortune_between.png",
+          "Object": "MODEL_Wheel_of_Fortune_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_Wheel_of_Fortune_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Wheel of Fortune card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the Wheel of Fortune card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Somber and reflective",
+            "Pace": "Slow",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the tragic fate of Oedipus, the twist at the crossroads, and the prophetic sorrow in his haunted gaze.",
+            "De-emphasis": "Avoid over-emphasising the sphinx or distant oracle path as they may distract from the central theme of Oedipus' destiny.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Wheel of Fortune card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, ethereal, mystical, contemplative, building, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Oedipus",
+            "Positive": "Photorealistic Oedipus crossroads fate twist, tragic king riddled staff Theban road fork blinded eyes partially bandaged haunted prescient gaze sphinx distant, dusty oracle path twilight foreboding clouds detailed rags dust prophetic sorrow 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "joyful sighted sunny straight path no staff modern clothes blurry sphinx"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

@@ -1,0 +1,236 @@
+{
+  "data.Cards": {
+    "Card": "Queen of Wands",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_Queen_of_Wands_Upright.png",
+      "ReversedImage": "CARD_Queen_of_Wands_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_Queen_of_Wands_0.png",
+        "FOCUS_UPRIGHT_Queen_of_Wands_1.png",
+        "FOCUS_UPRIGHT_Queen_of_Wands_2.png",
+        "FOCUS_UPRIGHT_Queen_of_Wands_3.png",
+        "FOCUS_UPRIGHT_Queen_of_Wands_4.png",
+        "FOCUS_UPRIGHT_Queen_of_Wands_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_Queen_of_Wands_0.png",
+        "FOCUS_REVERSED_Queen_of_Wands_1.png",
+        "FOCUS_REVERSED_Queen_of_Wands_2.png",
+        "FOCUS_REVERSED_Queen_of_Wands_3.png",
+        "FOCUS_REVERSED_Queen_of_Wands_4.png",
+        "FOCUS_REVERSED_Queen_of_Wands_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the Queen of Wands card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the Queen of Wands card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the Queen of Wands card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the Queen of Wands card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Queen_of_Wands_upright.png",
+          "CardImage": "CARDIMG_Queen_of_Wands_upright.png",
+          "Narration": "NARRATION_Queen_of_Wands_upright.mp3",
+          "Music": "MUSIC_Queen_of_Wands_upright.mp3",
+          "Movie": "FOCUS_Queen_of_Wands_upright.mpeg",
+          "PalletImage": "PALLETEIMG_Queen_of_Wands_upright.png",
+          "Object": "MODEL_Queen_of_Wands_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_Queen_of_Wands_00.png",
+            "FOCUST_UPRIGHT_Queen_of_Wands_01.png",
+            "FOCUST_UPRIGHT_Queen_of_Wands_02.png",
+            "FOCUST_UPRIGHT_Queen_of_Wands_03.png",
+            "FOCUST_UPRIGHT_Queen_of_Wands_04.png",
+            "FOCUST_UPRIGHT_Queen_of_Wands_05.png",
+            "FOCUS_UPRIGHT_Queen_of_Wands_07.png",
+            "FOCUS_UPRIGHT_Queen_of_Wands_08.png",
+            "FOCUS_UPRIGHT_Queen_of_Wands_09.png",
+            "FOCUS_UPRIGHT_Queen_of_Wands_10.png",
+            "FOCUS_UPRIGHT_Queen_of_Wands_11.png",
+            "FOCUS_UPRIGHT_Queen_of_Wands_12.png",
+            "FOCUS_UPRIGHT_Queen_of_Wands_13.png",
+            "FOCUS_UPRIGHT_Queen_of_Wands_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Queen of Wands card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the Queen of Wands card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Bold and inspiring",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the fiery inspiration, creative energy, and magnetic presence of Brigid as the Queen of Wands.",
+            "De-emphasis": "Avoid over-emphasizing the black cat or salamanders; they are merely symbols accompanying the central theme.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Queen of Wands card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic ambient orchestral, violins, harp, flute, uilleann pipes, upbeat, triumphant, majestic, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 100,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Brigid",
+            "Positive": "Photorealistic Brigid fiery inspiration, celtic goddess throne sunflower wand black cat lions salamanders warm gold orange, magnetic creative face flames hearth detailed fur petals throne carvings 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "vain drooping cat turned away shadow face few leaves harsher symbols cartoon cat low quality"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Queen_of_Wands_reversed.png",
+          "CardImage": "CARDIMG_Queen_of_Wands_reversed.png",
+          "Narration": "NARRATION_Queen_of_Wands_reversed.mp3",
+          "Music": "MUSIC_Queen_of_Wands_reversed.mp3",
+          "Movie": "FOCUS_Queen_of_Wands_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_Queen_of_Wands_reversed.png",
+          "Object": "MODEL_Queen_of_Wands_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_Queen_of_Wands_00.png",
+            "FOCUST_REVERSED_Queen_of_Wands_01.png",
+            "FOCUST_REVERSED_Queen_of_Wands_02.png",
+            "FOCUST_REVERSED_Queen_of_Wands_03.png",
+            "FOCUST_REVERSED_Queen_of_Wands_04.png",
+            "FOCUST_REVERSED_Queen_of_Wands_05.png",
+            "FOCUS_REVERSED_Queen_of_Wands_07.png",
+            "FOCUS_REVERSED_Queen_of_Wands_08.png",
+            "FOCUS_REVERSED_Queen_of_Wands_09.png",
+            "FOCUS_REVERSED_Queen_of_Wands_10.png",
+            "FOCUS_REVERSED_Queen_of_Wands_11.png",
+            "FOCUS_REVERSED_Queen_of_Wands_12.png",
+            "FOCUS_REVERSED_Queen_of_Wands_13.png",
+            "FOCUS_REVERSED_Queen_of_Wands_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_Queen_of_Wands_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Queen of Wands card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the Queen of Wands card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Bold and condescending",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the wilted sunflower, the bristling cat, and the smug expression on the hostess's face.",
+            "De-emphasis": "Avoid over-emphasising the throne or the faded petals as they may distract from the main message of vanity and superficiality.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Queen of Wands card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic, Orchestral, Ambient, Strings, Harp, Reversed, Queen, Wands, Growth, Potential, Stability, Opportunity, Minor, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "Minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Vain salon hostess",
+            "Positive": "Photorealistic vain hostess no depth, superficial socialite sunflower wilted throne cat bristling few leaves harsh symbols shadow face, smug shallow makeup detailed faded petals claw marks 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "deep genuine warm light full blooms calm cat authentic expression cartoon makeup blurry"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Queen_of_Wands_between.png",
+          "CardImage": "CARDIMG_Queen_of_Wands_between.png",
+          "Narration": "NARRATION_Queen_of_Wands_between.mp3",
+          "Music": "MUSIC_Queen_of_Wands_between.mp3",
+          "Movie": "FOCUS_Queen_of_Wands_between.mpeg",
+          "PalletImage": "PALLETEIMG_Queen_of_Wands_between.png",
+          "Object": "MODEL_Queen_of_Wands_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_Queen_of_Wands_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Queen of Wands card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the Queen of Wands card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Enigmatic and Magnetic",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the powerful, alluring presence of Morgan le Fay, her crossed stance, and the mysterious, uneven growth of sunflower petals.",
+            "De-emphasis": "Avoid over-emphasizing the missing cat or the imperfection in the wand's growth.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Queen of Wands card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, violins, harp, flute, strings ensemble, uilleann pipes, ethereal, triumphant, majestic, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Morgan le Fay",
+            "Positive": "Photorealistic Morgan le Fay dangerous crossed, enigmatic sorceress throne half light shadow sunflower petals missing cat alert wand uneven growth, magnetic wary beautiful face detailed mixed petals fur 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "purely good evil extremes full shadow light no cat cartoon magic low res"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

@@ -1,0 +1,245 @@
+{
+  "data.Cards": {
+    "Card": "Five of Swords",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_Five_of_Swords_Upright.png",
+      "ReversedImage": "CARD_Five_of_Swords_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_Five_of_Swords_0.png",
+        "FOCUS_UPRIGHT_Five_of_Swords_1.png",
+        "FOCUS_UPRIGHT_Five_of_Swords_2.png",
+        "FOCUS_UPRIGHT_Five_of_Swords_3.png",
+        "FOCUS_UPRIGHT_Five_of_Swords_4.png",
+        "FOCUS_UPRIGHT_Five_of_Swords_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_Five_of_Swords_0.png",
+        "FOCUS_REVERSED_Five_of_Swords_1.png",
+        "FOCUS_REVERSED_Five_of_Swords_2.png",
+        "FOCUS_REVERSED_Five_of_Swords_3.png",
+        "FOCUS_REVERSED_Five_of_Swords_4.png",
+        "FOCUS_REVERSED_Five_of_Swords_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the Five of Swords card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the Five of Swords card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the Five of Swords card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the Five of Swords card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Five_of_Swords_upright.png",
+          "CardImage": "CARDIMG_Five_of_Swords_upright.png",
+          "Narration": "NARRATION_Five_of_Swords_upright.mp3",
+          "Music": "MUSIC_Five_of_Swords_upright.mp3",
+          "Movie": "FOCUS_Five_of_Swords_upright.mpeg",
+          "PalletImage": "PALLETEIMG_Five_of_Swords_upright.png",
+          "Object": "MODEL_Five_of_Swords_upright.obj",
+          "FocusUpright": [
+            "FOCUSUPRIGHTSTILL_Five_of_Swords_0.png",
+            "FOCUSUPRIGHTSTILL_Five_of_Swords_1.png",
+            "FOCUSUPRIGHTSTILL_Five_of_Swords_2.png",
+            "FOCUSUPRIGHTSTILL_Five_of_Swords_3.png",
+            "FOCUSUPRIGHTSTILL_Five_of_Swords_4.png",
+            "FOCUSUPRIGHTSTILL_Five_of_Swords_5.png",
+            "FOCUSUPRIGHTSTILL_Five_of_Swords_6.png"
+          ],
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_Five_of_Swords_00.png",
+            "FOCUST_UPRIGHT_Five_of_Swords_01.png",
+            "FOCUST_UPRIGHT_Five_of_Swords_02.png",
+            "FOCUST_UPRIGHT_Five_of_Swords_03.png",
+            "FOCUST_UPRIGHT_Five_of_Swords_04.png",
+            "FOCUST_UPRIGHT_Five_of_Swords_05.png",
+            "FOCUS_UPRIGHT_Five_of_Swords_07.png",
+            "FOCUS_UPRIGHT_Five_of_Swords_08.png",
+            "FOCUS_UPRIGHT_Five_of_Swords_09.png",
+            "FOCUS_UPRIGHT_Five_of_Swords_10.png",
+            "FOCUS_UPRIGHT_Five_of_Swords_11.png",
+            "FOCUS_UPRIGHT_Five_of_Swords_12.png",
+            "FOCUS_UPRIGHT_Five_of_Swords_13.png",
+            "FOCUS_UPRIGHT_Five_of_Swords_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Five of Swords card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the Five of Swords card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Sly and Triumphant",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the cleverness of Till Eulenspiegel as he manages to secure petty victories, even when others walk away with more swords.",
+            "De-emphasis": "Avoid over-emphasizing the broken swords or the figures walking away. Instead, focus on the smirk and triumph of Till.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Five of Swords card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, oboe, slow, melancholic, introspective, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 60,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Till Eulenspiegel",
+            "Positive": "Photorealistic Till Eulenspiegel petty victories, clever jester two swords gathered one upright two figures walk away ground swords broken clouds shore, sly triumphant smirk detailed motley bells mud 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "moral victory fair humble dark hunched defeated choppy cartoon bells deformed"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Five_of_Swords_reversed.png",
+          "CardImage": "CARDIMG_Five_of_Swords_reversed.png",
+          "Narration": "NARRATION_Five_of_Swords_reversed.mp3",
+          "Music": "MUSIC_Five_of_Swords_reversed.mp3",
+          "Movie": "FOCUS_Five_of_Swords_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_Five_of_Swords_reversed.png",
+          "Object": "MODEL_Five_of_Swords_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_Five_of_Swords_00.png",
+            "FOCUST_REVERSED_Five_of_Swords_01.png",
+            "FOCUST_REVERSED_Five_of_Swords_02.png",
+            "FOCUST_REVERSED_Five_of_Swords_03.png",
+            "FOCUST_REVERSED_Five_of_Swords_04.png",
+            "FOCUST_REVERSED_Five_of_Swords_05.png",
+            "FOCUS_REVERSED_Five_of_Swords_07.png",
+            "FOCUS_REVERSED_Five_of_Swords_08.png",
+            "FOCUS_REVERSED_Five_of_Swords_09.png",
+            "FOCUS_REVERSED_Five_of_Swords_10.png",
+            "FOCUS_REVERSED_Five_of_Swords_11.png",
+            "FOCUS_REVERSED_Five_of_Swords_12.png",
+            "FOCUS_REVERSED_Five_of_Swords_13.png",
+            "FOCUS_REVERSED_Five_of_Swords_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_Five_of_Swords_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Five of Swords card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the Five of Swords card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Somber and reflective",
+            "Pace": "Slow",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the hollow eyes of Cain, symbolizing regret and guilt over his fratricide.",
+            "De-emphasis": "Avoid over-emphasizing the victory aspect as it is a hollow one, tainted by remorse.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Five of Swords card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, ambient, reversed, introspective, hopeful, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Cain",
+            "Positive": "Photorealistic Cain moral loss victory, marked fratricide bloodied stones brother body victory hollow eyes wilderness mark glow, desolate detailed blood rocks guilt shadows 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "innocent joyful green field no mark modern clean cartoon rocks low res"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Five_of_Swords_between.png",
+          "CardImage": "CARDIMG_Five_of_Swords_between.png",
+          "Narration": "NARRATION_Five_of_Swords_between.mp3",
+          "Music": "MUSIC_Five_of_Swords_between.mp3",
+          "Movie": "FOCUS_Five_of_Swords_between.mpeg",
+          "PalletImage": "PALLETEIMG_Five_of_Swords_between.png",
+          "Object": "MODEL_Five_of_Swords_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_Five_of_Swords_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Five of Swords card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the Five of Swords card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Thoughtful and Reflective",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the moment of reconsideration in Robin Hood's actions, the neutral swords left behind symbolizing a decision towards less violence.",
+            "De-emphasis": "Avoid over-emphasizing the act of leaving, instead focus on the contemplative nature and the potential change in strategy.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Five of Swords card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-inspired ambient orchestral, harp, strings, flute, minor, introspective, thoughtful, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Robin Hood",
+            "Positive": "Photorealistic Robin Hood reconsider means ends, outlaw some swords carried left neutral mixed expression one staying leaving blue grey sky, thoughtful detailed hood arrows mud grass 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "purely good evil extremes all carried left no thought cartoon hood blurry"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

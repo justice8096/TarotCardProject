@@ -1,0 +1,236 @@
+{
+  "data.Cards": {
+    "Card": "The Devil",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_The_Devil_Upright.png",
+      "ReversedImage": "CARD_The_Devil_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_The_Devil_0.png",
+        "FOCUS_UPRIGHT_The_Devil_1.png",
+        "FOCUS_UPRIGHT_The_Devil_2.png",
+        "FOCUS_UPRIGHT_The_Devil_3.png",
+        "FOCUS_UPRIGHT_The_Devil_4.png",
+        "FOCUS_UPRIGHT_The_Devil_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_The_Devil_0.png",
+        "FOCUS_REVERSED_The_Devil_1.png",
+        "FOCUS_REVERSED_The_Devil_2.png",
+        "FOCUS_REVERSED_The_Devil_3.png",
+        "FOCUS_REVERSED_The_Devil_4.png",
+        "FOCUS_REVERSED_The_Devil_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the The Devil card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the The Devil card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the The Devil card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the The Devil card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Devil_upright.png",
+          "CardImage": "CARDIMG_The_Devil_upright.png",
+          "Narration": "NARRATION_The_Devil_upright.mp3",
+          "Music": "MUSIC_The_Devil_upright.mp3",
+          "Movie": "FOCUS_The_Devil_upright.mpeg",
+          "PalletImage": "PALLETEIMG_The_Devil_upright.png",
+          "Object": "MODEL_The_Devil_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_The_Devil_00.png",
+            "FOCUST_UPRIGHT_The_Devil_01.png",
+            "FOCUST_UPRIGHT_The_Devil_02.png",
+            "FOCUST_UPRIGHT_The_Devil_03.png",
+            "FOCUST_UPRIGHT_The_Devil_04.png",
+            "FOCUST_UPRIGHT_The_Devil_05.png",
+            "FOCUS_UPRIGHT_The_Devil_07.png",
+            "FOCUS_UPRIGHT_The_Devil_08.png",
+            "FOCUS_UPRIGHT_The_Devil_09.png",
+            "FOCUS_UPRIGHT_The_Devil_10.png",
+            "FOCUS_UPRIGHT_The_Devil_11.png",
+            "FOCUS_UPRIGHT_The_Devil_12.png",
+            "FOCUS_UPRIGHT_The_Devil_13.png",
+            "FOCUS_UPRIGHT_The_Devil_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Devil card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the The Devil card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Bold and Seductive",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the themes of temptation, seduction, and the struggle between free will and desire as embodied by Mephistopheles Faust.",
+            "De-emphasis": "Avoid over-emphasising the negative connotations of bondage or chains. Instead, focus on the allure and power dynamics present in the scene.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Devil card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, brass, dark, suspenseful, building, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 75,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Mephistopheles Faust",
+            "Positive": "Photorealistic Mephistopheles tempting bondage, suave demonic noble black velvet cape horns tail contract scroll Faust study candlelight, seductive persuasive smirk shadows chains loose humans, detailed parchment seal velvet horns flames 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "ugly clumsy bright day no contract scared face cartoon horns low res deformed tail"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Devil_reversed.png",
+          "CardImage": "CARDIMG_The_Devil_reversed.png",
+          "Narration": "NARRATION_The_Devil_reversed.mp3",
+          "Music": "MUSIC_The_Devil_reversed.mp3",
+          "Movie": "FOCUS_The_Devil_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_The_Devil_reversed.png",
+          "Object": "MODEL_The_Devil_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_The_Devil_00.png",
+            "FOCUST_REVERSED_The_Devil_01.png",
+            "FOCUST_REVERSED_The_Devil_02.png",
+            "FOCUST_REVERSED_The_Devil_03.png",
+            "FOCUST_REVERSED_The_Devil_04.png",
+            "FOCUST_REVERSED_The_Devil_05.png",
+            "FOCUS_REVERSED_The_Devil_07.png",
+            "FOCUS_REVERSED_The_Devil_08.png",
+            "FOCUS_REVERSED_The_Devil_09.png",
+            "FOCUS_REVERSED_The_Devil_10.png",
+            "FOCUS_REVERSED_The_Devil_11.png",
+            "FOCUS_REVERSED_The_Devil_12.png",
+            "FOCUS_REVERSED_The_Devil_13.png",
+            "FOCUS_REVERSED_The_Devil_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Devil_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Devil card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the The Devil card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Somber and reflective",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the coercive charisma of the Pied Piper, the hypnotic trance of the children and rats, and the multicolored pipe casting shadows.",
+            "De-emphasis": "Avoid over-emphasizing the negative connotations of The Devil card. Instead, focus on the theme of seduction and the power of charisma.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Devil card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, dark, suspenseful, ambient, reversed, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Pied Piper",
+            "Positive": "Photorealistic Pied Piper coercive charisma, colorful clad piper flute leading entranced rats children cave mouth, hypnotic mesmerizing eyes multicolored pipe shadows, detailed fur ripples cloth patterns faces trance 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "ugly ignored no followers sunny street angry no flute cartoon rats blurry"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Devil_between.png",
+          "CardImage": "CARDIMG_The_Devil_between.png",
+          "Narration": "NARRATION_The_Devil_between.mp3",
+          "Music": "MUSIC_The_Devil_between.mp3",
+          "Movie": "FOCUS_The_Devil_between.mpeg",
+          "PalletImage": "PALLETEIMG_The_Devil_between.png",
+          "Object": "MODEL_The_Devil_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Devil_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Devil card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the The Devil card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Entrancing and Alluring",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the seductive pull of the Sirens, their hypnotic beauty, and the struggle between temptation and resistance.",
+            "De-emphasis": "Avoid over-emphasising the negative connotations associated with The Devil. Instead, focus on the complex dance between freedom and desire.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Devil card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, dark, ominous, suspenseful, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Sirens",
+            "Positive": "Photorealistic Sirens navigable seductive pull, alluring winged sea nymphs rocky isle ship passing sailors straining oars resist song, hypnotic beautiful faces waves crashing feathers, moonlit sea spray detailed scales wings hair jewels 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "ugly monstrous crashing ship daylight chained cartoon wings deformed faces"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

@@ -1,0 +1,236 @@
+{
+  "data.Cards": {
+    "Card": "The Tower",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_The_Tower_Upright.png",
+      "ReversedImage": "CARD_The_Tower_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_The_Tower_0.png",
+        "FOCUS_UPRIGHT_The_Tower_1.png",
+        "FOCUS_UPRIGHT_The_Tower_2.png",
+        "FOCUS_UPRIGHT_The_Tower_3.png",
+        "FOCUS_UPRIGHT_The_Tower_4.png",
+        "FOCUS_UPRIGHT_The_Tower_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_The_Tower_0.png",
+        "FOCUS_REVERSED_The_Tower_1.png",
+        "FOCUS_REVERSED_The_Tower_2.png",
+        "FOCUS_REVERSED_The_Tower_3.png",
+        "FOCUS_REVERSED_The_Tower_4.png",
+        "FOCUS_REVERSED_The_Tower_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the The Tower card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the The Tower card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the The Tower card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the The Tower card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Tower_upright.png",
+          "CardImage": "CARDIMG_The_Tower_upright.png",
+          "Narration": "NARRATION_The_Tower_upright.mp3",
+          "Music": "MUSIC_The_Tower_upright.mp3",
+          "Movie": "FOCUS_The_Tower_upright.mpeg",
+          "PalletImage": "PALLETEIMG_The_Tower_upright.png",
+          "Object": "MODEL_The_Tower_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_The_Tower_00.png",
+            "FOCUST_UPRIGHT_The_Tower_01.png",
+            "FOCUST_UPRIGHT_The_Tower_02.png",
+            "FOCUST_UPRIGHT_The_Tower_03.png",
+            "FOCUST_UPRIGHT_The_Tower_04.png",
+            "FOCUST_UPRIGHT_The_Tower_05.png",
+            "FOCUS_UPRIGHT_The_Tower_07.png",
+            "FOCUS_UPRIGHT_The_Tower_08.png",
+            "FOCUS_UPRIGHT_The_Tower_09.png",
+            "FOCUS_UPRIGHT_The_Tower_10.png",
+            "FOCUS_UPRIGHT_The_Tower_11.png",
+            "FOCUS_UPRIGHT_The_Tower_12.png",
+            "FOCUS_UPRIGHT_The_Tower_13.png",
+            "FOCUS_UPRIGHT_The_Tower_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Tower card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the The Tower card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Bold and inspiring",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the sudden, disruptive change symbolized by the falling tower and the hubris of the arrogant builders.",
+            "De-emphasis": "Avoid over-emphasizing the chaos or destruction; instead, focus on the potential for transformation and renewal after the storm.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Tower card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, brass, percussion, introspective, dramatic, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Builders Babel",
+            "Positive": "Photorealistic Babel builders arrogant struck down, diverse ancient workers half built ziggurat lightning crown falls flames tumble figures, chaotic storm clouds hubris faces, detailed scaffolding bricks smoke lightning 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "intact tower calm sunny finished building happy faces cartoon lightning low quality"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Tower_reversed.png",
+          "CardImage": "CARDIMG_The_Tower_reversed.png",
+          "Narration": "NARRATION_The_Tower_reversed.mp3",
+          "Music": "MUSIC_The_Tower_reversed.mp3",
+          "Movie": "FOCUS_The_Tower_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_The_Tower_reversed.png",
+          "Object": "MODEL_The_Tower_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_The_Tower_00.png",
+            "FOCUST_REVERSED_The_Tower_01.png",
+            "FOCUST_REVERSED_The_Tower_02.png",
+            "FOCUST_REVERSED_The_Tower_03.png",
+            "FOCUST_REVERSED_The_Tower_04.png",
+            "FOCUST_REVERSED_The_Tower_05.png",
+            "FOCUS_REVERSED_The_Tower_07.png",
+            "FOCUS_REVERSED_The_Tower_08.png",
+            "FOCUS_REVERSED_The_Tower_09.png",
+            "FOCUS_REVERSED_The_Tower_10.png",
+            "FOCUS_REVERSED_The_Tower_11.png",
+            "FOCUS_REVERSED_The_Tower_12.png",
+            "FOCUS_REVERSED_The_Tower_13.png",
+            "FOCUS_REVERSED_The_Tower_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Tower_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Tower card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the The Tower card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Somber and reflective",
+            "Pace": "Slow",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the chaos, horror, and Pandora's curiosity as she opens the box, revealing the demons.",
+            "De-emphasis": "Avoid over-emphasizing hope or the simple hut. The card suggests turmoil rather than resolution.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Tower card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, reversed, contemplative, introspective, hopeful, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Pandora",
+            "Positive": "Photorealistic Pandora catastrophe curiosity, beautiful robed woman opening ornate box evils demons flying face horror hope remains, simple hut shadows chaos winged horrors, detailed box carvings wings faces terror 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "closed box calm smiling modern jar sunny no demons cartoon evils blurry"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Tower_between.png",
+          "CardImage": "CARDIMG_The_Tower_between.png",
+          "Narration": "NARRATION_The_Tower_between.mp3",
+          "Music": "MUSIC_The_Tower_between.mp3",
+          "Movie": "FOCUS_The_Tower_between.mpeg",
+          "PalletImage": "PALLETEIMG_The_Tower_between.png",
+          "Object": "MODEL_The_Tower_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Tower_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Tower card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the The Tower card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Bold and inspiring",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the urgency of escape, the angels' guidance, and the family's resilience in the face of chaos",
+            "De-emphasis": "Avoid over-emphasizing the destruction or fear, instead focus on the journey towards survival and growth",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Tower card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, percussion, mystical, contemplative, ethereal, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Lot's family",
+            "Positive": "Photorealistic Lot's family escape possible Sodom crumbling lightning fire raining wife pillar salt looking back angels urge forward, chaotic orange inferno fleeing figures detailed ash salt crystals robes terror 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "safe arrived relaxed no fire happy modern no angels cartoon salt low res"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

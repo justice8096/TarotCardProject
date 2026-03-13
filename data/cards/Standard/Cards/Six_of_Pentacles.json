@@ -1,0 +1,236 @@
+{
+  "data.Cards": {
+    "Card": "Six of Pentacles",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_Six_of_Pentacles_Upright.png",
+      "ReversedImage": "CARD_Six_of_Pentacles_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_Six_of_Pentacles_0.png",
+        "FOCUS_UPRIGHT_Six_of_Pentacles_1.png",
+        "FOCUS_UPRIGHT_Six_of_Pentacles_2.png",
+        "FOCUS_UPRIGHT_Six_of_Pentacles_3.png",
+        "FOCUS_UPRIGHT_Six_of_Pentacles_4.png",
+        "FOCUS_UPRIGHT_Six_of_Pentacles_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_Six_of_Pentacles_0.png",
+        "FOCUS_REVERSED_Six_of_Pentacles_1.png",
+        "FOCUS_REVERSED_Six_of_Pentacles_2.png",
+        "FOCUS_REVERSED_Six_of_Pentacles_3.png",
+        "FOCUS_REVERSED_Six_of_Pentacles_4.png",
+        "FOCUS_REVERSED_Six_of_Pentacles_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the Six of Pentacles card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the Six of Pentacles card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the Six of Pentacles card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the Six of Pentacles card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Six_of_Pentacles_upright.png",
+          "CardImage": "CARDIMG_Six_of_Pentacles_upright.png",
+          "Narration": "NARRATION_Six_of_Pentacles_upright.mp3",
+          "Music": "MUSIC_Six_of_Pentacles_upright.mp3",
+          "Movie": "FOCUS_Six_of_Pentacles_upright.mpeg",
+          "PalletImage": "PALLETEIMG_Six_of_Pentacles_upright.png",
+          "Object": "MODEL_Six_of_Pentacles_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_Six_of_Pentacles_00.png",
+            "FOCUST_UPRIGHT_Six_of_Pentacles_01.png",
+            "FOCUST_UPRIGHT_Six_of_Pentacles_02.png",
+            "FOCUST_UPRIGHT_Six_of_Pentacles_03.png",
+            "FOCUST_UPRIGHT_Six_of_Pentacles_04.png",
+            "FOCUST_UPRIGHT_Six_of_Pentacles_05.png",
+            "FOCUS_UPRIGHT_Six_of_Pentacles_07.png",
+            "FOCUS_UPRIGHT_Six_of_Pentacles_08.png",
+            "FOCUS_UPRIGHT_Six_of_Pentacles_09.png",
+            "FOCUS_UPRIGHT_Six_of_Pentacles_10.png",
+            "FOCUS_UPRIGHT_Six_of_Pentacles_11.png",
+            "FOCUS_UPRIGHT_Six_of_Pentacles_12.png",
+            "FOCUS_UPRIGHT_Six_of_Pentacles_13.png",
+            "FOCUS_UPRIGHT_Six_of_Pentacles_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Six of Pentacles card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the Six of Pentacles card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Warm and uplifting",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the image of a generous merchant balancing giving and receiving, emphasizing the themes of charity, balance, and gratitude.",
+            "De-emphasis": "Avoid over-emphasizing the street scene or dirt in the image, as they are not central to the message of this card.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Six of Pentacles card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic, Orchestral, Strings, Harp, Flute, Ethereal, Warm, Ambient, Upright, Opportunity, Prosperity, Stability, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Merchant alms",
+            "Positive": "Photorealistic merchant generous giving, robed benefactor scales two beggars one giving receiving street balanced robes, benevolent detailed coins robes gratitude dirt 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "stingy taking unequal scales hoard beggar despair cartoon coins deformed"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Six_of_Pentacles_reversed.png",
+          "CardImage": "CARDIMG_Six_of_Pentacles_reversed.png",
+          "Narration": "NARRATION_Six_of_Pentacles_reversed.mp3",
+          "Music": "MUSIC_Six_of_Pentacles_reversed.mp3",
+          "Movie": "FOCUS_Six_of_Pentacles_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_Six_of_Pentacles_reversed.png",
+          "Object": "MODEL_Six_of_Pentacles_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_Six_of_Pentacles_00.png",
+            "FOCUST_REVERSED_Six_of_Pentacles_01.png",
+            "FOCUST_REVERSED_Six_of_Pentacles_02.png",
+            "FOCUST_REVERSED_Six_of_Pentacles_03.png",
+            "FOCUST_REVERSED_Six_of_Pentacles_04.png",
+            "FOCUST_REVERSED_Six_of_Pentacles_05.png",
+            "FOCUS_REVERSED_Six_of_Pentacles_07.png",
+            "FOCUS_REVERSED_Six_of_Pentacles_08.png",
+            "FOCUS_REVERSED_Six_of_Pentacles_09.png",
+            "FOCUS_REVERSED_Six_of_Pentacles_10.png",
+            "FOCUS_REVERSED_Six_of_Pentacles_11.png",
+            "FOCUS_REVERSED_Six_of_Pentacles_12.png",
+            "FOCUS_REVERSED_Six_of_Pentacles_13.png",
+            "FOCUS_REVERSED_Six_of_Pentacles_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_Six_of_Pentacles_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Six of Pentacles card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the Six of Pentacles card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Somber and reflective",
+            "Pace": "Slow",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the imbalance of resources, the plea for help unanswered, and the shadow of greed.",
+            "De-emphasis": "Avoid over-emphasizing the patron's miserliness as it may suggest a permanent state, instead focus on the temporary reversal of generosity.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Six of Pentacles card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, minor, introspective, suspenseful, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Patron miserly",
+            "Positive": "Photorealistic patron miserly withholding, rich figure uneven scales beggar pleads empty hand shadows hoard, greedy detailed locked pouch shadows grime 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "equal generous balanced bright fair all giving cartoon pouch low res"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Six_of_Pentacles_between.png",
+          "CardImage": "CARDIMG_Six_of_Pentacles_between.png",
+          "Narration": "NARRATION_Six_of_Pentacles_between.mp3",
+          "Music": "MUSIC_Six_of_Pentacles_between.mp3",
+          "Movie": "FOCUS_Six_of_Pentacles_between.mpeg",
+          "PalletImage": "PALLETEIMG_Six_of_Pentacles_between.png",
+          "Object": "MODEL_Six_of_Pentacles_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_Six_of_Pentacles_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Six of Pentacles card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the Six of Pentacles card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Warm and compassionate",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the balance between giving and receiving, the steward's role in distributing resources equitably.",
+            "De-emphasis": "Avoid over-emphasizing the idea of begging or charity, instead focus on mutual aid and community support.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Six of Pentacles card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, percussion, ambient, mystical, cinematic, introspective, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Tithe collector",
+            "Positive": "Photorealistic tithe collector partial charity, steward scales half full coins beggar half receive give mixed robes light shadow, pragmatic detailed partial coins dust 8k [file",
+            "Negative": ""
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

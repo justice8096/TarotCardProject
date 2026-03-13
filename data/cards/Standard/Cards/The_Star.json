@@ -1,0 +1,231 @@
+{
+  "data.Cards": {
+    "Card": "The Star",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_The_Star_Upright.png",
+      "ReversedImage": "CARD_The_Star_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_The_Star_0.png",
+        "FOCUS_UPRIGHT_The_Star_1.png",
+        "FOCUS_UPRIGHT_The_Star_2.png",
+        "FOCUS_UPRIGHT_The_Star_3.png",
+        "FOCUS_UPRIGHT_The_Star_4.png",
+        "FOCUS_UPRIGHT_The_Star_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_The_Star_0.png",
+        "FOCUS_REVERSED_The_Star_1.png",
+        "FOCUS_REVERSED_The_Star_2.png",
+        "FOCUS_REVERSED_The_Star_3.png",
+        "FOCUS_REVERSED_The_Star_4.png",
+        "FOCUS_REVERSED_The_Star_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the The Star card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the The Star card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the The Star card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the The Star card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Star_upright.png",
+          "CardImage": "CARDIMG_The_Star_upright.png",
+          "Narration": "NARRATION_The_Star_upright.mp3",
+          "Music": "MUSIC_The_Star_upright.mp3",
+          "Movie": "FOCUS_The_Star_upright.mpeg",
+          "PalletImage": "PALLETEIMG_The_Star_upright.png",
+          "Object": "MODEL_The_Star_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_The_Star_00.png",
+            "FOCUST_UPRIGHT_The_Star_01.png",
+            "FOCUST_UPRIGHT_The_Star_02.png",
+            "FOCUST_UPRIGHT_The_Star_03.png",
+            "FOCUST_UPRIGHT_The_Star_04.png",
+            "FOCUST_UPRIGHT_The_Star_05.png",
+            "FOCUS_UPRIGHT_The_Star_07.png",
+            "FOCUS_UPRIGHT_The_Star_08.png",
+            "FOCUS_UPRIGHT_The_Star_09.png",
+            "FOCUS_UPRIGHT_The_Star_10.png",
+            "FOCUS_UPRIGHT_The_Star_11.png",
+            "FOCUS_UPRIGHT_The_Star_12.png",
+            "FOCUS_UPRIGHT_The_Star_13.png",
+            "FOCUS_UPRIGHT_The_Star_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Star card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the The Star card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Radiant and Renewing",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the emergence of Amaterasu, the radiant Japanese sun goddess, symbolizing renewal, hope, and enlightenment.",
+            "De-emphasis": "Avoid over-emphasizing the nudity or physical attributes of the card character.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Star card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, ethereal, uplifting, hopeful, major, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Amaterasu",
+            "Positive": "Photorealistic Amaterasu cave emergence renewal, radiant Japanese sun goddess white robes jewels emerging cave nude pouring jugs pool land stars above serene joyful face, night soft blue green glow detailed water stars jewels skin 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "trapped cave angry dark no jugs empty pool cartoon stars deformed pour"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Star_reversed.png",
+          "CardImage": "CARDIMG_The_Star_reversed.png",
+          "Narration": "NARRATION_The_Star_reversed.mp3",
+          "Music": "MUSIC_The_Star_reversed.mp3",
+          "Movie": "FOCUS_The_Star_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_The_Star_reversed.png",
+          "Object": "MODEL_The_Star_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_The_Star_00.png",
+            "FOCUST_REVERSED_The_Star_01.png",
+            "FOCUST_REVERSED_The_Star_02.png",
+            "FOCUST_REVERSED_The_Star_03.png",
+            "FOCUST_REVERSED_The_Star_04.png",
+            "FOCUST_REVERSED_The_Star_05.png",
+            "FOCUS_REVERSED_The_Star_07.png",
+            "FOCUS_REVERSED_The_Star_08.png",
+            "FOCUS_REVERSED_The_Star_09.png",
+            "FOCUS_REVERSED_The_Star_10.png",
+            "FOCUS_REVERSED_The_Star_11.png",
+            "FOCUS_REVERSED_The_Star_12.png",
+            "FOCUS_REVERSED_The_Star_13.png",
+            "FOCUS_REVERSED_The_Star_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Star_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Star card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the The Star card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Somber and reflective",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the clash between finery and rags, symbolizing a disconnect between desires and reality.",
+            "De-emphasis": "Avoid over-emphasizing the greedy wife's imperiousness, as it may overshadow the card's message of broken hopes and potential for redemption.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Star card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, minor, introspective, contemplative, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Greedy wife Fisherman Goldfish",
+            "Positive": "Photorealistic greedy wife twisted hope, imperious peasant woman demanding goldfish palace broken trough haughty sneer servant fish distant, opulent ruined hall shadows detailed cracked gold fish scales rags finery clash 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "humble content simple hut happy no demand cartoon fish low quality"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Star_between.png",
+          "CardImage": "CARDIMG_The_Star_between.png",
+          "Narration": "NARRATION_The_Star_between.mp3",
+          "Music": "MUSIC_The_Star_between.mp3",
+          "Movie": "FOCUS_The_Star_between.mpeg",
+          "PalletImage": "PALLETEIMG_The_Star_between.png",
+          "Object": "MODEL_The_Star_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Star_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Star card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the The Star card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Female",
+            "Tone": "Warm and uplifting",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the themes associated with the The Star card in an between position.",
+            "De-emphasis": "Avoid emphasizing aspects contrary to the between orientation.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Star card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, ethereal, uplifting, optimistic, practical, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 100,
+            "KeyScale": "major"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

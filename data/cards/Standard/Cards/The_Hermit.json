@@ -1,0 +1,236 @@
+{
+  "data.Cards": {
+    "Card": "The Hermit",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_The_Hermit_Upright.png",
+      "ReversedImage": "CARD_The_Hermit_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_The_Hermit_0.png",
+        "FOCUS_UPRIGHT_The_Hermit_1.png",
+        "FOCUS_UPRIGHT_The_Hermit_2.png",
+        "FOCUS_UPRIGHT_The_Hermit_3.png",
+        "FOCUS_UPRIGHT_The_Hermit_4.png",
+        "FOCUS_UPRIGHT_The_Hermit_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_The_Hermit_0.png",
+        "FOCUS_REVERSED_The_Hermit_1.png",
+        "FOCUS_REVERSED_The_Hermit_2.png",
+        "FOCUS_REVERSED_The_Hermit_3.png",
+        "FOCUS_REVERSED_The_Hermit_4.png",
+        "FOCUS_REVERSED_The_Hermit_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the The Hermit card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the The Hermit card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the The Hermit card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the The Hermit card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Hermit_upright.png",
+          "CardImage": "CARDIMG_The_Hermit_upright.png",
+          "Narration": "NARRATION_The_Hermit_upright.mp3",
+          "Music": "MUSIC_The_Hermit_upright.mp3",
+          "Movie": "FOCUS_The_Hermit_upright.mpeg",
+          "PalletImage": "PALLETEIMG_The_Hermit_upright.png",
+          "Object": "MODEL_The_Hermit_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_The_Hermit_00.png",
+            "FOCUST_UPRIGHT_The_Hermit_01.png",
+            "FOCUST_UPRIGHT_The_Hermit_02.png",
+            "FOCUST_UPRIGHT_The_Hermit_03.png",
+            "FOCUST_UPRIGHT_The_Hermit_04.png",
+            "FOCUST_UPRIGHT_The_Hermit_05.png",
+            "FOCUS_UPRIGHT_The_Hermit_07.png",
+            "FOCUS_UPRIGHT_The_Hermit_08.png",
+            "FOCUS_UPRIGHT_The_Hermit_09.png",
+            "FOCUS_UPRIGHT_The_Hermit_10.png",
+            "FOCUS_UPRIGHT_The_Hermit_11.png",
+            "FOCUS_UPRIGHT_The_Hermit_12.png",
+            "FOCUS_UPRIGHT_The_Hermit_13.png",
+            "FOCUS_UPRIGHT_The_Hermit_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Hermit card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the The Hermit card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Bold and inspiring",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight Diogenes' relentless pursuit of truth and wisdom",
+            "De-emphasis": "Avoid over-emphasizing the solitary nature of his journey, as it suggests isolation rather than introspection",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Hermit card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, harp, strings, flute, ambient, introspective, hopeful, contemplative, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Diogenes",
+            "Positive": "Photorealistic Diogenes lantern honest truth seeker, ragged bearded philosopher bare chest lantern aloft searching man barrel home agora dusk, defiant wise squint, lantern glow street shadows detailed oil flame dirt skin clay pot 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "clean robed afraid bright noon no lantern urban modern blurry flame low res"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Hermit_reversed.png",
+          "CardImage": "CARDIMG_The_Hermit_reversed.png",
+          "Narration": "NARRATION_The_Hermit_reversed.mp3",
+          "Music": "MUSIC_The_Hermit_reversed.mp3",
+          "Movie": "FOCUS_The_Hermit_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_The_Hermit_reversed.png",
+          "Object": "MODEL_The_Hermit_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_The_Hermit_00.png",
+            "FOCUST_REVERSED_The_Hermit_01.png",
+            "FOCUST_REVERSED_The_Hermit_02.png",
+            "FOCUST_REVERSED_The_Hermit_03.png",
+            "FOCUST_REVERSED_The_Hermit_04.png",
+            "FOCUST_REVERSED_The_Hermit_05.png",
+            "FOCUS_REVERSED_The_Hermit_07.png",
+            "FOCUS_REVERSED_The_Hermit_08.png",
+            "FOCUS_REVERSED_The_Hermit_09.png",
+            "FOCUS_REVERSED_The_Hermit_10.png",
+            "FOCUS_REVERSED_The_Hermit_11.png",
+            "FOCUS_REVERSED_The_Hermit_12.png",
+            "FOCUS_REVERSED_The_Hermit_13.png",
+            "FOCUS_REVERSED_The_Hermit_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Hermit_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Hermit card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the The Hermit card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Somber and reflective",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the themes of greed, isolation, and manipulation as Rumpelstiltskin's bitter transactional nature is revealed in reverse.",
+            "De-emphasis": "Avoid over-emphasising the magical elements or the fairy tale aspect of this card in its reversed orientation.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Hermit card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, reversed, introspective, contemplative, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Rumpelstiltskin",
+            "Positive": "Photorealistic Rumpelstiltskin bitter transactional, gnarled impish dwarf gold spinning wheel greedy sneer contract scroll princess despairing, straw gold piles dim cottage shadows, detailed twisted fingers yarn dust avarice wrinkles 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "tall handsome generous sunny farm no wheel happy cartoon gold low quality"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Hermit_between.png",
+          "CardImage": "CARDIMG_The_Hermit_between.png",
+          "Narration": "NARRATION_The_Hermit_between.mp3",
+          "Music": "MUSIC_The_Hermit_between.mp3",
+          "Movie": "FOCUS_The_Hermit_between.mpeg",
+          "PalletImage": "PALLETEIMG_The_Hermit_between.png",
+          "Object": "MODEL_The_Hermit_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Hermit_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Hermit card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the The Hermit card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Wise and Calm",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight Prospero's commanding gaze, the calming tempest, and his shaping of events.",
+            "De-emphasis": "Avoid over-emphasizing Ariel or the magical circle to maintain focus on Prospero's solitary journey.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Hermit card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, piano, minor, contemplative, introspective, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Prospero",
+            "Positive": "Photorealistic Prospero island withdrawing shaping events, aged duke white beard island robes staff Ariel books magic circle, rocky shore tempest calming sea thoughtful commanding gaze, moonlight mist detailed pages waves spectral servant 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "young courtier angry no staff sunny palace plastic books blurry magic"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

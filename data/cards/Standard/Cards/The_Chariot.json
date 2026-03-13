@@ -1,0 +1,236 @@
+{
+  "data.Cards": {
+    "Card": "The Chariot",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_The_Chariot_Upright.png",
+      "ReversedImage": "CARD_The_Chariot_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_The_Chariot_0.png",
+        "FOCUS_UPRIGHT_The_Chariot_1.png",
+        "FOCUS_UPRIGHT_The_Chariot_2.png",
+        "FOCUS_UPRIGHT_The_Chariot_3.png",
+        "FOCUS_UPRIGHT_The_Chariot_4.png",
+        "FOCUS_UPRIGHT_The_Chariot_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_The_Chariot_0.png",
+        "FOCUS_REVERSED_The_Chariot_1.png",
+        "FOCUS_REVERSED_The_Chariot_2.png",
+        "FOCUS_REVERSED_The_Chariot_3.png",
+        "FOCUS_REVERSED_The_Chariot_4.png",
+        "FOCUS_REVERSED_The_Chariot_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the The Chariot card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the The Chariot card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the The Chariot card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the The Chariot card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Chariot_upright.png",
+          "CardImage": "CARDIMG_The_Chariot_upright.png",
+          "Narration": "NARRATION_The_Chariot_upright.mp3",
+          "Music": "MUSIC_The_Chariot_upright.mp3",
+          "Movie": "FOCUS_The_Chariot_upright.mpeg",
+          "PalletImage": "PALLETEIMG_The_Chariot_upright.png",
+          "Object": "MODEL_The_Chariot_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_The_Chariot_00.png",
+            "FOCUST_UPRIGHT_The_Chariot_01.png",
+            "FOCUST_UPRIGHT_The_Chariot_02.png",
+            "FOCUST_UPRIGHT_The_Chariot_03.png",
+            "FOCUST_UPRIGHT_The_Chariot_04.png",
+            "FOCUST_UPRIGHT_The_Chariot_05.png",
+            "FOCUS_UPRIGHT_The_Chariot_07.png",
+            "FOCUS_UPRIGHT_The_Chariot_08.png",
+            "FOCUS_UPRIGHT_The_Chariot_09.png",
+            "FOCUS_UPRIGHT_The_Chariot_10.png",
+            "FOCUS_UPRIGHT_The_Chariot_11.png",
+            "FOCUS_UPRIGHT_The_Chariot_12.png",
+            "FOCUS_UPRIGHT_The_Chariot_13.png",
+            "FOCUS_UPRIGHT_The_Chariot_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Chariot card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the The Chariot card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Bold and inspiring",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the strategic wisdom of Athena, her guidance towards victory, and the dynamic journey symbolized by the sphinxes and charioteer.",
+            "De-emphasis": "Avoid over-emphasizing the physical aspects such as the city gates or the detailed feathers and scales.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Chariot card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, horns, harp, uplifting, triumphant, majestic, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Athena",
+            "Positive": "Photorealistic Athena guiding victory strategy, armored goddess owl helmet spear aegis shield charioteering black white sphinxes city gates ahead, fierce wise gaze windswept golden hair, dynamic sunset light bronze gleam detailed feathers scales marble city 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "mortal unarmed casual clothes chaotic beasts night urban cartoon shield deformed horses low quality"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Chariot_reversed.png",
+          "CardImage": "CARDIMG_The_Chariot_reversed.png",
+          "Narration": "NARRATION_The_Chariot_reversed.mp3",
+          "Music": "MUSIC_The_Chariot_reversed.mp3",
+          "Movie": "FOCUS_The_Chariot_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_The_Chariot_reversed.png",
+          "Object": "MODEL_The_Chariot_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_The_Chariot_00.png",
+            "FOCUST_REVERSED_The_Chariot_01.png",
+            "FOCUST_REVERSED_The_Chariot_02.png",
+            "FOCUST_REVERSED_The_Chariot_03.png",
+            "FOCUST_REVERSED_The_Chariot_04.png",
+            "FOCUST_REVERSED_The_Chariot_05.png",
+            "FOCUS_REVERSED_The_Chariot_07.png",
+            "FOCUS_REVERSED_The_Chariot_08.png",
+            "FOCUS_REVERSED_The_Chariot_09.png",
+            "FOCUS_REVERSED_The_Chariot_10.png",
+            "FOCUS_REVERSED_The_Chariot_11.png",
+            "FOCUS_REVERSED_The_Chariot_12.png",
+            "FOCUS_REVERSED_The_Chariot_13.png",
+            "FOCUS_REVERSED_The_Chariot_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Chariot_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Chariot card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the The Chariot card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Bold and ominous",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the uncontrolled aggression, chaos, and impending danger represented by Ares in reversed The Chariot.",
+            "De-emphasis": "Avoid over-emphasising the control or guidance aspect of this card as it is reversed.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Chariot card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, reversed, introspective, contemplative, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Ares",
+            "Positive": "Photorealistic Ares uncontrolled aggression, brutish muscled war god spiked helmet bloodied spear rampaging chariot crushing foes foam-mouthed horses opposite pull, berserk roar scarred face, dust storm chaos crimson sunset detailed gore armor dents 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "calm armored hero intact chariot sunny peaceful no blood plastic spear blurry"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Chariot_between.png",
+          "CardImage": "CARDIMG_The_Chariot_between.png",
+          "Narration": "NARRATION_The_Chariot_between.mp3",
+          "Music": "MUSIC_The_Chariot_between.mp3",
+          "Movie": "FOCUS_The_Chariot_between.mpeg",
+          "PalletImage": "PALLETEIMG_The_Chariot_between.png",
+          "Object": "MODEL_The_Chariot_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Chariot_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Chariot card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the The Chariot card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Bold and inspiring",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the determination and leadership of Jason as he steers his Argonauts through conflicting forces, symbolizing the journey's challenges and his resolve to overcome them.",
+            "De-emphasis": "Avoid over-emphasising the strain or struggle, instead focus on the sense of progress and victory as the storm clears and the golden fleece quest continues.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Chariot card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, harp, strings, trumpet, triumphant, majestic, uplifting, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 100,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Jason",
+            "Positive": "Photorealistic Jason steering Argonauts conflicting forces, bearded captain golden fleece quest helm tiller bronze ship sphinx horses straining, determined sweat-beaded face crew rowing, choppy sea horizon storm clearing detailed ropes sails muscle strain 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "alone relaxed no ship calm lake fearful modern boat cartoon crew low res"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

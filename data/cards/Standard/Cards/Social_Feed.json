@@ -1,0 +1,236 @@
+{
+  "data.Cards": {
+    "Card": "Social Feed",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_Social_Feed_Upright.png",
+      "ReversedImage": "CARD_Social_Feed_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_Social_Feed_0.png",
+        "FOCUS_UPRIGHT_Social_Feed_1.png",
+        "FOCUS_UPRIGHT_Social_Feed_2.png",
+        "FOCUS_UPRIGHT_Social_Feed_3.png",
+        "FOCUS_UPRIGHT_Social_Feed_4.png",
+        "FOCUS_UPRIGHT_Social_Feed_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_Social_Feed_0.png",
+        "FOCUS_REVERSED_Social_Feed_1.png",
+        "FOCUS_REVERSED_Social_Feed_2.png",
+        "FOCUS_REVERSED_Social_Feed_3.png",
+        "FOCUS_REVERSED_Social_Feed_4.png",
+        "FOCUS_REVERSED_Social_Feed_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the Social Feed card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the Social Feed card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the Social Feed card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the Social Feed card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Social_Feed_upright.png",
+          "CardImage": "CARDIMG_Social_Feed_upright.png",
+          "Narration": "NARRATION_Social_Feed_upright.mp3",
+          "Music": "MUSIC_Social_Feed_upright.mp3",
+          "Movie": "FOCUS_Social_Feed_upright.mpeg",
+          "PalletImage": "PALLETEIMG_Social_Feed_upright.png",
+          "Object": "MODEL_Social_Feed_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_Social_Feed_00.png",
+            "FOCUST_UPRIGHT_Social_Feed_01.png",
+            "FOCUST_UPRIGHT_Social_Feed_02.png",
+            "FOCUST_UPRIGHT_Social_Feed_03.png",
+            "FOCUST_UPRIGHT_Social_Feed_04.png",
+            "FOCUST_UPRIGHT_Social_Feed_05.png",
+            "FOCUS_UPRIGHT_Social_Feed_07.png",
+            "FOCUS_UPRIGHT_Social_Feed_08.png",
+            "FOCUS_UPRIGHT_Social_Feed_09.png",
+            "FOCUS_UPRIGHT_Social_Feed_10.png",
+            "FOCUS_UPRIGHT_Social_Feed_11.png",
+            "FOCUS_UPRIGHT_Social_Feed_12.png",
+            "FOCUS_UPRIGHT_Social_Feed_13.png",
+            "FOCUS_UPRIGHT_Social_Feed_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Social Feed card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the Social Feed card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mystical",
+            "Tone": "Echoes of Digital Validation",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the endless repetition and hollow validation as echoes bouncing off the digital cave walls.",
+            "De-emphasis": "Avoid over-emphasizing the modern technology aspect, focusing instead on the themes of narcissism and social media validation.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Social Feed card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic, Orchestral, Harp, Strings, Brass, Uplifting, Optimistic, Majestic, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "Major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Echo Narcissus",
+            "Positive": "Photorealistic modern Echo feed repeater, ghostly digital echo endless reposts hollow validation cave walls screens, fading voice detailed pixels glitches echo trails 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "original unique silent dark no reposts real voice cartoon pixels deformed"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Social_Feed_reversed.png",
+          "CardImage": "CARDIMG_Social_Feed_reversed.png",
+          "Narration": "NARRATION_Social_Feed_reversed.mp3",
+          "Music": "MUSIC_Social_Feed_reversed.mp3",
+          "Movie": "FOCUS_Social_Feed_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_Social_Feed_reversed.png",
+          "Object": "MODEL_Social_Feed_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_Social_Feed_00.png",
+            "FOCUST_REVERSED_Social_Feed_01.png",
+            "FOCUST_REVERSED_Social_Feed_02.png",
+            "FOCUST_REVERSED_Social_Feed_03.png",
+            "FOCUST_REVERSED_Social_Feed_04.png",
+            "FOCUST_REVERSED_Social_Feed_05.png",
+            "FOCUS_REVERSED_Social_Feed_07.png",
+            "FOCUS_REVERSED_Social_Feed_08.png",
+            "FOCUS_REVERSED_Social_Feed_09.png",
+            "FOCUS_REVERSED_Social_Feed_10.png",
+            "FOCUS_REVERSED_Social_Feed_11.png",
+            "FOCUS_REVERSED_Social_Feed_12.png",
+            "FOCUS_REVERSED_Social_Feed_13.png",
+            "FOCUS_REVERSED_Social_Feed_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_Social_Feed_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Social Feed card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the Social Feed card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Neutral",
+            "Tone": "Shadowy and Controlling",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the algorithm's control over the curated streams, its potential for bias.",
+            "De-emphasis": "Avoid focusing too much on the technical aspects of code, instead focus on the impact and influence of the algorithm.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Social Feed card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, reversed, introspective, contemplative, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Algorithm gatekeeper",
+            "Positive": "Photorealistic modern algorithm opaque curator, shadowy code feeds shadow curated invisible hand biased streams, controlling detailed code streams shadows code 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "transparent fair open all visible sunny democratic cartoon code low res"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Social_Feed_between.png",
+          "CardImage": "CARDIMG_Social_Feed_between.png",
+          "Narration": "NARRATION_Social_Feed_between.mp3",
+          "Music": "MUSIC_Social_Feed_between.mp3",
+          "Movie": "FOCUS_Social_Feed_between.mpeg",
+          "PalletImage": "PALLETEIMG_Social_Feed_between.png",
+          "Object": "MODEL_Social_Feed_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_Social_Feed_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Social Feed card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the Social Feed card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Neutral",
+            "Tone": "Mystical and Refreshing",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the journey from digital world to real world, the search for balance and detox.",
+            "De-emphasis": "Avoid over-emphasizing the phone or the digital feed, as they represent what is being left behind.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Social Feed card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, uilleann pipes, ambient, ethereal, mystical, cinematic, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Digital detox seeker",
+            "Positive": "Photorealistic modern detox partial feed, wanderer phone down half shadow light path real world digital blur, seeking balance detailed footprints nature screen fade 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "fully addicted all digital no real extreme cartoon path blurry"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

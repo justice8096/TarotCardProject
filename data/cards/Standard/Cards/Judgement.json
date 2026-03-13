@@ -1,0 +1,236 @@
+{
+  "data.Cards": {
+    "Card": "Judgement",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_Judgement_Upright.png",
+      "ReversedImage": "CARD_Judgement_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_Judgement_0.png",
+        "FOCUS_UPRIGHT_Judgement_1.png",
+        "FOCUS_UPRIGHT_Judgement_2.png",
+        "FOCUS_UPRIGHT_Judgement_3.png",
+        "FOCUS_UPRIGHT_Judgement_4.png",
+        "FOCUS_UPRIGHT_Judgement_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_Judgement_0.png",
+        "FOCUS_REVERSED_Judgement_1.png",
+        "FOCUS_REVERSED_Judgement_2.png",
+        "FOCUS_REVERSED_Judgement_3.png",
+        "FOCUS_REVERSED_Judgement_4.png",
+        "FOCUS_REVERSED_Judgement_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the Judgement card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the Judgement card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the Judgement card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the Judgement card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Judgement_upright.png",
+          "CardImage": "CARDIMG_Judgement_upright.png",
+          "Narration": "NARRATION_Judgement_upright.mp3",
+          "Music": "MUSIC_Judgement_upright.mp3",
+          "Movie": "FOCUS_Judgement_upright.mpeg",
+          "PalletImage": "PALLETEIMG_Judgement_upright.png",
+          "Object": "MODEL_Judgement_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_Judgement_00.png",
+            "FOCUST_UPRIGHT_Judgement_01.png",
+            "FOCUST_UPRIGHT_Judgement_02.png",
+            "FOCUST_UPRIGHT_Judgement_03.png",
+            "FOCUST_UPRIGHT_Judgement_04.png",
+            "FOCUST_UPRIGHT_Judgement_05.png",
+            "FOCUS_UPRIGHT_Judgement_07.png",
+            "FOCUS_UPRIGHT_Judgement_08.png",
+            "FOCUS_UPRIGHT_Judgement_09.png",
+            "FOCUS_UPRIGHT_Judgement_10.png",
+            "FOCUS_UPRIGHT_Judgement_11.png",
+            "FOCUS_UPRIGHT_Judgement_12.png",
+            "FOCUS_UPRIGHT_Judgement_13.png",
+            "FOCUS_UPRIGHT_Judgement_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Judgement card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the Judgement card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Bold and inspiring",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the majestic awakening call of Archangel Gabriel, the rising figures, and the divine commanding face.",
+            "De-emphasis": "Avoid over-emphasising the imagery of coffins and death, instead focus on the resurrection and new beginnings.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Judgement card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, brass, uplifting, hopeful, triumphant, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 100,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Archangel Gabriel",
+            "Positive": "Photorealistic Archangel Gabriel awakening call, majestic winged trumpet blast nude figures rising coffins mountain dawn bannered flag rays heaven, divine commanding face golden armor trumpet shine detailed wings clouds souls awe 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "silent broken trumpet closed coffins dark storm fallen angels cartoon wings blurry"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Judgement_reversed.png",
+          "CardImage": "CARDIMG_Judgement_reversed.png",
+          "Narration": "NARRATION_Judgement_reversed.mp3",
+          "Music": "MUSIC_Judgement_reversed.mp3",
+          "Movie": "FOCUS_Judgement_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_Judgement_reversed.png",
+          "Object": "MODEL_Judgement_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_Judgement_00.png",
+            "FOCUST_REVERSED_Judgement_01.png",
+            "FOCUST_REVERSED_Judgement_02.png",
+            "FOCUST_REVERSED_Judgement_03.png",
+            "FOCUST_REVERSED_Judgement_04.png",
+            "FOCUST_REVERSED_Judgement_05.png",
+            "FOCUS_REVERSED_Judgement_07.png",
+            "FOCUS_REVERSED_Judgement_08.png",
+            "FOCUS_REVERSED_Judgement_09.png",
+            "FOCUS_REVERSED_Judgement_10.png",
+            "FOCUS_REVERSED_Judgement_11.png",
+            "FOCUS_REVERSED_Judgement_12.png",
+            "FOCUS_REVERSED_Judgement_13.png",
+            "FOCUS_REVERSED_Judgement_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_Judgement_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Judgement card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the Judgement card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Somber and haunting",
+            "Pace": "Slow",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the despair, longing, and unending journey of the Flying Dutchman and his cursed crew",
+            "De-emphasis": "Avoid over-emphasising the hope or redemption often associated with the Judgement card in its upright position",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Judgement card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, reverb, introspective, ethereal, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Flying Dutchman",
+            "Positive": "Photorealistic Flying Dutchman endless haunting, spectral captain tattered uniform ghost ship storm cursed crew trumpet faint coffins half open confused rising figures, misty waves lightning detailed spectral cloth barnacles despair eyes 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "alive docked sunny happy modern ship no curse cartoon ghosts low quality"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Judgement_between.png",
+          "CardImage": "CARDIMG_Judgement_between.png",
+          "Narration": "NARRATION_Judgement_between.mp3",
+          "Music": "MUSIC_Judgement_between.mp3",
+          "Movie": "FOCUS_Judgement_between.mpeg",
+          "PalletImage": "PALLETEIMG_Judgement_between.png",
+          "Object": "MODEL_Judgement_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_Judgement_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Judgement card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the Judgement card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Awakening and Disorientation",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the disoriented yet hopeful state of Rip Van Winkle, emphasizing his new path ahead and the distant figures waiting for him to rise.",
+            "De-emphasis": "Avoid over-emphasizing the confusion or bewilderment, as it is a necessary part of his journey towards awakening.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Judgement card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, percussion, ethereal, mystical, uplifting, major, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 100,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Rip Van Winkle",
+            "Positive": "Photorealistic Rip Van Winkle old new path, disoriented bearded frontiersman long beard patched colonial clothes waking mountain trumpet distant figures hesitate rise, dawn confusion wonder detailed unkempt beard dew clothes 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "young alert urban bed no trumpet cartoon beard blurry mountain deformed"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

@@ -1,0 +1,236 @@
+{
+  "data.Cards": {
+    "Card": "Ace of Cups",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_Ace_of_Cups_Upright.png",
+      "ReversedImage": "CARD_Ace_of_Cups_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_Ace_of_Cups_0.png",
+        "FOCUS_UPRIGHT_Ace_of_Cups_1.png",
+        "FOCUS_UPRIGHT_Ace_of_Cups_2.png",
+        "FOCUS_UPRIGHT_Ace_of_Cups_3.png",
+        "FOCUS_UPRIGHT_Ace_of_Cups_4.png",
+        "FOCUS_UPRIGHT_Ace_of_Cups_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_Ace_of_Cups_0.png",
+        "FOCUS_REVERSED_Ace_of_Cups_1.png",
+        "FOCUS_REVERSED_Ace_of_Cups_2.png",
+        "FOCUS_REVERSED_Ace_of_Cups_3.png",
+        "FOCUS_REVERSED_Ace_of_Cups_4.png",
+        "FOCUS_REVERSED_Ace_of_Cups_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the Ace of Cups card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the Ace of Cups card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the Ace of Cups card in a reversed position.",
+        "Negative": "Describe the imagery and symbolism of the Ace of Cups card in an upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Ace_of_Cups_upright.png",
+          "CardImage": "CARDIMG_Ace_of_Cups_upright.png",
+          "Narration": "NARRATION_Ace_of_Cups_upright.mp3",
+          "Music": "MUSIC_Ace_of_Cups_upright.mp3",
+          "Movie": "FOCUS_Ace_of_Cups_upright.mpeg",
+          "PalletImage": "PALLETEIMG_Ace_of_Cups_upright.png",
+          "Object": "MODEL_Ace_of_Cups_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_Ace_of_Cups_00.png",
+            "FOCUST_UPRIGHT_Ace_of_Cups_01.png",
+            "FOCUST_UPRIGHT_Ace_of_Cups_02.png",
+            "FOCUST_UPRIGHT_Ace_of_Cups_03.png",
+            "FOCUST_UPRIGHT_Ace_of_Cups_04.png",
+            "FOCUST_UPRIGHT_Ace_of_Cups_05.png",
+            "FOCUS_UPRIGHT_Ace_of_Cups_07.png",
+            "FOCUS_UPRIGHT_Ace_of_Cups_08.png",
+            "FOCUS_UPRIGHT_Ace_of_Cups_09.png",
+            "FOCUS_UPRIGHT_Ace_of_Cups_10.png",
+            "FOCUS_UPRIGHT_Ace_of_Cups_11.png",
+            "FOCUS_UPRIGHT_Ace_of_Cups_12.png",
+            "FOCUS_UPRIGHT_Ace_of_Cups_13.png",
+            "FOCUS_UPRIGHT_Ace_of_Cups_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Ace of Cups card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the Ace of Cups card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Female",
+            "Tone": "Warm and uplifting",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the radiant birth of Aphrodite from the sea, the overflowing cup symbolizing love and emotions, and the presence of a lotus dove signifying spiritual growth and enlightenment.",
+            "De-emphasis": "Avoid over-emphasizing the nudity or physical appearance of Aphrodite. Instead, focus on her role as the goddess of love and beauty.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions and a hopeful outlook for the future.",
+            "Content": "Focus on the symbolism of the overflowing cup, the presence of water as a symbol of emotions and intuition, and the potential for new emotional experiences and connections that the card represents in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic, Orchestral, Harp, Strings, Mystical, Uplifting, Major, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "Major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Aphrodite",
+            "Positive": "Photorealistic Aphrodite emotional opening sea birth, radiant nude goddess shell overflowing cup lotus dove streams pool land sky bright blue white, blissful emerging face detailed shell foam hair water lilies 8k TarotSpreadsheet2.xlsxâ€‹",
+            "Negative": "self absorbed murky closed lotus heavy clouds no dove cartoon shell low res"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Ace_of_Cups_reversed.png",
+          "CardImage": "CARDIMG_Ace_of_Cups_reversed.png",
+          "Narration": "NARRATION_Ace_of_Cups_reversed.mp3",
+          "Music": "MUSIC_Ace_of_Cups_reversed.mp3",
+          "Movie": "FOCUS_Ace_of_Cups_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_Ace_of_Cups_reversed.png",
+          "Object": "MODEL_Ace_of_Cups_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_Ace_of_Cups_00.png",
+            "FOCUST_REVERSED_Ace_of_Cups_01.png",
+            "FOCUST_REVERSED_Ace_of_Cups_02.png",
+            "FOCUST_REVERSED_Ace_of_Cups_03.png",
+            "FOCUST_REVERSED_Ace_of_Cups_04.png",
+            "FOCUST_REVERSED_Ace_of_Cups_05.png",
+            "FOCUS_REVERSED_Ace_of_Cups_07.png",
+            "FOCUS_REVERSED_Ace_of_Cups_08.png",
+            "FOCUS_REVERSED_Ace_of_Cups_09.png",
+            "FOCUS_REVERSED_Ace_of_Cups_10.png",
+            "FOCUS_REVERSED_Ace_of_Cups_11.png",
+            "FOCUS_REVERSED_Ace_of_Cups_12.png",
+            "FOCUS_REVERSED_Ace_of_Cups_13.png",
+            "FOCUS_REVERSED_Ace_of_Cups_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_Ace_of_Cups_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Ace of Cups card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the Ace of Cups card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Somber and reflective",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the wilting lilies, murky surface, and dark clouds to convey a sense of self-absorption and potential isolation",
+            "De-emphasis": "Avoid over-emphasizing the perfection of Narcissus's face as it may distract from the card's cautionary message",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Ace of Cups card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, minor, introspective, melancholic, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Narcissus",
+            "Positive": "Photorealistic Narcissus self absorbed reflection, vain youth pond edge gazing entranced image wilting lilies murky surface dark clouds, narcissistic longing detailed water ripples perfect face flowers wilt 8k TarotSpreadsheet2.xlsxâ€‹",
+            "Negative": "looking away engaged others sunny clear pond open lilies cartoon reflection deformed"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Ace_of_Cups_between.png",
+          "CardImage": "CARDIMG_Ace_of_Cups_between.png",
+          "Narration": "NARRATION_Ace_of_Cups_between.mp3",
+          "Music": "MUSIC_Ace_of_Cups_between.mp3",
+          "Movie": "FOCUS_Ace_of_Cups_between.mpeg",
+          "PalletImage": "PALLETEIMG_Ace_of_Cups_between.png",
+          "Object": "MODEL_Ace_of_Cups_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_Ace_of_Cups_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Ace of Cups card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the Ace of Cups card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Female",
+            "Tone": "Mystical and Empowering",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the awakening of love, fear, and trials as Psyche's soul begins to take flight, symbolized by the butterfly wings.",
+            "De-emphasis": "Avoid over-emphasizing the half full cup, instead focus on the potential for growth and transformation.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Ace of Cups card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, harp, strings, flute, ambient, mystical, uplifting, major, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Psyche",
+            "Positive": "Photorealistic Psyche love fear trials start, butterfly winged soul woman half full cup uneven streams mixed lilies cloudy sky, awakening fearful curious face detailed wings ripples mixed petals 8k TarotSpreadsheet2.xlsxâ€‹",
+            "Negative": "confident fearless full clear no fear cartoon wings low quality blurry"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

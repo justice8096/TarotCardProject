@@ -1,0 +1,236 @@
+{
+  "data.Cards": {
+    "Card": "Page of Wands",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_Page_of_Wands_Upright.png",
+      "ReversedImage": "CARD_Page_of_Wands_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_Page_of_Wands_0.png",
+        "FOCUS_UPRIGHT_Page_of_Wands_1.png",
+        "FOCUS_UPRIGHT_Page_of_Wands_2.png",
+        "FOCUS_UPRIGHT_Page_of_Wands_3.png",
+        "FOCUS_UPRIGHT_Page_of_Wands_4.png",
+        "FOCUS_UPRIGHT_Page_of_Wands_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_Page_of_Wands_0.png",
+        "FOCUS_REVERSED_Page_of_Wands_1.png",
+        "FOCUS_REVERSED_Page_of_Wands_2.png",
+        "FOCUS_REVERSED_Page_of_Wands_3.png",
+        "FOCUS_REVERSED_Page_of_Wands_4.png",
+        "FOCUS_REVERSED_Page_of_Wands_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the Page of Wands card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the Page of Wands card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the Page of Wands card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the Page of Wands card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Page_of_Wands_upright.png",
+          "CardImage": "CARDIMG_Page_of_Wands_upright.png",
+          "Narration": "NARRATION_Page_of_Wands_upright.mp3",
+          "Music": "MUSIC_Page_of_Wands_upright.mp3",
+          "Movie": "FOCUS_Page_of_Wands_upright.mpeg",
+          "PalletImage": "PALLETEIMG_Page_of_Wands_upright.png",
+          "Object": "MODEL_Page_of_Wands_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_Page_of_Wands_00.png",
+            "FOCUST_UPRIGHT_Page_of_Wands_01.png",
+            "FOCUST_UPRIGHT_Page_of_Wands_02.png",
+            "FOCUST_UPRIGHT_Page_of_Wands_03.png",
+            "FOCUST_UPRIGHT_Page_of_Wands_04.png",
+            "FOCUST_UPRIGHT_Page_of_Wands_05.png",
+            "FOCUS_UPRIGHT_Page_of_Wands_07.png",
+            "FOCUS_UPRIGHT_Page_of_Wands_08.png",
+            "FOCUS_UPRIGHT_Page_of_Wands_09.png",
+            "FOCUS_UPRIGHT_Page_of_Wands_10.png",
+            "FOCUS_UPRIGHT_Page_of_Wands_11.png",
+            "FOCUS_UPRIGHT_Page_of_Wands_12.png",
+            "FOCUS_UPRIGHT_Page_of_Wands_13.png",
+            "FOCUS_UPRIGHT_Page_of_Wands_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Page of Wands card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the Page of Wands card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Bold and inspiring",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight Jack Beanstalk's adventurous spirit and the potential for growth symbolized by the sprouting wand.",
+            "De-emphasis": "Avoid over-emphasizing the salamander or the desert hills, as they may distract from the main themes of exploration and growth.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Page of Wands card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, harp, strings, flutes, percussion, uplifting, optimistic, melodic, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Jack Beanstalk",
+            "Positive": "Photorealistic Jack Beanstalk impulsive explorer, scruffy boy tall sprouting wand salamander tunic desert hills curious upward gaze feathers beret, adventurous spark eyes detailed leaves sprouts sand dunes clear sky 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "adult bored sparse leaves harsh sun distracted down no wand cartoon boy low res"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Page_of_Wands_reversed.png",
+          "CardImage": "CARDIMG_Page_of_Wands_reversed.png",
+          "Narration": "NARRATION_Page_of_Wands_reversed.mp3",
+          "Music": "MUSIC_Page_of_Wands_reversed.mp3",
+          "Movie": "FOCUS_Page_of_Wands_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_Page_of_Wands_reversed.png",
+          "Object": "MODEL_Page_of_Wands_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_Page_of_Wands_00.png",
+            "FOCUST_REVERSED_Page_of_Wands_01.png",
+            "FOCUST_REVERSED_Page_of_Wands_02.png",
+            "FOCUST_REVERSED_Page_of_Wands_03.png",
+            "FOCUST_REVERSED_Page_of_Wands_04.png",
+            "FOCUST_REVERSED_Page_of_Wands_05.png",
+            "FOCUS_REVERSED_Page_of_Wands_07.png",
+            "FOCUS_REVERSED_Page_of_Wands_08.png",
+            "FOCUS_REVERSED_Page_of_Wands_09.png",
+            "FOCUS_REVERSED_Page_of_Wands_10.png",
+            "FOCUS_REVERSED_Page_of_Wands_11.png",
+            "FOCUS_REVERSED_Page_of_Wands_12.png",
+            "FOCUS_REVERSED_Page_of_Wands_13.png",
+            "FOCUS_REVERSED_Page_of_Wands_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_Page_of_Wands_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Page of Wands card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the Page of Wands card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mystical",
+            "Tone": "Playful and Chaotic",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the mischievous nature of Puck, his pranks, and the chaotic forest environment",
+            "De-emphasis": "Avoid over-emphasizing the reversed orientation as it suggests a disruption or obstacle in the Page of Wands' usual creative energy",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Page of Wands card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, harp, strings, flute, reversed, introspective, atmospheric, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Puck",
+            "Positive": "Photorealistic Puck mischief scattering focus, mischievous fairy sprite pointed ears horns ragged wings chaotic forest pranks scattered focus, impish grin detailed wings leaves dirt trickster gleam 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "serious grounded human modern clothes calm no wings cartoon sprite blurry"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Page_of_Wands_between.png",
+          "CardImage": "CARDIMG_Page_of_Wands_between.png",
+          "Narration": "NARRATION_Page_of_Wands_between.mp3",
+          "Music": "MUSIC_Page_of_Wands_between.mp3",
+          "Movie": "FOCUS_Page_of_Wands_between.mpeg",
+          "PalletImage": "PALLETEIMG_Page_of_Wands_between.png",
+          "Object": "MODEL_Page_of_Wands_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_Page_of_Wands_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Page of Wands card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the Page of Wands card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Young Male",
+            "Tone": "Curious and Eager",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the potential and readiness of young Arthur as he prepares to embark on his journey, with the wand symbolizing his creativity and passion.",
+            "De-emphasis": "Avoid over-emphasizing the hesitant or uncertain aspects of the image, as this card suggests a sense of readiness and anticipation.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Page of Wands card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, harp, violins, flute, uilleann pipes, ambient, ethereal, hopeful, building, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 100,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Young Arthur",
+            "Positive": "Photorealistic young Arthur untested eager sword draw, boy king simple tunic stone sword half drawn curious hesitant desert rocks wand grounded lifted, mixed expression detailed stone blade youth skin 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "drawn sword confident adult no desert confident cartoon stone low quality"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

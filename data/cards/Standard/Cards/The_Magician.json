@@ -1,0 +1,236 @@
+{
+  "data.Cards": {
+    "Card": "The Magician",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_The_Magician_Upright.png",
+      "ReversedImage": "CARD_The_Magician_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_The_Magician_0.png",
+        "FOCUS_UPRIGHT_The_Magician_1.png",
+        "FOCUS_UPRIGHT_The_Magician_2.png",
+        "FOCUS_UPRIGHT_The_Magician_3.png",
+        "FOCUS_UPRIGHT_The_Magician_4.png",
+        "FOCUS_UPRIGHT_The_Magician_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_The_Magician_0.png",
+        "FOCUS_REVERSED_The_Magician_1.png",
+        "FOCUS_REVERSED_The_Magician_2.png",
+        "FOCUS_REVERSED_The_Magician_3.png",
+        "FOCUS_REVERSED_The_Magician_4.png",
+        "FOCUS_REVERSED_The_Magician_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the The Magician card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the The Magician card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the The Magician card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the The Magician card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Magician_upright.png",
+          "CardImage": "CARDIMG_The_Magician_upright.png",
+          "Narration": "NARRATION_The_Magician_upright.mp3",
+          "Music": "MUSIC_The_Magician_upright.mp3",
+          "Movie": "FOCUS_The_Magician_upright.mpeg",
+          "PalletImage": "PALLETEIMG_The_Magician_upright.png",
+          "Object": "MODEL_The_Magician_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_The_Magician_00.png",
+            "FOCUST_UPRIGHT_The_Magician_01.png",
+            "FOCUST_UPRIGHT_The_Magician_02.png",
+            "FOCUST_UPRIGHT_The_Magician_03.png",
+            "FOCUST_UPRIGHT_The_Magician_04.png",
+            "FOCUST_UPRIGHT_The_Magician_05.png",
+            "FOCUS_UPRIGHT_The_Magician_07.png",
+            "FOCUS_UPRIGHT_The_Magician_08.png",
+            "FOCUS_UPRIGHT_The_Magician_09.png",
+            "FOCUS_UPRIGHT_The_Magician_10.png",
+            "FOCUS_UPRIGHT_The_Magician_11.png",
+            "FOCUS_UPRIGHT_The_Magician_12.png",
+            "FOCUS_UPRIGHT_The_Magician_13.png",
+            "FOCUS_UPRIGHT_The_Magician_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Magician card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the The Magician card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mystical",
+            "Tone": "Bold and inspiring",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight Hermes' confident, sly grin and the connection between earth and sky",
+            "De-emphasis": "Avoid over-emphasizing the physical details of the setting, focus on the divine guide aspect of Hermes",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Magician card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, percussion, triumphant, uplifting, majestic, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Hermes",
+            "Positive": "Photorealistic Hermes trickster guide manifesting, youthful lithe god winged petasos helmet caduceus staff twin snakes, red chiton draped athletic nude torso table wand cup sword pentacle infinity halo head, confident sly grin gesturing sky to earth, sunlit meadow roses lilies horizon clear, intricate feather snake scales marble shine 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "elderly bald heavy robes angry scowl dark cave modern props lowres mutated hands"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Magician_reversed.png",
+          "CardImage": "CARDIMG_The_Magician_reversed.png",
+          "Narration": "NARRATION_The_Magician_reversed.mp3",
+          "Music": "MUSIC_The_Magician_reversed.mp3",
+          "Movie": "FOCUS_The_Magician_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_The_Magician_reversed.png",
+          "Object": "MODEL_The_Magician_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_The_Magician_00.png",
+            "FOCUST_REVERSED_The_Magician_01.png",
+            "FOCUST_REVERSED_The_Magician_02.png",
+            "FOCUST_REVERSED_The_Magician_03.png",
+            "FOCUST_REVERSED_The_Magician_04.png",
+            "FOCUST_REVERSED_The_Magician_05.png",
+            "FOCUS_REVERSED_The_Magician_07.png",
+            "FOCUS_REVERSED_The_Magician_08.png",
+            "FOCUS_REVERSED_The_Magician_09.png",
+            "FOCUS_REVERSED_The_Magician_10.png",
+            "FOCUS_REVERSED_The_Magician_11.png",
+            "FOCUS_REVERSED_The_Magician_12.png",
+            "FOCUS_REVERSED_The_Magician_13.png",
+            "FOCUS_REVERSED_The_Magician_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Magician_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Magician card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the The Magician card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Somber and Reflective",
+            "Pace": "Slow",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the manipulative nature of Loki, his twisted reality threads, and the distorted mirrors in the image.",
+            "De-emphasis": "Avoid over-emphasizing the dramatic chiaroscuro or detailed tattoos as they may distract from the card's reversed meaning.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Magician card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic, Orchestral, Strings, Harp, Reversed, Mystical, Introspective, Instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Loki",
+            "Positive": "Photorealistic Loki selfish manipulator, sharp angular face long black hair piercing green eyes black rune leather armor, twisting reality threads hands deceitful smirk bending others shadows, torchlit Norse hall distorted mirrors vines tangled, dramatic chiaroscuro detailed tattoos fabric tears 8k realistic TarotSpreadsheet2.xlsx​",
+            "Negative": "heroic blonde joyful bright daylight casual attire no shadows cartoon distortions"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Magician_between.png",
+          "CardImage": "CARDIMG_The_Magician_between.png",
+          "Narration": "NARRATION_The_Magician_between.mp3",
+          "Music": "MUSIC_The_Magician_between.mp3",
+          "Movie": "FOCUS_The_Magician_between.mpeg",
+          "PalletImage": "PALLETEIMG_The_Magician_between.png",
+          "Object": "MODEL_The_Magician_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Magician_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Magician card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the The Magician card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mystical",
+            "Tone": "Wise and Empowering",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the transfer of knowledge and power from Merlin to Arthur, emphasizing the potential for growth and success in the young king.",
+            "De-emphasis": "Avoid over-emphasizing the physical aspects of the setting or Merlin's appearance, instead focusing on the spiritual and mentor-mentee relationship.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Magician card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, uilleann pipes, mystical, ethereal, ambient, practical, growth, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Merlin",
+            "Positive": "Photorealistic Merlin tipping power service control aiding Arthur rise, elderly sage long white beard starry blue robe oaken staff glowing rune, forest glade young king kneeling wise contemplative gaze hand raised blessing, dappled sunlight mist swirls detailed wrinkles bark crystal facets 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "youthful babyface empty robe harsh flash plastic staff no forest low quality"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

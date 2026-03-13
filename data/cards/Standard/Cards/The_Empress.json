@@ -1,0 +1,236 @@
+{
+  "data.Cards": {
+    "Card": "The Empress",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_The_Empress_Upright.png",
+      "ReversedImage": "CARD_The_Empress_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_The_Empress_0.png",
+        "FOCUS_UPRIGHT_The_Empress_1.png",
+        "FOCUS_UPRIGHT_The_Empress_2.png",
+        "FOCUS_UPRIGHT_The_Empress_3.png",
+        "FOCUS_UPRIGHT_The_Empress_4.png",
+        "FOCUS_UPRIGHT_The_Empress_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_The_Empress_0.png",
+        "FOCUS_REVERSED_The_Empress_1.png",
+        "FOCUS_REVERSED_The_Empress_2.png",
+        "FOCUS_REVERSED_The_Empress_3.png",
+        "FOCUS_REVERSED_The_Empress_4.png",
+        "FOCUS_REVERSED_The_Empress_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the The Empress card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the The Empress card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the The Empress card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the The Empress card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Empress_upright.png",
+          "CardImage": "CARDIMG_The_Empress_upright.png",
+          "Narration": "NARRATION_The_Empress_upright.mp3",
+          "Music": "MUSIC_The_Empress_upright.mp3",
+          "Movie": "FOCUS_The_Empress_upright.mpeg",
+          "PalletImage": "PALLETEIMG_The_Empress_upright.png",
+          "Object": "MODEL_The_Empress_upright.obj",
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_The_Empress_00.png",
+            "FOCUST_UPRIGHT_The_Empress_01.png",
+            "FOCUST_UPRIGHT_The_Empress_02.png",
+            "FOCUST_UPRIGHT_The_Empress_03.png",
+            "FOCUST_UPRIGHT_The_Empress_04.png",
+            "FOCUST_UPRIGHT_The_Empress_05.png",
+            "FOCUS_UPRIGHT_The_Empress_07.png",
+            "FOCUS_UPRIGHT_The_Empress_08.png",
+            "FOCUS_UPRIGHT_The_Empress_09.png",
+            "FOCUS_UPRIGHT_The_Empress_10.png",
+            "FOCUS_UPRIGHT_The_Empress_11.png",
+            "FOCUS_UPRIGHT_The_Empress_12.png",
+            "FOCUS_UPRIGHT_The_Empress_13.png",
+            "FOCUS_UPRIGHT_The_Empress_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Empress card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the The Empress card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Warm and nurturing",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the compassionate, radiant face of Demeter as a symbol of growth, fertility, and abundance in your life",
+            "De-emphasis": "Avoid over-emphasizing the power or authority aspect of Demeter; instead, focus on her nurturing qualities",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Empress card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, warm, uplifting, hopeful, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Demeter",
+            "Positive": "Photorealistic Demeter harvest nurturer, mature goddess wheat sheaf crown venus heart shield seated throne lush field forest river, compassionate radiant face golden chiton soft curves, verdant green gold tones butterflies pomegranates morning dew detailed grains skin glow 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "barren wilted angry scowl thorny vines winter gray deformed hands low quality"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Empress_reversed.png",
+          "CardImage": "CARDIMG_The_Empress_reversed.png",
+          "Narration": "NARRATION_The_Empress_reversed.mp3",
+          "Music": "MUSIC_The_Empress_reversed.mp3",
+          "Movie": "FOCUS_The_Empress_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_The_Empress_reversed.png",
+          "Object": "MODEL_The_Empress_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_The_Empress_00.png",
+            "FOCUST_REVERSED_The_Empress_01.png",
+            "FOCUST_REVERSED_The_Empress_02.png",
+            "FOCUST_REVERSED_The_Empress_03.png",
+            "FOCUST_REVERSED_The_Empress_04.png",
+            "FOCUST_REVERSED_The_Empress_05.png",
+            "FOCUS_REVERSED_The_Empress_07.png",
+            "FOCUS_REVERSED_The_Empress_08.png",
+            "FOCUS_REVERSED_The_Empress_09.png",
+            "FOCUS_REVERSED_The_Empress_10.png",
+            "FOCUS_REVERSED_The_Empress_11.png",
+            "FOCUS_REVERSED_The_Empress_12.png",
+            "FOCUS_REVERSED_The_Empress_13.png",
+            "FOCUS_REVERSED_The_Empress_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Empress_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Empress card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the The Empress card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Haughty and Jealous",
+            "Pace": "Brisk",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the Queen's control, envy, and manipulation through her black widow gown, poisoned apple, and mirror obsidian comb.",
+            "De-emphasis": "Avoid over-emphasizing Snow White's innocence or the Empress's traditional nurturing qualities in this reversed orientation.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Empress card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, harp, strings, flute, minor, contemplative, ethereal, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Snow White's Queen",
+            "Positive": "Photorealistic Snow Whites Queen envy control, imperious pale beauty black widow gown mirror obsidian comb poisoned apple, ornate vanity thorn choked chamber haughty jealous sneer, candle flicker cold blue shadows detailed velvet jewels sharp nails porcelain skin 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "warm kind sunny garden casual dress happy smile blurry apple cartoon mirror"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_The_Empress_between.png",
+          "CardImage": "CARDIMG_The_Empress_between.png",
+          "Narration": "NARRATION_The_Empress_between.mp3",
+          "Music": "MUSIC_The_Empress_between.mp3",
+          "Movie": "FOCUS_The_Empress_between.mpeg",
+          "PalletImage": "PALLETEIMG_The_Empress_between.png",
+          "Object": "MODEL_The_Empress_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_The_Empress_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the The Empress card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the The Empress card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mystical",
+            "Tone": "Serene and otherworldly",
+            "Pace": "Slow",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the Lady of the Lake's connection to abundance, mysticism, and her role as a guardian.",
+            "De-emphasis": "Avoid over-emphasizing the sword she holds aloft, focusing instead on her peaceful demeanor.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the The Empress card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, warm, ethereal, majestic, growth, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Lady of the Lake",
+            "Positive": "Photorealistic Lady Lake partly distant abundance, mystical woman emerald gown rising silver lake mist tendrils holding sword aloft, serene otherworldly face water lilies reflections, twilight purple hues moon crescent detailed ripples gown translucency droplets hair 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "dry land harsh noon no sword fearful mortal clothes deformed water low res"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}

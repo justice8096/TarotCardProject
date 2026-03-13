@@ -1,0 +1,245 @@
+{
+  "data.Cards": {
+    "Card": "Four of Wands",
+    "Directory": "D:\\data\\cards\\Standard\\Cards",
+    "Assets": {
+      "UprightImage": "CARD_Four_of_Wands_Upright.png",
+      "ReversedImage": "CARD_Four_of_Wands_Reversed.png",
+      "FocusUpright": [
+        "FOCUS_UPRIGHT_Four_of_Wands_0.png",
+        "FOCUS_UPRIGHT_Four_of_Wands_1.png",
+        "FOCUS_UPRIGHT_Four_of_Wands_2.png",
+        "FOCUS_UPRIGHT_Four_of_Wands_3.png",
+        "FOCUS_UPRIGHT_Four_of_Wands_4.png",
+        "FOCUS_UPRIGHT_Four_of_Wands_5.png"
+      ],
+      "FocusReversed": [
+        "FOCUS_REVERSED_Four_of_Wands_0.png",
+        "FOCUS_REVERSED_Four_of_Wands_1.png",
+        "FOCUS_REVERSED_Four_of_Wands_2.png",
+        "FOCUS_REVERSED_Four_of_Wands_3.png",
+        "FOCUS_REVERSED_Four_of_Wands_4.png",
+        "FOCUS_REVERSED_Four_of_Wands_5.png"
+      ]
+    },
+    "Prompts": {
+      "UprightImage": {
+        "Positive": "Describe the imagery and symbolism of the Four of Wands card in an upright position.",
+        "Negative": "Describe the imagery and symbolism of the Four of Wands card in a reversed position."
+      },
+      "ReversedImage": {
+        "Positive": "Describe the imagery and symbolism of the Four of Wands card in an reversed position.",
+        "Negative": "Describe the imagery and symbolism of the Four of Wands card in a upright position."
+      }
+    },
+    "records": [
+      {
+        "Orientation": "upright",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Four_of_Wands_upright.png",
+          "CardImage": "CARDIMG_Four_of_Wands_upright.png",
+          "Narration": "NARRATION_Four_of_Wands_upright.mp3",
+          "Music": "MUSIC_Four_of_Wands_upright.mp3",
+          "Movie": "FOCUS_Four_of_Wands_upright.mpeg",
+          "PalletImage": "PALLETEIMG_Four_of_Wands_upright.png",
+          "Object": "MODEL_Four_of_Wands_upright.obj",
+          "FocusUpright": [
+            "FOCUSUPRIGHTSTILL_Four_of_Wands_0.png",
+            "FOCUSUPRIGHTSTILL_Four_of_Wands_1.png",
+            "FOCUSUPRIGHTSTILL_Four_of_Wands_2.png",
+            "FOCUSUPRIGHTSTILL_Four_of_Wands_3.png",
+            "FOCUSUPRIGHTSTILL_Four_of_Wands_4.png",
+            "FOCUSUPRIGHTSTILL_Four_of_Wands_5.png",
+            "FOCUSUPRIGHTSTILL_Four_of_Wands_6.png"
+          ],
+          "FocusUprightT": [
+            "FOCUST_UPRIGHT_Four_of_Wands_00.png",
+            "FOCUST_UPRIGHT_Four_of_Wands_01.png",
+            "FOCUST_UPRIGHT_Four_of_Wands_02.png",
+            "FOCUST_UPRIGHT_Four_of_Wands_03.png",
+            "FOCUST_UPRIGHT_Four_of_Wands_04.png",
+            "FOCUST_UPRIGHT_Four_of_Wands_05.png",
+            "FOCUS_UPRIGHT_Four_of_Wands_07.png",
+            "FOCUS_UPRIGHT_Four_of_Wands_08.png",
+            "FOCUS_UPRIGHT_Four_of_Wands_09.png",
+            "FOCUS_UPRIGHT_Four_of_Wands_10.png",
+            "FOCUS_UPRIGHT_Four_of_Wands_11.png",
+            "FOCUS_UPRIGHT_Four_of_Wands_12.png",
+            "FOCUS_UPRIGHT_Four_of_Wands_13.png",
+            "FOCUS_UPRIGHT_Four_of_Wands_14.png"
+          ]
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Four of Wands card in an upright position.",
+            "Negative": "Describe the imagery and symbolism of the Four of Wands card in a reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Male",
+            "Tone": "Warm and Uplifting",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the joyful camaraderie, merriment, and unity among the Robin Hood band in Sherwood Forest.",
+            "De-emphasis": "Avoid over-emphasizing the distant castle as the focus of this card. Instead, celebrate the present moment of feasting and fellowship.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Four of Wands card in an upright position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, uilleann pipes, hopeful, optimistic, building, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 80,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Robin Hood band",
+            "Positive": "Photorealistic Robin Hoods Sherwood feast, merry men green tunics longbows venison merriment garland arch castle distant, joyful camaraderie firelight detailed leather bows meat juices leaves 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "solitary sad court rigid no feast dark rainy cartoon bows blurry"
+          }
+        }
+      },
+      {
+        "Orientation": "reversed",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Four_of_Wands_reversed.png",
+          "CardImage": "CARDIMG_Four_of_Wands_reversed.png",
+          "Narration": "NARRATION_Four_of_Wands_reversed.mp3",
+          "Music": "MUSIC_Four_of_Wands_reversed.mp3",
+          "Movie": "FOCUS_Four_of_Wands_reversed.mpeg",
+          "PalletImage": "PALLETEIMG_Four_of_Wands_reversed.png",
+          "Object": "MODEL_Four_of_Wands_reversed.obj",
+          "FocusReversedT": [
+            "FOCUST_REVERSED_Four_of_Wands_00.png",
+            "FOCUST_REVERSED_Four_of_Wands_01.png",
+            "FOCUST_REVERSED_Four_of_Wands_02.png",
+            "FOCUST_REVERSED_Four_of_Wands_03.png",
+            "FOCUST_REVERSED_Four_of_Wands_04.png",
+            "FOCUST_REVERSED_Four_of_Wands_05.png",
+            "FOCUS_REVERSED_Four_of_Wands_07.png",
+            "FOCUS_REVERSED_Four_of_Wands_08.png",
+            "FOCUS_REVERSED_Four_of_Wands_09.png",
+            "FOCUS_REVERSED_Four_of_Wands_10.png",
+            "FOCUS_REVERSED_Four_of_Wands_11.png",
+            "FOCUS_REVERSED_Four_of_Wands_12.png",
+            "FOCUS_REVERSED_Four_of_Wands_13.png",
+            "FOCUS_REVERSED_Four_of_Wands_14.png"
+          ],
+          "CardImageUpright": "CARDIMGUPRIGHT_Four_of_Wands_reversed.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Four of Wands card in an reversed position.",
+            "Negative": "Describe the imagery and symbolism of the Four of Wands card in a upright position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Somber and Reflective",
+            "Pace": "Slow",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the frozen courtiers, envy, fear, and the untouched banquet to convey a sense of stagnation and missed opportunities",
+            "De-emphasis": "Avoid over-emphasizing the opulence and gold sheen as they contribute to the sense of stagnation rather than progress",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Four of Wands card in an reversed position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flute, reversed, introspective, suspenseful, ambient, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "minor"
+          },
+          "CharacterImage": {
+            "CharacterName": "Midas closed court",
+            "Positive": "Photorealistic Midas rigid status court, golden king throne frozen courtiers statues envy fear gold banquet untouched, opulent hall dim detailed gold sheen horror petrified faces 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "open joyful simple hut warm food no gold happy cartoon throne low quality"
+          }
+        }
+      },
+      {
+        "Orientation": "between",
+        "Description": "This card signifies a burgeoning opportunity related to material resources, finances, or career beginnings. It suggests a foundation being laid for stability and prosperity, but with a need for careful nurturing and grounded action. The path forward requires patience and a practical approach, focusing on building something solid from the ground up.  It speaks to potential and the power to manifest abundance through diligent effort.",
+        "Meanings": [],
+        "Keywords": [
+          "opportunity, foundation, prosperity, practicality, growth, potential, stability, manifestation"
+        ],
+        "Advice": "Invest time and effort wisely in building a secure future. Focus on practical steps and responsible financial management to realize your potential.",
+        "Affirmation": "I am building a strong foundation.\nI attract abundance and prosperity.\nMy efforts yield fruitful results.",
+        "Category": [],
+        "Assets": {
+          "Image": "IMG_Four_of_Wands_between.png",
+          "CardImage": "CARDIMG_Four_of_Wands_between.png",
+          "Narration": "NARRATION_Four_of_Wands_between.mp3",
+          "Music": "MUSIC_Four_of_Wands_between.mp3",
+          "Movie": "FOCUS_Four_of_Wands_between.mpeg",
+          "PalletImage": "PALLETEIMG_Four_of_Wands_between.png",
+          "Object": "MODEL_Four_of_Wands_between.obj",
+          "CardImageUpright": "CARDIMGUPRIGHT_Four_of_Wands_between.png"
+        },
+        "Prompts": {
+          "Image": {
+            "Positive": "Describe the imagery and symbolism of the Four of Wands card in an between position.",
+            "Negative": "Describe the imagery and symbolism of the Four of Wands card in a upright and reversed position."
+          },
+          "Narration": {
+            "Voice": "Mature Female",
+            "Tone": "Warm and Uplifting",
+            "Pace": "Moderate",
+            "Volume": "Medium",
+            "Emphasis": "Highlight the sense of community, joy, and celebration amidst the modest village harvest festival.",
+            "De-emphasis": "Avoid over-emphasizing the fatigue or hard work involved in the harvest.",
+            "Style": "Narrate in a storytelling manner, engaging the listener with vivid descriptions.",
+            "Content": "Focus on the symbolism and meaning of the Four of Wands card in an between position."
+          },
+          "Music": {
+            "Tags": "Celtic-orchestral, strings, harp, flutes, uplifting, optimistic, majestic, building, instrumental",
+            "Lyrics": "[instrumental]",
+            "BPM": 90,
+            "KeyScale": "major"
+          },
+          "CharacterImage": {
+            "CharacterName": "Village harvest festival",
+            "Positive": "Photorealistic village harvest modest joy, peasants floral garlands half cushions thorns dance courtyard castle distant, balanced celebration detailed mixed flowers petals dust joy fatigue 8k TarotSpreadsheet2.xlsx​",
+            "Negative": "elite grand empty hall wilted no dance harsh sun cartoon flowers deformed"
+          }
+        }
+      }
+    ]
+  },
+  "data.Name": "Standard",
+  "data.Version": 0.3,
+  "data.Geometries": {
+    "Title": {
+      "Font": "",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "",
+      "Height": 660,
+      "Width": 1060
+    },
+    "Size": {
+      "Height": 680,
+      "Width": 1100
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    }
+  },
+  "data.Assets.Directory": "D:\\data\\cards\\Standard"
+}
