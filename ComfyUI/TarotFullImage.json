@@ -232,10 +232,10 @@
       "widgets_values": [
         368970894877705,
         "randomize",
-        40,
-        5,
-        "uni_pc",
-        "simple",
+        55,
+        7,
+        "euler",
+        "normal",
         1
       ]
     },

@@ -1,0 +1,53 @@
+{
+    "id": "narr0001-0001-4000-8000-000000000001",
+    "revision": 0,
+    "last_node_id": 2,
+    "last_link_id": 1,
+    "nodes": [
+        {
+            "id": 1,
+            "type": "orpheusAdvanced",
+            "pos": [100, 100],
+            "size": [400, 300],
+            "flags": {},
+            "order": 0,
+            "mode": 0,
+            "inputs": [],
+            "outputs": [
+                {"name": "AUDIO", "type": "AUDIO", "links": [1], "slot_index": 0}
+            ],
+            "properties": {"Node name for S&R": "orpheusAdvanced"},
+            "widgets_values": [
+                "orpheus-3b-0.1-ft-Q4_K_M.gguf",
+                "tara",
+                "NARRATION_SCRIPT_TEXT",
+                4096,
+                0.6,
+                0.95,
+                1.1
+            ]
+        },
+        {
+            "id": 2,
+            "type": "SaveAudioMP3",
+            "pos": [560, 100],
+            "size": [310, 82],
+            "flags": {},
+            "order": 1,
+            "mode": 0,
+            "inputs": [
+                {"name": "audio", "type": "AUDIO", "link": 1}
+            ],
+            "outputs": [],
+            "properties": {"Node name for S&R": "SaveAudioMP3"},
+            "widgets_values": ["narration/CARD_NAME_orientation", "128k"]
+        }
+    ],
+    "links": [
+        [1, 1, 0, 2, 0, "AUDIO"]
+    ],
+    "groups": [],
+    "config": {},
+    "extra": {},
+    "version": 0.4
+}
