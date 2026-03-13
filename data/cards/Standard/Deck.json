@@ -1,0 +1,525 @@
+{
+  "Name": "Standard",
+  "Version": 0.3,
+  "Prompts": {
+    "BackImage": {
+      "Positive": "as a graphics artist, draw the following: the background is slightly yellowed grey papyrus with a pronounced texture. On top of the papyrus is an elaborate art nouveau abstract pattern in 12 dark colors.",
+      "Negative": ""
+    },
+    "FrontImage": {
+      "Positive": "The background is slightly yellowed papyrus with a pronounced texture. ",
+      "Negative": ""
+    },
+    "Music": {
+      "BaseStyle": "Celtic-inspired ambient orchestral, warm strings, harp arpeggios, ethereal atmosphere, mystical, cinematic reverb",
+      "Negative": "harsh distortion, aggressive vocals, heavy metal, industrial noise, electronic dance, synthetic beats",
+      "Duration": 15,
+      "BPM": 80,
+      "KeyScale": "D Minor",
+      "InferenceSteps": 100,
+      "Seed": -1,
+      "CFG": 7.0
+    },
+    "Narration": {
+      "Voice": "Female",
+      "Tone": "Mysterious and Kind",
+      "Pace": "Slow",
+      "Style": "Narrator",
+      "Content": "Choose your spread and ask your question. Do not ask questions of life and death, for those need more discussion than I can give.",
+      "DefaultVoice": "tara",
+      "DefaultElement": "none",
+      "VoiceMap": {
+        "Female": "tara",
+        "Male": "leo",
+        "Neutral": "zac",
+        "Young Female": "jess",
+        "Young Male": "dan",
+        "Mature Female": "leah",
+        "Mature Male": "max",
+        "Warm Female": "mia",
+        "Mystical": "tara",
+        "Authoritative": "leo"
+      },
+      "ElementMap": {
+        "Warm and uplifting": "none",
+        "Mysterious and Kind": "none",
+        "Mysterious": "none",
+        "Somber and reflective": "sigh",
+        "Somber": "sigh",
+        "Contemplative": "none",
+        "Joyful": "none",
+        "Warning": "sigh",
+        "Urgent": "none",
+        "Surprised": "gasp",
+        "Grief": "sigh",
+        "Reflective": "none"
+      },
+      "ScriptTemplate": "{card_name}, {orientation} position. {description} {advice} {affirmation}"
+    },
+    "Cut": {
+      "Negative": "blurry, low quality, distorted, watermark, text, deformed hands, extra fingers, CGI, 3D render, cartoon",
+      "Keyframes": [
+        "a complete deck of tarot cards resting face-down on a black felt surface, papyrus-textured card backs visible, soft warm studio lighting, photorealistic, cinematic, 832x480",
+        "two brown slender hands splitting a tarot deck on black felt, left hand holding top half lifted slightly, right hand holding bottom half, papyrus-textured card backs, soft warm studio lighting, photorealistic, cinematic, 832x480",
+        "two brown slender hands completing a cut, top half of tarot deck placed face-down beside bottom half on black felt, papyrus-textured card backs, soft warm studio lighting, photorealistic, cinematic, 832x480",
+        "two brown slender hands placing the top half of tarot deck placed face-down on the bottom half on black felt, papyrus-textured card backs, soft warm studio lighting, photorealistic, cinematic, 832x480"
+      ]
+    },
+    "Fan": {
+      "Negative": "blurry, low quality, distorted, watermark, text, deformed hands, extra fingers, CGI, 3D render, cartoon",
+      "Keyframes": [
+        "a complete tarot deck held square in two brown slender hands above black felt, papyrus-textured card backs, soft warm studio lighting, photorealistic, cinematic, 832x480",
+        "two brown slender hands spreading a tarot deck into a partial arc on black felt, cards fanning left to right, papyrus-textured card backs visible, soft warm studio lighting, photorealistic, cinematic, 832x480",
+        "a full tarot deck fanned into a wide elegant arc on black felt, all papyrus-textured card backs visible, soft warm studio lighting, photorealistic, cinematic, 832x480",
+        "a full tarot deck fanned into being unfanned from a wide elegant arc to a single deck on black felt, all papyrus-textured card backs visible, soft warm studio lighting, photorealistic, cinematic, 832x480"
+      ]
+    },
+    "Merge": {
+      "Negative": "blurry, low quality, distorted, watermark, text, deformed hands, extra fingers, CGI, 3D render, cartoon",
+      "Keyframes": [
+        "two halves of a tarot deck held apart in two brown slender hands above black felt, papyrus-textured card backs, soft warm studio lighting, photorealistic, cinematic, 832x480",
+        "two brown slender hands performing a riffle shuffle, thumbs releasing alternating tarot cards from each half, cards interleaving mid-air, black felt, papyrus-textured card backs, soft warm studio lighting, photorealistic, cinematic, 832x480",
+        "two brown slender hands placing the freshly shuffled tarot deck flat in the middle on black felt, papyrus-textured card backs, soft warm studio lighting, photorealistic, cinematic, 832x480"
+      ]
+    },
+    "Rotate": {
+      "Negative": "blurry, low quality, distorted, watermark, text, deformed hands, extra fingers, CGI, 3D render, cartoon",
+      "Keyframes": [
+        "two halves of a tarot deck held apart in two brown slender hands above black felt, papyrus-textured card backs, soft warm studio lighting, photorealistic, cinematic, 832x480",
+        "two halves of a tarot deck held apart in two brown slender hands above black felt, with the deck on the right in the middle of being rotated around the back of the cards by 45 degrees, papyrus-textured card backs, soft warm studio lighting, photorealistic, cinematic, 832x480",
+        "two halves of a tarot deck held apart in two brown slender hands above black felt, with the deck on the right in the middle of being rotated around the back of the cards by 90 degrees, papyrus-textured card backs, soft warm studio lighting, photorealistic, cinematic, 832x480",
+        "two halves of a tarot deck held apart in two brown slender hands above black felt, with the deck on the right in the middle of being rotated around the back of the cards by 135 degrees, papyrus-textured card backs, soft warm studio lighting, photorealistic, cinematic, 832x480",
+        "both halves of a tarot deck in the middle of being placed one above the other by slender hands above black felt, with the deck on the right rotated around the back of the cards by 180 degrees, papyrus-textured card backs, soft warm studio lighting, photorealistic, cinematic, 832x480"
+      ]
+    }
+  },
+  "Geometries": {
+    "Title": {
+      "Font": "pala.ttf",
+      "Height": 18,
+      "Width": 660
+    },
+    "Body": {
+      "Font": "constan.ttf",
+      "Height": 1060,
+      "Width": 660
+    },
+    "Size": {
+      "Height": 1100,
+      "Width": 680
+    },
+    "Images": {
+      "Height": 300,
+      "Width": 300
+    },
+    "Text": {
+      "Height": 300,
+      "Width": 320
+    },
+    "Animation": {
+      "Width": 832,
+      "Height": 480,
+      "FrameRate": 12,
+      "InterpolationFrames": 13
+    }
+  },
+  "Models": {
+    "InterpolationUNet": "wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors",
+    "NarrationGGUF": "orpheus-3b-0.1-ft-UD-Q6_K_XL.gguf",
+    "MusicCheckpoint": "stable-audio-open-1.0.safetensors",
+    "MusicTextEncoder": "t5-base.safetensors",
+    "3D": {
+      "BackViewCheckpoint": "dreamshaper_8.safetensors",
+      "MultiViewCheckpoint": "stable_zero123.ckpt",
+      "Hunyuan3DCheckpoint": "hunyuan_3d_v2.1.safetensors",
+      "UpscaleModel": "RealESRGAN_x4plus.pth"
+    }
+  },
+  "Samplers": {
+    "Interpolation": {
+      "Steps": 20,
+      "CFG": 7.0,
+      "Denoise": 1.0,
+      "Shift": 1.0,
+      "Sampler": "uni_pc_bh2",
+      "Scheduler": "sgm_uniform"
+    },
+    "Narration": {
+      "Temperature": 0.6,
+      "TopP": 0.95,
+      "RepetitionPenalty": 1.1,
+      "MaxNewTokens": 4096,
+      "Quality": "128k"
+    },
+    "3D": {
+      "Resolution": 256,
+      "Threshold": 15.0,
+      "ChunkSize": 8192,
+      "BackViewSteps": 25,
+      "BackViewCFG": 7.0
+    },
+    "MultiView": {
+      "Width": 256,
+      "Height": 256,
+      "Steps": 50,
+      "CFG": 4.0,
+      "Sampler": "euler",
+      "Scheduler": "sgm_uniform"
+    },
+    "Hunyuan3D": {
+      "LatentResolution": 3072,
+      "Steps": 30,
+      "CFG": 5.5,
+      "Sampler": "euler",
+      "Scheduler": "sgm_uniform",
+      "OctreeResolution": 256,
+      "NumChunks": 8000,
+      "MeshAlgorithm": "surface net",
+      "MeshThreshold": 0.6
+    }
+  },
+  "Assets": {
+    "Directory": "D:\\data\\cards\\Standard",
+    "BackImage": "D:\\data\\cards\\Standard\\IMAGE_Deck_Back.png",
+    "FrontImage": "D:\\data\\cards\\Standard\\IMAGE_Deck_Front.png",
+    "Music": "D:\\data\\cards\\Standard\\MUSIC_Deck.wav",
+    "MusicDirectory": "D:\\data\\cards\\Standard\\Music",
+    "Narration": "D:\\data\\cards\\Standard\\NARRATION_Deck.png",
+    "Cut": "D:\\data\\cards\\Standard\\CUT_Deck.mp4",
+    "Fan": "D:\\data\\cards\\Standard\\FAN_Deck.mp4",
+    "Merge": "D:\\data\\cards\\Standard\\MERGE_Deck.mp4",
+    "Rotate": "D:\\data\\cards\\Standard\\ROTATE_Deck.mp4",
+    "AnimationKeyframes": "D:\\data\\cards\\Standard\\Keyframes",
+    "NarrationDirectory": "D:/data/cards/Standard/Narration"
+  },
+  "Cards": [
+    {
+      "Card": "Ace of Cups",
+      "File": "Cards/Ace_of_Cups.json"
+    },
+    {
+      "Card": "Ace of Pentacles",
+      "File": "Cards/Ace_of_Pentacles.json"
+    },
+    {
+      "Card": "Ace of Swords",
+      "File": "Cards/Ace_of_Swords.json"
+    },
+    {
+      "Card": "Ace of Wands",
+      "File": "Cards/Ace_of_Wands.json"
+    },
+    {
+      "Card": "Death",
+      "File": "Cards/Death.json"
+    },
+    {
+      "Card": "Eight of Cups",
+      "File": "Cards/Eight_of_Cups.json"
+    },
+    {
+      "Card": "Eight of Pentacles",
+      "File": "Cards/Eight_of_Pentacles.json"
+    },
+    {
+      "Card": "Eight of Swords",
+      "File": "Cards/Eight_of_Swords.json"
+    },
+    {
+      "Card": "Eight of Wands",
+      "File": "Cards/Eight_of_Wands.json"
+    },
+    {
+      "Card": "Five of Cups",
+      "File": "Cards/Five_of_Cups.json"
+    },
+    {
+      "Card": "Five of Pentacles",
+      "File": "Cards/Five_of_Pentacles.json"
+    },
+    {
+      "Card": "Five of Swords",
+      "File": "Cards/Five_of_Swords.json"
+    },
+    {
+      "Card": "Five of Wands",
+      "File": "Cards/Five_of_Wands.json"
+    },
+    {
+      "Card": "Four of Cups",
+      "File": "Cards/Four_of_Cups.json"
+    },
+    {
+      "Card": "Four of Pentacles",
+      "File": "Cards/Four_of_Pentacles.json"
+    },
+    {
+      "Card": "Four of Swords",
+      "File": "Cards/Four_of_Swords.json"
+    },
+    {
+      "Card": "Four of Wands",
+      "File": "Cards/Four_of_Wands.json"
+    },
+    {
+      "Card": "Gig Worker",
+      "File": "Cards/Gig_Worker.json"
+    },
+    {
+      "Card": "Hierophant",
+      "File": "Cards/Hierophant.json"
+    },
+    {
+      "Card": "High Priestess",
+      "File": "Cards/High_Priestess.json"
+    },
+    {
+      "Card": "Influencer (modern)",
+      "File": "Cards/Influencer_(modern).json"
+    },
+    {
+      "Card": "Judgement",
+      "File": "Cards/Judgement.json"
+    },
+    {
+      "Card": "Justice",
+      "File": "Cards/Justice.json"
+    },
+    {
+      "Card": "King of Cups",
+      "File": "Cards/King_of_Cups.json"
+    },
+    {
+      "Card": "King of Pentacles",
+      "File": "Cards/King_of_Pentacles.json"
+    },
+    {
+      "Card": "King of Swords",
+      "File": "Cards/King_of_Swords.json"
+    },
+    {
+      "Card": "King of Wands",
+      "File": "Cards/King_of_Wands.json"
+    },
+    {
+      "Card": "Knight of Cups",
+      "File": "Cards/Knight_of_Cups.json"
+    },
+    {
+      "Card": "Knight of Pentacles",
+      "File": "Cards/Knight_of_Pentacles.json"
+    },
+    {
+      "Card": "Knight of Swords",
+      "File": "Cards/Knight_of_Swords.json"
+    },
+    {
+      "Card": "Knight of Wands",
+      "File": "Cards/Knight_of_Wands.json"
+    },
+    {
+      "Card": "Nine of Cups",
+      "File": "Cards/Nine_of_Cups.json"
+    },
+    {
+      "Card": "Nine of Pentacles",
+      "File": "Cards/Nine_of_Pentacles.json"
+    },
+    {
+      "Card": "Nine of Swords",
+      "File": "Cards/Nine_of_Swords.json"
+    },
+    {
+      "Card": "Nine of Wands",
+      "File": "Cards/Nine_of_Wands.json"
+    },
+    {
+      "Card": "Page of Cups",
+      "File": "Cards/Page_of_Cups.json"
+    },
+    {
+      "Card": "Page of Pentacles",
+      "File": "Cards/Page_of_Pentacles.json"
+    },
+    {
+      "Card": "Page of Swords",
+      "File": "Cards/Page_of_Swords.json"
+    },
+    {
+      "Card": "Page of Wands",
+      "File": "Cards/Page_of_Wands.json"
+    },
+    {
+      "Card": "Queen of Cups",
+      "File": "Cards/Queen_of_Cups.json"
+    },
+    {
+      "Card": "Queen of Pentacles",
+      "File": "Cards/Queen_of_Pentacles.json"
+    },
+    {
+      "Card": "Queen of Swords",
+      "File": "Cards/Queen_of_Swords.json"
+    },
+    {
+      "Card": "Queen of Wands",
+      "File": "Cards/Queen_of_Wands.json"
+    },
+    {
+      "Card": "Seven of Cups",
+      "File": "Cards/Seven_of_Cups.json"
+    },
+    {
+      "Card": "Seven of Pentacles",
+      "File": "Cards/Seven_of_Pentacles.json"
+    },
+    {
+      "Card": "Seven of Swords",
+      "File": "Cards/Seven_of_Swords.json"
+    },
+    {
+      "Card": "Seven of Wands",
+      "File": "Cards/Seven_of_Wands.json"
+    },
+    {
+      "Card": "Six of Cups",
+      "File": "Cards/Six_of_Cups.json"
+    },
+    {
+      "Card": "Six of Pentacles",
+      "File": "Cards/Six_of_Pentacles.json"
+    },
+    {
+      "Card": "Six of Swords",
+      "File": "Cards/Six_of_Swords.json"
+    },
+    {
+      "Card": "Six of Wands",
+      "File": "Cards/Six_of_Wands.json"
+    },
+    {
+      "Card": "Social Feed",
+      "File": "Cards/Social_Feed.json"
+    },
+    {
+      "Card": "Streaming Binge",
+      "File": "Cards/Streaming_Binge.json"
+    },
+    {
+      "Card": "Strength",
+      "File": "Cards/Strength.json"
+    },
+    {
+      "Card": "Temperance",
+      "File": "Cards/Temperance.json"
+    },
+    {
+      "Card": "Ten of Cups",
+      "File": "Cards/Ten_of_Cups.json"
+    },
+    {
+      "Card": "Ten of Pentacles",
+      "File": "Cards/Ten_of_Pentacles.json"
+    },
+    {
+      "Card": "Ten of Swords",
+      "File": "Cards/Ten_of_Swords.json"
+    },
+    {
+      "Card": "The Chariot",
+      "File": "Cards/The_Chariot.json"
+    },
+    {
+      "Card": "The Devil",
+      "File": "Cards/The_Devil.json"
+    },
+    {
+      "Card": "The Emperor",
+      "File": "Cards/The_Emperor.json"
+    },
+    {
+      "Card": "The Empress",
+      "File": "Cards/The_Empress.json"
+    },
+    {
+      "Card": "The Fool",
+      "File": "Cards/The_Fool.json"
+    },
+    {
+      "Card": "The Hanged_Man",
+      "File": "Cards/The_Hanged_Man.json"
+    },
+    {
+      "Card": "The Hermit",
+      "File": "Cards/The_Hermit.json"
+    },
+    {
+      "Card": "The Lovers",
+      "File": "Cards/The_Lovers.json"
+    },
+    {
+      "Card": "The Magician",
+      "File": "Cards/The_Magician.json"
+    },
+    {
+      "Card": "The Moon",
+      "File": "Cards/The_Moon.json"
+    },
+    {
+      "Card": "The Star",
+      "File": "Cards/The_Star.json"
+    },
+    {
+      "Card": "The Sun",
+      "File": "Cards/The_Sun.json"
+    },
+    {
+      "Card": "The Tower",
+      "File": "Cards/The_Tower.json"
+    },
+    {
+      "Card": "The World",
+      "File": "Cards/The_World.json"
+    },
+    {
+      "Card": "Three of Cups",
+      "File": "Cards/Three_of_Cups.json"
+    },
+    {
+      "Card": "Three of Pentacles",
+      "File": "Cards/Three_of_Pentacles.json"
+    },
+    {
+      "Card": "Three of Swords",
+      "File": "Cards/Three_of_Swords.json"
+    },
+    {
+      "Card": "Three of Wands",
+      "File": "Cards/Three_of_Wands.json"
+    },
+    {
+      "Card": "Two of Cups",
+      "File": "Cards/Two_of_Cups.json"
+    },
+    {
+      "Card": "Two of Pentacles",
+      "File": "Cards/Two_of_Pentacles.json"
+    },
+    {
+      "Card": "Two of Swords",
+      "File": "Cards/Two_of_Swords.json"
+    },
+    {
+      "Card": "Two of Wands",
+      "File": "Cards/Two_of_Wands.json"
+    },
+    {
+      "Card": "Viral Post",
+      "File": "Cards/Viral_Post.json"
+    },
+    {
+      "Card": "Wheel of Fortune",
+      "File": "Cards/Wheel_of_Fortune.json"
+    }
+  ]
+}
