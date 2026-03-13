@@ -1,5 +1,5 @@
 {
-    "id": "ip000001-0001-4000-8000-000000000001",
+    "id": "focus0001-0001-4000-8000-000000000001",
     "revision": 0,
     "last_node_id": 13,
     "last_link_id": 17,
@@ -17,7 +17,7 @@
                 {"name": "MODEL", "type": "MODEL", "links": [1], "slot_index": 0}
             ],
             "properties": {"Node name for S&R": "UNETLoader"},
-            "widgets_values": ["wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors", "default"]
+            "widgets_values": ["wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors", "fp8_e4m3fn"]
         },
         {
             "id": 2,
@@ -64,7 +64,7 @@
                 {"name": "CONDITIONING", "type": "CONDITIONING", "links": [4], "slot_index": 0}
             ],
             "properties": {"Node name for S&R": "CLIPTextEncode"},
-            "widgets_values": ["INTERP_POSITIVE_PROMPT"]
+            "widgets_values": ["tarot card focus animation, CARD_NAME upright, smooth cinematic transition, high quality"]
         },
         {
             "id": 5,
@@ -81,7 +81,7 @@
                 {"name": "CONDITIONING", "type": "CONDITIONING", "links": [5], "slot_index": 0}
             ],
             "properties": {"Node name for S&R": "CLIPTextEncode"},
-            "widgets_values": ["INTERP_NEGATIVE_PROMPT"]
+            "widgets_values": ["blurry, distorted, low quality, artifacts, watermark, text"]
         },
         {
             "id": 6,
@@ -96,8 +96,9 @@
                 {"name": "IMAGE", "type": "IMAGE", "links": [9], "slot_index": 0},
                 {"name": "MASK",  "type": "MASK",  "links": [], "slot_index": 1}
             ],
+            "title": "Start Image (Reversed Card)",
             "properties": {"Node name for S&R": "LoadImage"},
-            "widgets_values": ["KEYFRAME_A_FILENAME", "image"]
+            "widgets_values": ["START_IMAGE_FILENAME", "image"]
         },
         {
             "id": 13,
@@ -112,8 +113,9 @@
                 {"name": "IMAGE", "type": "IMAGE", "links": [17], "slot_index": 0},
                 {"name": "MASK",  "type": "MASK",  "links": [], "slot_index": 1}
             ],
+            "title": "End Image (Upright Card)",
             "properties": {"Node name for S&R": "LoadImage"},
-            "widgets_values": ["KEYFRAME_B_FILENAME", "image"]
+            "widgets_values": ["END_IMAGE_FILENAME", "image"]
         },
         {
             "id": 7,
@@ -136,7 +138,7 @@
                 {"name": "latent",   "type": "LATENT",       "links": [12], "slot_index": 2}
             ],
             "properties": {"Node name for S&R": "WanFirstLastFrameToVideo"},
-            "widgets_values": [832, 480, 13, 1]
+            "widgets_values": [832, 480, 81, 1]
         },
         {
             "id": 9,
@@ -153,7 +155,7 @@
                 {"name": "MODEL", "type": "MODEL", "links": [13], "slot_index": 0}
             ],
             "properties": {"Node name for S&R": "ModelSamplingSD3"},
-            "widgets_values": [3.0]
+            "widgets_values": [1.0]
         },
         {
             "id": 10,
@@ -205,7 +207,7 @@
             ],
             "outputs": [],
             "properties": {"Node name for S&R": "VHS_VideoCombine"},
-            "widgets_values": [12, 0, "INTERP_OUTPUT_PREFIX", "video/h264-mp4", "yuv420p", 19, true, false, false, true, "INTERP_OUTPUT_PATH"]
+            "widgets_values": [24, 0, "focus_upright", "video/h264-mp4", "yuv420p", 19, true, false, false, true, ""]
         }
     ],
     "links": [
