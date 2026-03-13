@@ -4,7 +4,8 @@ setup.py — Interactive setup for the TarotCardProject.
 
 Prompts the user for their data directory and ComfyUI directory, then
 rewrites config.json and all hardcoded paths in n8n and ComfyUI workflow
-JSON files.
+JSON files.  Also checks for required external tools, ComfyUI models,
+and custom nodes.
 
 Run once after cloning the project or moving it to a new machine:
 
@@ -13,12 +14,17 @@ Run once after cloning the project or moving it to a new machine:
 Or pass arguments non-interactively:
 
     python setup.py --data-dir E:/data --comfyui-dir E:/ComfyUI_windows_portable/ComfyUI
+
+Skip prerequisite checks:
+
+    python setup.py --skip-checks
 """
 import argparse
 import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 
 # ── Defaults (current values) ────────────────────────────────────────────────
@@ -115,6 +121,173 @@ def update_workflow_file(filepath, old_data, new_data, old_comfyui, new_comfyui)
     return False
 
 
+# ── Required ComfyUI Models ──────────────────────────────────────────────────
+# Each entry: (subfolder under models/, filename)
+# Extracted from all ComfyUI workflow JSONs and n8n Code nodes.
+
+REQUIRED_MODELS = [
+    # Checkpoints
+    ("checkpoints", "dreamshaper_8.safetensors"),
+
+    # Diffusion models (UNETLoader)
+    ("diffusion_models", "wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors"),
+    ("diffusion_models", "wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors"),
+    ("diffusion_models", "qwen_image_edit_2509_fp8_e4m3fn.safetensors"),
+    ("diffusion_models", "hidream_i1_full_fp8.safetensors"),
+
+    # Text encoders / CLIP
+    ("text_encoders", "umt5_xxl_fp8_e4m3fn_scaled.safetensors"),
+    ("text_encoders", "qwen_2.5_vl_7b_fp8_scaled.safetensors"),
+    ("text_encoders", "clip_l_hidream.safetensors"),
+    ("text_encoders", "clip_g_hidream.safetensors"),
+    ("text_encoders", "t5xxl_fp8_e4m3fn_scaled.safetensors"),
+    ("text_encoders", "llama_3.1_8b_instruct_fp8_scaled.safetensors"),
+    ("text_encoders", "qwen_3_4b.safetensors"),
+
+    # VAE
+    ("vae", "wan_2.1_vae.safetensors"),
+    ("vae", "qwen_image_vae.safetensors"),
+    ("vae", "ae.safetensors"),
+
+    # LoRAs
+    ("loras", "wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors"),
+    ("loras", "Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors"),
+]
+
+# GGUF models live under a custom node's models directory, not standard ComfyUI models/
+REQUIRED_GGUF_MODELS = [
+    "orpheus-3b-0.1-ft-Q4_K_M.gguf",
+]
+
+
+# ── Prerequisite Checks ─────────────────────────────────────────────────────
+
+def check_command(name, test_args=None):
+    """Check if a command-line tool is available. Returns (found, version_str)."""
+    cmd = test_args or [name, "--version"]
+    try:
+        result = subprocess.run(
+            cmd, capture_output=True, text=True, timeout=10
+        )
+        version_line = (result.stdout or result.stderr).strip().split("\n")[0]
+        return True, version_line
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return False, ""
+
+
+def check_external_tools():
+    """Check for required external tools. Returns (ok_count, warn_count, messages)."""
+    tools = [
+        ("n8n", None, "n8n workflow engine — install via: npm install -g n8n"),
+        ("ffmpeg", None, "video concatenation — install from https://ffmpeg.org/download.html"),
+        ("git", None, "custom node installation — install from https://git-scm.com/"),
+        ("ollama", None, "LLM for narration scripts — install from https://ollama.com/download"),
+    ]
+    ok = 0
+    warn = 0
+    msgs = []
+
+    for name, test_args, help_text in tools:
+        found, version = check_command(name, test_args)
+        if found:
+            msgs.append(f"    [OK] {name}: {version[:80]}")
+            ok += 1
+        else:
+            msgs.append(f"    [!!] {name}: NOT FOUND — {help_text}")
+            warn += 1
+
+    return ok, warn, msgs
+
+
+def check_comfyui_models(comfyui_dir):
+    """Check for required model files. Returns (found, missing, messages)."""
+    models_dir = os.path.join(comfyui_dir, "models")
+    found = []
+    missing = []
+    msgs = []
+
+    for subfolder, filename in REQUIRED_MODELS:
+        filepath = os.path.join(models_dir, subfolder, filename)
+        if os.path.isfile(filepath):
+            found.append(filename)
+        else:
+            missing.append(f"models/{subfolder}/{filename}")
+
+    # Check GGUF models — these can be in various locations under custom_nodes
+    # or in a models/gguf/ directory
+    for filename in REQUIRED_GGUF_MODELS:
+        # Check common locations
+        candidates = [
+            os.path.join(models_dir, "gguf", filename),
+            os.path.join(models_dir, "LLM", filename),
+            os.path.join(comfyui_dir, "custom_nodes", "ComfyUI-Orpheus-TTS",
+                         "models", filename),
+        ]
+        if any(os.path.isfile(c) for c in candidates):
+            found.append(filename)
+        else:
+            missing.append(f"models/gguf/{filename} (or custom_nodes/*/models/)")
+
+    if missing:
+        msgs.append(f"    Found {len(found)}/{len(found) + len(missing)} required models")
+        msgs.append(f"    Missing {len(missing)} model(s):")
+        for m in missing:
+            msgs.append(f"      - {m}")
+        msgs.append("")
+        msgs.append("    Download missing models and place them in the paths above")
+        msgs.append(f"    (relative to {comfyui_dir})")
+    else:
+        msgs.append(f"    [OK] All {len(found)} required models found")
+
+    return found, missing, msgs
+
+
+def check_custom_nodes(comfyui_dir):
+    """Run setup_comfyui_nodes.py in check-only mode. Returns (ok, messages)."""
+    script = os.path.join(SCRIPT_DIR, "setup_comfyui_nodes.py")
+    if not os.path.isfile(script):
+        return True, ["    [SKIP] setup_comfyui_nodes.py not found"]
+
+    if not os.path.isdir(comfyui_dir):
+        return True, ["    [SKIP] ComfyUI directory not found — cannot check custom nodes"]
+
+    msgs = []
+    try:
+        result = subprocess.run(
+            [sys.executable, script, "--comfyui-dir", comfyui_dir],
+            capture_output=True, text=True, timeout=120,
+            cwd=SCRIPT_DIR,
+        )
+        # Parse output for summary
+        output = result.stdout + result.stderr
+        lines = output.strip().split("\n")
+
+        # Extract key lines
+        missing_count = 0
+        unknown_count = 0
+        for line in lines:
+            if "Missing package" in line:
+                missing_count += 1
+            if "UNKNOWN" in line or "[??]" in line:
+                unknown_count += 1
+
+        if result.returncode == 0:
+            msgs.append("    [OK] All custom node packages installed")
+        else:
+            msgs.append("    [!!] Some custom node packages are missing")
+            msgs.append(f"         Run: python setup_comfyui_nodes.py --install")
+            # Include the last few relevant lines
+            for line in lines[-10:]:
+                line = line.strip()
+                if line and not line.startswith("="):
+                    msgs.append(f"         {line}")
+        return result.returncode == 0, msgs
+    except subprocess.TimeoutExpired:
+        return False, ["    [!!] Custom node check timed out (ComfyUI dir too large?)"]
+    except Exception as e:
+        return False, [f"    [!!] Custom node check failed: {e}"]
+
+
 # ── Main ─────────────────────────────────────────────────────────────────────
 
 def main():
@@ -123,6 +296,8 @@ def main():
     )
     parser.add_argument("--data-dir", help="Root data directory (e.g. E:/data)")
     parser.add_argument("--comfyui-dir", help="ComfyUI directory (e.g. E:/ComfyUI_windows_portable/ComfyUI)")
+    parser.add_argument("--skip-checks", action="store_true",
+                        help="Skip prerequisite checks (tools, models, custom nodes)")
     args = parser.parse_args()
 
     print("=" * 60)
@@ -275,18 +450,92 @@ def main():
     else:
         print("    All directories already exist")
 
+    # ── 7. Check prerequisites ──────────────────────────────────────────
+
+    tool_warnings = 0
+    model_missing = []
+    nodes_ok = True
+
+    if not args.skip_checks:
+        print()
+        print("-" * 60)
+        print("  Checking prerequisites ...")
+        print("-" * 60)
+        print()
+
+        # 7a. External tools
+        print("  External tools:")
+        ok_count, warn_count, tool_msgs = check_external_tools()
+        for msg in tool_msgs:
+            print(msg)
+        tool_warnings = warn_count
+        print()
+
+        # 7b. ComfyUI models
+        comfyui_exists = os.path.isdir(new_comfyui)
+        if comfyui_exists:
+            print("  ComfyUI models:")
+            found_models, model_missing, model_msgs = check_comfyui_models(new_comfyui)
+            for msg in model_msgs:
+                print(msg)
+        else:
+            print(f"  ComfyUI models: SKIP (directory '{new_comfyui}' not found)")
+            model_missing = ["(cannot check — directory missing)"]
+        print()
+
+        # 7c. Custom nodes
+        if comfyui_exists:
+            print("  ComfyUI custom nodes:")
+            nodes_ok, node_msgs = check_custom_nodes(new_comfyui)
+            for msg in node_msgs:
+                print(msg)
+        else:
+            print("  ComfyUI custom nodes: SKIP (directory not found)")
+        print()
+
     # ── Done ─────────────────────────────────────────────────────────────
 
     print()
-    print(f"  Done. Updated {changed_count} file(s), "
-          f"seeded {seeded} file(s), "
-          f"created {created_dirs} directory(s).")
+    print("=" * 60)
+    print(f"  Setup complete.")
+    print(f"    Paths updated : {changed_count} file(s)")
+    print(f"    Data seeded   : {seeded} file(s)")
+    print(f"    Dirs created  : {created_dirs}")
+
+    if not args.skip_checks:
+        issues = []
+        if tool_warnings:
+            issues.append(f"{tool_warnings} missing tool(s)")
+        if model_missing:
+            issues.append(f"{len(model_missing)} missing model(s)")
+        if not nodes_ok:
+            issues.append("missing custom node(s)")
+
+        if issues:
+            print()
+            print("  Issues found: " + ", ".join(issues))
+            print()
+            print("  Next steps:")
+            if tool_warnings:
+                print("    - Install missing tools (see messages above)")
+            if model_missing:
+                print("    - Download missing ComfyUI models")
+            if not nodes_ok:
+                print("    - Run: python setup_comfyui_nodes.py --install")
+            print("    - Start n8n with required flags:")
+            print("        set NODE_FUNCTION_ALLOW_BUILTIN=* && "
+                  "set NODE_FUNCTION_ALLOW_EXTERNAL=* && "
+                  "set N8N_RUNNERS_TASK_TIMEOUT=28800 && n8n start")
+        else:
+            print()
+            print("  All prerequisites satisfied!")
+            print()
+            print("  To start:")
+            print("    set NODE_FUNCTION_ALLOW_BUILTIN=* && "
+                  "set NODE_FUNCTION_ALLOW_EXTERNAL=* && "
+                  "set N8N_RUNNERS_TASK_TIMEOUT=28800 && n8n start")
     print()
-    print("  Next steps:")
-    print(f"    1. Ensure '{new_comfyui}' has ComfyUI installed with required models")
-    print("    2. Start n8n with the required flags (see CLAUDE.md)")
-    print("    3. Download ComfyUI models listed in CLAUDE.md if not already present")
-    print()
+    print("=" * 60)
 
 
 if __name__ == "__main__":
