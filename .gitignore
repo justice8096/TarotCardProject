@@ -1,0 +1,22 @@
+# Claude Code worktree settings (may contain credentials)
+.claude/
+n8n/.claude/
+
+# Environment and secrets
+*.env
+.env.*
+
+# Node.js
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Audit reports (regenerated on demand)
+# audits/
