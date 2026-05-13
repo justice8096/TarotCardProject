@@ -1,0 +1,209 @@
+{
+  "name": "Generate Focus Upright Movies",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1280,
+        -768
+      ],
+      "id": "gfum-0001-4000-8000-000000000001",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "gfum-p001",
+              "name": "DeckJsonPath",
+              "value": "D:/data/cards/Standard/Deck.json",
+              "type": "string"
+            },
+            {
+              "id": "gfum-p002",
+              "name": "TestCardFilter",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "gfum-p003",
+              "name": "HoldFrames",
+              "value": "2",
+              "type": "string"
+            },
+            {
+              "id": "gfum-p004",
+              "name": "BlendFrames",
+              "value": "4",
+              "type": "string"
+            },
+            {
+              "id": "gfum-p005",
+              "name": "FPS",
+              "value": "12",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1056,
+        -768
+      ],
+      "id": "gfum-0002-4000-8000-000000000002",
+      "name": "Set Global Parameters"
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $json.DeckJsonPath }}",
+        "options": {
+          "dataPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -832,
+        -768
+      ],
+      "id": "gfum-0003-4000-8000-000000000003",
+      "name": "Read Deck.json"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -608,
+        -768
+      ],
+      "id": "gfum-0004-4000-8000-000000000004",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\nconst { execSync } = require('child_process');\n\nlet sharp;\ntry {\n  sharp = require('sharp');\n} catch(e) {\n  throw new Error(\n    '[Generate Movie] sharp module not available. ' +\n    'Ensure NODE_FUNCTION_ALLOW_EXTERNAL=* is set when starting n8n. ' +\n    'Error: ' + e.message\n  );\n}\n\n// ── Parameters ──────────────────────────────────────────────────\nconst params = $('Set Global Parameters').first().json;\nconst testCardFilter = (params.TestCardFilter || '').trim();\nconst HOLD  = parseInt(params.HoldFrames)  || 2;\nconst BLEND = parseInt(params.BlendFrames) || 4;\nconst FPS   = parseInt(params.FPS)         || 12;\nconst SIZE  = 512;\n\nconst raw = $input.first().json;\nconst deck = raw.data !== undefined ? raw.data : raw;\n\nconst deckDir = ((deck.Assets && deck.Assets.Directory)\n  ? deck.Assets.Directory\n  : 'D:/data/cards/Standard').replace(/\\//g, path.sep);\n\nconst cardRefs = deck.Cards;\nif (!cardRefs || cardRefs.length === 0) {\n  throw new Error('[Generate Movie] No Cards found in Deck.json.');\n}\n\n// ── Helpers ─────────────────────────────────────────────────────\nasync function loadFrame(imagePath) {\n  return sharp(imagePath)\n    .resize(SIZE, SIZE, { fit: 'cover', position: 'centre' })\n    .removeAlpha()\n    .raw()\n    .toBuffer();\n}\n\nfunction blendBuffers(a, b, t) {\n  const out = Buffer.alloc(a.length);\n  for (let i = 0; i < a.length; i++) {\n    out[i] = Math.round(a[i] * (1 - t) + b[i] * t);\n  }\n  return out;\n}\n\nasync function writeFrame(buf, outPath) {\n  await sharp(buf, { raw: { width: SIZE, height: SIZE, channels: 3 } })\n    .png()\n    .toFile(outPath);\n}\n\n// ── Filter cards ────────────────────────────────────────────────\nconst filteredCards = testCardFilter\n  ? cardRefs.filter(c => c.Card === testCardFilter)\n  : cardRefs;\n\nif (filteredCards.length === 0) {\n  throw new Error(\n    '[Generate Movie] No cards matched filter: ' +\n    JSON.stringify(testCardFilter) +\n    '. Check that TestCardFilter matches a Card name in Deck.json.'\n  );\n}\n\nconst results = { processed: 0, skipped: 0, failed: 0, cards: [] };\n\nfor (const cardRef of filteredCards) {\n  const cardName = cardRef.Card;\n  const cardFilePath = path.join(\n    deckDir,\n    cardRef.File.replace(/\\//g, path.sep)\n  );\n\n  let cardRaw;\n  try {\n    cardRaw = JSON.parse(\n      fs.readFileSync(cardFilePath, 'utf8').replace(/^\\uFEFF/, '')\n    );\n  } catch (e) {\n    console.warn('[Generate Movie] Cannot read card: ' + cardName + ': ' + e.message);\n    results.failed++;\n    results.cards.push({ card: cardName, status: 'failed', reason: 'Cannot read: ' + e.message });\n    continue;\n  }\n\n  const card = cardRaw['data.Cards'] || cardRaw;\n  const cardDir = (card.Directory || path.join(deckDir, 'Cards'))\n    .replace(/\\//g, path.sep);\n\n  const uprightImageName = card.Assets && card.Assets.UprightImage;\n  if (!uprightImageName) { results.skipped++; results.cards.push({ card: cardName, status: 'skipped', reason: 'No Assets.UprightImage' }); continue; }\n\n  const uprightRecord = (card.records || []).find(r => r.Orientation === 'upright');\n  if (!uprightRecord) { results.skipped++; results.cards.push({ card: cardName, status: 'skipped', reason: 'No upright record' }); continue; }\n\n  const movieName = uprightRecord.Assets && uprightRecord.Assets.Movie;\n  if (!movieName) { results.skipped++; results.cards.push({ card: cardName, status: 'skipped', reason: 'No Movie field' }); continue; }\n\n  const cardImageName = uprightRecord.Assets && uprightRecord.Assets.CardImage;\n  if (!cardImageName) { results.skipped++; results.cards.push({ card: cardName, status: 'skipped', reason: 'No CardImage field' }); continue; }\n\n  const movieOutputPath = path.join(cardDir, movieName);\n  if (fs.existsSync(movieOutputPath)) {\n    results.skipped++;\n    results.cards.push({ card: cardName, status: 'skipped', reason: 'Movie already exists' });\n    continue;\n  }\n\n  // ── Build source frame paths ────────────────────────────────\n  const slug = cardName.replace(/[()]/g, '').replace(/\\s+/g, '_');\n  const sourcePaths = [];\n  let missingFrame = false;\n\n  // 1. UprightImage\n  const uprightPath = path.join(cardDir, uprightImageName);\n  if (!fs.existsSync(uprightPath)) { results.skipped++; results.cards.push({ card: cardName, status: 'skipped', reason: 'UprightImage not found' }); continue; }\n  sourcePaths.push(uprightPath);\n\n  // 2. FOCUST_UPRIGHT_XXX_00 through _05\n  for (let i = 0; i <= 5; i++) {\n    const name = 'FOCUST_UPRIGHT_' + slug + '_' + String(i).padStart(2, '0') + '.png';\n    const p = path.join(cardDir, name);\n    if (!fs.existsSync(p)) { results.skipped++; results.cards.push({ card: cardName, status: 'skipped', reason: 'Missing: ' + name }); missingFrame = true; break; }\n    sourcePaths.push(p);\n  }\n  if (missingFrame) continue;\n\n  // 3. CardImage\n  const cardImagePath = path.join(cardDir, cardImageName);\n  if (!fs.existsSync(cardImagePath)) { results.skipped++; results.cards.push({ card: cardName, status: 'skipped', reason: 'CardImage not found' }); continue; }\n  sourcePaths.push(cardImagePath);\n\n  // 4. FOCUS_UPRIGHT_XXX_07 through _14\n  for (let i = 7; i <= 14; i++) {\n    const name = 'FOCUS_UPRIGHT_' + slug + '_' + String(i).padStart(2, '0') + '.png';\n    const p = path.join(cardDir, name);\n    if (!fs.existsSync(p)) { results.skipped++; results.cards.push({ card: cardName, status: 'skipped', reason: 'Missing: ' + name }); missingFrame = true; break; }\n    sourcePaths.push(p);\n  }\n  if (missingFrame) continue;\n\n  // ── Load, blend, and encode ─────────────────────────────────\n  const tmpDir = path.join(cardDir, '_movie_tmp_' + slug);\n  fs.mkdirSync(tmpDir, { recursive: true });\n\n  let frameNum = 0;\n  try {\n    const sourceBuffers = await Promise.all(sourcePaths.map(p => loadFrame(p)));\n\n    for (let s = 0; s < sourceBuffers.length; s++) {\n      // Hold current keyframe\n      for (let h = 0; h < HOLD; h++) {\n        await writeFrame(sourceBuffers[s], path.join(tmpDir, String(frameNum).padStart(4, '0') + '.png'));\n        frameNum++;\n      }\n      // Crossfade to next keyframe\n      if (s < sourceBuffers.length - 1) {\n        for (let b = 1; b <= BLEND; b++) {\n          const t = b / (BLEND + 1);\n          const blended = blendBuffers(sourceBuffers[s], sourceBuffers[s + 1], t);\n          await writeFrame(blended, path.join(tmpDir, String(frameNum).padStart(4, '0') + '.png'));\n          frameNum++;\n        }\n      }\n    }\n  } catch (e) {\n    results.failed++;\n    results.cards.push({ card: cardName, status: 'failed', reason: 'blend: ' + e.message });\n    fs.rmSync(tmpDir, { recursive: true, force: true });\n    continue;\n  }\n\n  // Encode with ffmpeg\n  const inputPattern = path.join(tmpDir, '%04d.png').replace(/\\\\/g, '/');\n  const outputFwd = movieOutputPath.replace(/\\\\/g, '/');\n\n  try {\n    execSync(\n      'ffmpeg -y -framerate ' + FPS +\n      ' -i \"' + inputPattern + '\"' +\n      ' -c:v mpeg2video -q:v 2 -pix_fmt yuv420p' +\n      ' \"' + outputFwd + '\"',\n      { encoding: 'utf8', timeout: 120000 }\n    );\n  } catch (e) {\n    results.failed++;\n    results.cards.push({ card: cardName, status: 'failed', reason: 'ffmpeg: ' + (e.stderr || e.message) });\n    fs.rmSync(tmpDir, { recursive: true, force: true });\n    continue;\n  }\n\n  fs.rmSync(tmpDir, { recursive: true, force: true });\n\n  const duration = (frameNum / FPS).toFixed(1);\n  results.processed++;\n  results.cards.push({\n    card: cardName,\n    status: 'generated',\n    movie: movieOutputPath,\n    outputFrames: frameNum,\n    duration: duration + 's'\n  });\n}\n\nif (results.processed === 0 && results.failed === 0 && results.skipped === 0) {\n  throw new Error(\n    '[Generate Movie] No cards processed. ' +\n    'Check TestCardFilter and Deck.json Cards array.'\n  );\n}\n\nreturn [{ json: results }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -384,
+        -768
+      ],
+      "id": "gfum-0005-4000-8000-000000000005",
+      "name": "Generate Focus Upright Movies"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "gfum-r001",
+              "name": "Summary",
+              "value": "={{ 'Generated: ' + $json.processed + '  |  Skipped: ' + $json.skipped + '  |  Failed: ' + $json.failed }}",
+              "type": "string"
+            },
+            {
+              "id": "gfum-r002",
+              "name": "Cards",
+              "value": "={{ $json.cards }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        -768
+      ],
+      "id": "gfum-0006-4000-8000-000000000006",
+      "name": "Report Results"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Set Global Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Global Parameters": {
+      "main": [
+        [
+          {
+            "node": "Read Deck.json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Deck.json": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Generate Focus Upright Movies",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Focus Upright Movies": {
+      "main": [
+        [
+          {
+            "node": "Report Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "meta": {
+    "instanceId": "d7f41a3bc4c9824ed68d95186cb055000c790e15bf2666fbda9ebc1cffc1c54a"
+  },
+  "tags": [
+    {
+      "name": "Tarot"
+    },
+    {
+      "name": "Images"
+    }
+  ]
+}

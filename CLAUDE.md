@@ -47,6 +47,8 @@ Perplexity/        Research docs
 | Node Pack | Status | Notes |
 |-----------|--------|-------|
 | ComfyUI-VideoHelperSuite | Working | VHS_VideoCombine for MP4 output |
+| comfyui-rmbg | Working | BiRefNetRMBG for background removal (used by 3D pipeline) |
+| comfyui-mixlab-nodes | Working | TripoSR nodes: `LoadTripoSRModel_`, `TripoSRSampler_`, `SaveTripoSRMesh` |
 | FramePack-F1-T2V | Broken | No model loader produces FramePackMODEL type |
 | FramePack-HY | No models | diffusers/ folder is empty, needs HunyuanVideo model download |
 
@@ -363,4 +365,113 @@ Set Global Parameters
                            └─ FFmpeg Concat Clips (Code: fs+child_process, write list+run ffmpeg)
                                 └─ Report Results
 ```
+
+---
+
+## Generate Card 3D Objects — Architecture
+
+Generates 3D character models from each card for AR/VR use. Uses existing card images as input: background removal → 3D mesh generation → format conversion.
+
+### Pipeline Stages
+
+1. **Load existing card image** — `CARDIMG_*_upright.png` for upright, `CARDIMGUPRIGHT_*_<orientation>.png` for reversed/between
+2. **Generate back-view image** — DreamShaper 8 txt2img, composing prompts from CharacterImage, Keywords, Music.Tags, and Narration.Tone. Supports insertable assets (skip if `BACKVIEW_*` already exists).
+3. **Remove background** — BiRefNetRMBG (RMBG-2.0), produces clean RGBA
+4. **Generate 3D mesh** — TripoSR (image-to-3D), outputs GLB with albedo textures
+5. **Refine 3D mesh** — trimesh post-processing: smooth normals, decimate, clean degenerate faces
+6. **Upscale textures** — Pillow lanczos 2x on GLB albedo textures (currently a graceful no-op: TripoSR outputs vertex colors, not UV-mapped textures; will activate after SPAR3D upgrade)
+7. **Convert GLB to OBJ** — Python trimesh via `execFileSync`, produces OBJ+MTL
+
+### n8n Workflow
+
+```
+Set Global Parameters (DeckJsonPath, TestCardFilter, Orientations, TripoSRResolution, SkipExisting)
+  └─ Read Deck.json → Extract from File
+       └─ Build 3D Job List (Code: reads card JSONs, checks for existing GLB, builds job array)
+            └─ Generate Back-View Images (Code: DreamShaper 8 txt2img, skip if exists)
+                 └─ Generate All 3D Models (Code: http loop, submits chained ComfyUI workflow, polls)
+                      └─ Refine 3D Meshes (Code: trimesh smooth/decimate/clean)
+                           └─ Upscale Textures (Code: Pillow lanczos 2x on GLB albedo textures)
+                                └─ Convert GLB to OBJ (Code: trimesh GLB→OBJ conversion)
+                                     └─ Report Results
+```
+
+### ComfyUI Node Chain — 3D Generation (single prompt per card)
+
+```
+LoadImage(1) → BiRefNetRMBG(2) → SaveImage(3) [bg-removed ref]
+BiRefNetRMBG(2) → TripoSRSampler_(5) [image only, no mask]
+LoadTripoSRModel_(4) → TripoSRSampler_(5) → SaveTripoSRMesh(6)
+```
+
+### ComfyUI Node Chain — Back-View Generation (DreamShaper 8 txt2img)
+
+```
+CheckpointLoaderSimple(1) → CLIPTextEncode(2,3) → KSampler(5) → VAEDecode(6) → SaveImage(7)
+EmptyLatentImage(4) → KSampler(5)
+```
+
+### File Naming
+
+| File | Purpose |
+|------|---------|
+| `BACKVIEW_{CardSlug}_{orientation}.png` | Back-view reference image |
+| `3DREF_{CardSlug}_{orientation}.png` | Background-removed source image |
+| `MODEL_{CardSlug}_{orientation}.glb` | 3D mesh (GLB, primary) |
+| `MODEL_{CardSlug}_{orientation}.obj` | 3D mesh (OBJ, secondary) |
+
+### Key Parameters (from Deck.json `Samplers.3D`)
+
+- **Resolution**: 768 (TripoSR mesh resolution). Range: 128–12288.
+- **Threshold**: 15.0 (mesh density / marching cubes threshold)
+- **ChunkSize**: 16384 (TripoSR model chunk size)
+- **BackViewSteps**: 25, **BackViewCFG**: 7.0 (DreamShaper 8 sampler settings)
+- **BiRefNetRMBG model**: BiRefNet-general, `refine_foreground: true`
+
+### Prerequisites
+
+- TripoSR model: `models/triposr/model.ckpt` (~1.6GB, download from `stabilityai/TripoSR` on HuggingFace)
+- Python `trimesh` package: `pip install trimesh` for GLB→OBJ conversion
+- ComfyUI custom nodes already installed: `comfyui-rmbg`, `comfyui-mixlab-nodes` (TripoSR)
+
+### Critical Compatibility Notes (3D)
+
+8. **TripoSR node names have trailing underscores**: `LoadTripoSRModel_` and `TripoSRSampler_` (not `LoadTripoSRModel` / `TripoSRSampler`)
+9. **TripoSRSampler_ mask input causes `Cannot handle this data type` error** — pass only the `image` output from BiRefNetRMBG (output index 0), do NOT pass the `mask` (output index 1)
+10. **BiRefNetRMBG requires explicit optional params** — set `mask_blur: 0`, `mask_offset: 0`, etc. to avoid `'mask_blur'` KeyError
+
+### 3D Refinement Pipeline
+
+Post-generation mesh cleanup applied in the "Refine 3D Meshes" Code node:
+
+1. **Smooth normals** — Laplacian smoothing to reduce TripoSR staircase artifacts
+2. **Decimate** — Reduce polygon count while preserving shape (target: ~50k faces)
+3. **Clean degenerate faces** — Remove zero-area triangles, non-manifold edges, duplicate vertices
+4. **Texture upscaling** — Pillow lanczos 2x on extracted albedo textures (graceful no-op with TripoSR vertex colors; future: ComfyUI RealESRGAN after SPAR3D upgrade)
+
+Artist override: drop a hand-refined `MODEL_*_*.glb` into the card directory and set `SkipExisting=true` to bypass regeneration.
+
+### Future: SPAR3D Upgrade
+
+**Evaluation result: Not viable for current 6GB VRAM hardware.**
+
+SPAR3D (Stable Point-Aware Reconstruction of 3D) is the successor to TripoSR in the lineage: TripoSR → SF3D (Stable Fast 3D) → SPAR3D. It improves on TripoSR in several ways:
+
+| Feature | TripoSR (current) | SPAR3D |
+|---------|-------------------|--------|
+| Backside quality | Poor (hallucinated) | Good (point cloud conditioned) |
+| Surface smoothness | Staircase artifacts (Marching Cubes) | Smoother (Marching Tetrahedron) |
+| Texturing | Vertex colors only | UV-mapped with proper materials |
+| Point cloud editing | No | Yes (Gradio demo or external tools) |
+| Remeshing | None built-in | Triangle or Quad options with target face count |
+| VRAM (default) | ~6 GB | ~10.5 GB |
+| VRAM (low mode) | Adjustable via `chunk_size` | ~7 GB (`SPAR3D_LOW_VRAM=1`) |
+
+**Why not now:** Default 10.5GB VRAM far exceeds our 6GB budget. Even low-VRAM mode (~7GB) won't fit. TripoSR + trimesh refinement is the best option for current hardware.
+
+**Upgrade path:** If GPU is upgraded to 8GB+, install SPAR3D as a ComfyUI custom node:
+- Clone `Stability-AI/stable-point-aware-3d` into `ComfyUI/custom_nodes/`
+- Provides nodes: `SPAR3DLoader`, `SPAR3DSampler`, `SPAR3DPreview`, `SPAR3DSave`, `SPAR3DPointCloudLoader`, `SPAR3DPointCloudSaver`
+- Update `Deck.json` `Models.3D` to reference SPAR3D checkpoint
+- Update `Generate Card 3D Objects.json` ComfyUI prompt template to use SPAR3D node chain instead of TripoSR
 

@@ -1,0 +1,123 @@
+{
+    "name": "Generate Music Prompts",
+    "nodes": [
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.manualTrigger",
+            "typeVersion": 1,
+            "position": [
+                -1320,
+                0
+            ],
+            "id": "gmp0001-0001-4000-8000-000000000001",
+            "name": "When clicking 'Execute workflow'"
+        },
+        {
+            "parameters": {
+                "jsCode": "const fs = require('fs');\n// ── Machine configuration ──────────────────────────────────────────────────────────────────────────────\n// Edit config.json to change paths for your machine. Do not edit this node.\nconst CONFIG_PATH = process.env.TAROT_CONFIG || 'D:/TarotCardProject/config.json';\n// ─────────────────────────────────────────────────────────────────────────────────\nconst config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));\n\n// Read deck-level BaseStyle for the Ollama system prompt\nconst deck = JSON.parse(fs.readFileSync(config.DefaultDeckJsonPath, 'utf8'));\nconst musicDefaults = deck.Prompts?.Music || {};\n\nreturn [{ json: {\n    // Machine-specific (from config.json)\n    CardsDir:  config.DefaultDeckDir + '/Cards',\n    OllamaAPI: config.OllamaAPI,\n    // Workflow-specific\n    OllamaModel:  'mistral:latest',\n    SkipExisting: true,\n    // Deck-level music defaults\n    BaseStyle:      musicDefaults.BaseStyle || 'ambient orchestral, warm strings, ethereal atmosphere',\n    DefaultBPM:     musicDefaults.BPM || 80,\n    DefaultKeyScale: musicDefaults.KeyScale || 'D Minor',\n} }];"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -1080,
+                0
+            ],
+            "id": "gmp0001-0002-4000-8000-000000000002",
+            "name": "Set Global Parameters"
+        },
+        {
+            "parameters": {
+                "jsCode": "const fs   = require('fs');\nconst path = require('path');\n\nconst params   = $input.first().json;\nconst cardsDir = params.CardsDir;\n\nconst files = fs.readdirSync(cardsDir)\n  .filter(f => f.endsWith('.json'))\n  .sort();\n\nif (files.length === 0) {\n  throw new Error(\n    `[Scan Card Files] No JSON files found in ${cardsDir}. ` +\n    'Check that CardsDir is correct.'\n  );\n}\n\nconsole.log(`[Scan Card Files] Found ${files.length} card files in ${cardsDir}`);\n\nreturn files.map(f => ({\n  json: {\n    FilePath:        path.join(cardsDir, f),\n    FileName:        f,\n    OllamaAPI:       params.OllamaAPI,\n    OllamaModel:     params.OllamaModel,\n    SkipExisting:    params.SkipExisting,\n    BaseStyle:       params.BaseStyle,\n    DefaultBPM:      params.DefaultBPM,\n    DefaultKeyScale: params.DefaultKeyScale\n  }\n}));\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -840,
+                0
+            ],
+            "id": "gmp0001-0003-4000-8000-000000000003",
+            "name": "Scan Card Files"
+        },
+        {
+            "parameters": {
+                "jsCode": "const http  = require('http');\nconst https = require('https');\nconst fs    = require('fs');\nconst path  = require('path');\n\n// ── HTTP helpers (require('http') instead of axios — see CLAUDE.md) ──\nconst httpRequest = (method, urlStr, body) => new Promise((resolve, reject) => {\n  const m = urlStr.match(/^(https?):[\\/][\\/]([^:\\/]+)(?::(\\d+))?([\\/]?[^?]*)(\\?.*)?$/);\n  if (!m) return reject(new Error('Invalid URL: ' + urlStr));\n  const protocol = m[1], hostname = m[2];\n  const port = m[3] ? parseInt(m[3]) : (protocol === 'https' ? 443 : 80);\n  const reqPath = (m[4] || '/') + (m[5] || '');\n  const lib = protocol === 'https' ? https : http;\n  const options = { hostname, port, path: reqPath, method, headers: {} };\n  if (body) {\n    options.headers['Content-Type'] = 'application/json';\n    options.headers['Content-Length'] = Buffer.byteLength(body);\n  }\n  const req = lib.request(options, (res) => {\n    let data = '';\n    res.on('data', (chunk) => { data += chunk; });\n    res.on('end', () => { try { resolve(JSON.parse(data)); } catch(e) { resolve(data); } });\n  });\n  req.on('error', reject);\n  req.setTimeout(120000, () => { req.destroy(new Error('Request timeout')); });\n  if (body) req.write(body);\n  req.end();\n});\nconst httpPost = (url, bodyObj) => httpRequest('POST', url, JSON.stringify(bodyObj));\n\n// ── Main logic ──\nconst allItems    = $input.all().map(i => i.json);\nconst ollamaAPI   = allItems[0].OllamaAPI;\nconst ollamaModel = allItems[0].OllamaModel;\nconst skipExisting = !!allItems[0].SkipExisting;\nconst baseStyle   = allItems[0].BaseStyle;\n\nconst sleep = ms => new Promise(r => setTimeout(r, ms));\nconst results = [];\nconst errors  = [];\n\n// Valid BPM range\nconst MIN_BPM = 40;\nconst MAX_BPM = 180;\n\n// System prompt for Ollama\nconst systemPrompt = [\n  'You are a music director for a mystical tarot deck.',\n  'The deck\\'s base musical style is:',\n  `\"${baseStyle}\"`,\n  '',\n  'Given a tarot card\\'s name, orientation, keywords, and description,',\n  'generate ACE-Step music generation tags that are a variation of the',\n  'base style, adapted to this card\\'s mood and energy.',\n  '',\n  'Rules:',\n  '- Tags must be comma-separated descriptors: genre, instruments, mood, texture',\n  '- Always include \"instrumental\" as a tag',\n  '- Keep the Celtic-orchestral foundation but shift instruments/mood to match the card',\n  '- BPM range: 50-130 (slow for contemplative cards, faster for action/energy cards)',\n  '- KeyScale: choose a key that matches the card\\'s emotional tone',\n  '  (major keys for positive/bright cards, minor keys for dark/introspective cards)',\n  '',\n  'Respond with valid JSON only — no markdown, no extra text.',\n  'Use exactly these fields:',\n  '{',\n  '  \"Tags\": \"comma-separated ACE-Step caption tags\",',\n  '  \"BPM\": number,',\n  '  \"KeyScale\": \"key and scale (e.g. C Major, F# Minor)\"',\n  '}'\n].join('\\n');\n\nfor (const item of allItems) {\n  const { FilePath, FileName } = item;\n\n  // --- Read card JSON ---\n  let cardData;\n  try {\n    cardData = JSON.parse(fs.readFileSync(FilePath, 'utf8'));\n  } catch (e) {\n    errors.push({ file: FileName, error: 'Read/parse error: ' + e.message });\n    console.warn(`[Gen Music] Read error ${FileName}: ${e.message}`);\n    continue;\n  }\n\n  const cardMeta = cardData['data.Cards'];\n  if (!cardMeta || !Array.isArray(cardMeta.records)) {\n    errors.push({ file: FileName, error: 'No data.Cards.records array' });\n    console.warn(`[Gen Music] No records in ${FileName}`);\n    continue;\n  }\n\n  const cardName = cardMeta.Card || FileName.replace(/\\.json$/, '').replace(/_/g, ' ');\n  let updatedCount = 0;\n\n  for (const record of cardMeta.records) {\n    const orientation = record.Orientation || '(unknown)';\n\n    // --- Skip if Tags already populated (when SkipExisting=true) ---\n    if (skipExisting) {\n      const music = record.Prompts?.Music || {};\n      if (music.Tags && music.Tags.trim().length > 0) {\n        console.log(`[Gen Music] ${cardName}/${orientation}: already has Tags, skipping`);\n        continue;\n      }\n    }\n\n    // --- Gather card context ---\n    const keywords = Array.isArray(record.Keywords)\n      ? record.Keywords.join(', ')\n      : (record.Keywords || '');\n    const description = (record.Description || '').substring(0, 250);\n\n    // --- Build user prompt ---\n    const userPrompt = [\n      `Card: ${cardName}`,\n      `Orientation: ${orientation}`,\n      `Keywords: ${keywords}`,\n      `Description: ${description}`\n    ].join('\\n');\n\n    // --- Call Ollama ---\n    let parsed;\n    try {\n      const resp = await httpPost(\n        ollamaAPI + '/api/generate',\n        {\n          model:  ollamaModel,\n          system: systemPrompt,\n          prompt: userPrompt,\n          stream: false,\n          format: 'json',\n          options: { temperature: 0.5, num_predict: 300 }\n        }\n      );\n\n      const raw = (resp.response || '').trim();\n      try {\n        parsed = JSON.parse(raw);\n      } catch (e) {\n        console.warn(`[Gen Music] JSON parse failed for ${cardName}/${orientation}: ${raw.substring(0, 120)}`);\n        errors.push({ file: FileName, card: cardName, orientation, error: 'JSON parse: ' + e.message });\n        continue;\n      }\n    } catch (e) {\n      console.warn(`[Gen Music] Ollama error for ${cardName}/${orientation}: ${e.message}`);\n      errors.push({ file: FileName, card: cardName, orientation, error: 'Ollama: ' + e.message });\n      continue;\n    }\n\n    // --- Validate Tags ---\n    let tags = (parsed.Tags || '').trim();\n    if (!tags) {\n      console.warn(`[Gen Music] Empty Tags for ${cardName}/${orientation} — skipping`);\n      errors.push({ file: FileName, card: cardName, orientation, error: 'Empty Tags from Ollama' });\n      continue;\n    }\n    // Ensure 'instrumental' is in the tags\n    if (!tags.toLowerCase().includes('instrumental')) {\n      tags = tags + ', instrumental';\n    }\n\n    // --- Validate BPM ---\n    let bpm = parseInt(parsed.BPM, 10);\n    if (isNaN(bpm) || bpm < MIN_BPM || bpm > MAX_BPM) {\n      console.warn(`[Gen Music] Invalid BPM ${parsed.BPM} for ${cardName}/${orientation} — using default`);\n      bpm = item.DefaultBPM || 80;\n    }\n\n    // --- Validate KeyScale ---\n    let keyScale = (parsed.KeyScale || '').trim();\n    if (!keyScale) {\n      keyScale = item.DefaultKeyScale || 'D Minor';\n    }\n\n    // --- Merge into record ---\n    if (!record.Prompts) record.Prompts = {};\n    record.Prompts.Music = {\n      Tags:     tags,\n      Lyrics:   '[instrumental]',\n      BPM:      bpm,\n      KeyScale: keyScale\n    };\n\n    updatedCount++;\n    console.log(`[Gen Music] ${cardName}/${orientation}: Tags=\"${tags.substring(0, 60)}...\", BPM=${bpm}, Key=${keyScale}`);\n  }\n\n  // --- Write updated card JSON back to disk ---\n  if (updatedCount > 0) {\n    try {\n      fs.writeFileSync(FilePath, JSON.stringify(cardData, null, 2), 'utf8');\n      results.push({ card: cardName, file: FileName, updated: updatedCount });\n      console.log(`[Gen Music] Written ${FileName} (${updatedCount} records updated)`);\n    } catch (e) {\n      errors.push({ file: FileName, card: cardName, error: 'Write error: ' + e.message });\n      console.warn(`[Gen Music] Write error ${FileName}: ${e.message}`);\n    }\n  } else {\n    results.push({ card: cardName, file: FileName, updated: 0 });\n  }\n\n  // Small delay between cards to avoid overwhelming Ollama\n  await sleep(200);\n}\n\nif (results.length === 0 && errors.length > 0) {\n  throw new Error(\n    `[Gen Music] All ${errors.length} cards failed. First: ` +\n    `${errors[0].card || errors[0].file} — ${errors[0].error}`\n  );\n}\n\nif (errors.length > 0) {\n  console.warn(`[Gen Music] ${errors.length} record errors across ${results.length} cards`);\n}\n\nreturn [...results, ...errors].map(r => ({ json: r }));\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -600,
+                0
+            ],
+            "id": "gmp0001-0004-4000-8000-000000000004",
+            "name": "Generate Music Prompts"
+        },
+        {
+            "parameters": {
+                "jsCode": "const all       = $input.all().map(i => i.json);\nconst succeeded = all.filter(j => !j.error && j.updated !== undefined);\nconst failed    = all.filter(j =>  j.error);\n\nconst totalRecords = succeeded.reduce((s, j) => s + (j.updated || 0), 0);\n\nconsole.log(\n  `[Report] Done: ${succeeded.length} cards processed (${totalRecords} records updated), ` +\n  `${failed.length} errors`\n);\n\nif (failed.length > 0) {\n  console.warn('[Report] Errors:');\n  for (const f of failed) {\n    console.warn(`  ${f.card || f.file}: ${f.error}`);\n  }\n}\n\nreturn [{\n  json: {\n    cardsProcessed:  succeeded.length,\n    recordsUpdated:  totalRecords,\n    errorCount:      failed.length,\n    errors: failed.map(f => ({ card: f.card || f.file, orientation: f.orientation, error: f.error }))\n  }\n}];\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -360,
+                0
+            ],
+            "id": "gmp0001-0005-4000-8000-000000000005",
+            "name": "Report Results"
+        }
+    ],
+    "connections": {
+        "When clicking 'Execute workflow'": {
+            "main": [
+                [
+                    {
+                        "node": "Set Global Parameters",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Set Global Parameters": {
+            "main": [
+                [
+                    {
+                        "node": "Scan Card Files",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Scan Card Files": {
+            "main": [
+                [
+                    {
+                        "node": "Generate Music Prompts",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Generate Music Prompts": {
+            "main": [
+                [
+                    {
+                        "node": "Report Results",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "settings": {
+        "executionOrder": "v1"
+    },
+    "staticData": null,
+    "tags": [],
+    "triggerCount": 0,
+    "updatedAt": "2026-03-09T00:00:00.000Z",
+    "versionId": "gmp-v1-0001"
+}
