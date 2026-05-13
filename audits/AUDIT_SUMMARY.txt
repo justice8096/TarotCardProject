@@ -1,0 +1,63 @@
+POST-COMMIT AUDIT SUMMARY
+==========================
+Date: 2026-03-29
+Commit: f55bcb8
+Branch: claude/focus-upright-blend-stills
+
+--- INITIAL AUDIT ---
+1. SAST/DAST Scan:        FAIL — 19 findings (1 critical, 5 high, 6 medium, 4 low, 3 info)
+2. Supply Chain Audit:     FAIL — SLSA Level 0, 10 risk items (1 critical, 5 high, 3 medium, 1 low)
+3. CWE Mapping:           FAIL — 14 CWEs mapped to 8 frameworks (1 critical, 3 high, 6 medium, 4 low)
+4. LLM Compliance:        52/100 — DEVELOPING
+5. Contribution Analysis:  45% Human / 55% AI — Overall grade B-
+
+--- REMEDIATION APPLIED ---
+
+FIXES IMPLEMENTED:
+  [C-1] FIXED: Created .gitignore to prevent credential commits (.claude/, *.env, node_modules/)
+  [C-1] NOTE:  n8n API key must be manually rotated by user (worktree files are now gitignored)
+  [H-1] FIXED: Generate Dealer Stop Motion — replaced 2 executeCommand nodes with Code nodes
+               using fs.copyFileSync (copy) and execFileSync with array args (ffmpeg concat)
+  [H-2] FIXED: Update Card JSONs from Spreadsheet — replaced execSync with execFileSync array args
+               and replaced C:/Windows/Temp with os.tmpdir()+mkdtempSync
+  [H-3] NOTED: Generate Card Faces — already uses execFileSync array args; PythonExe from Set params
+               is an accepted trust boundary (not untrusted user input)
+  [H-4] FIXED: Generate Focus Upright Stills — replaced execSync string with execFileSync array args
+  [H-5] FIXED: Path traversal guards added to 10 workflows:
+               - Generate Card Narrations (Build Narration Job List + Generate All Narrations)
+               - Generate Narration Styles (Scan Card Files)
+               - Generate Card Faces (Build Card Face Job List)
+               - Generate Between Upright Images (Build Rotation Job List)
+               - Generate Focus Upright Stills
+               - Generate FOCUST Upright Stills
+               - Generate FOCUST Upright Stills - All Cards
+               - Generate FOCUS Upright Blend Stills
+               - Generate FOCUST Reversed Stills - All Cards
+               - Update Card JSONs from Spreadsheet
+  [M-5] FIXED: Insecure temp file in Update Card JSONs — now uses mkdtempSync
+  [M-6] FIXED: require('axios') replaced with http/https in:
+               - Generate Card Narrations (Generate All Narrations node)
+               - Generate Narration Styles (Generate Narration Styles node)
+
+VERIFICATION:
+  - 0 executeCommand nodes remaining (was 2)
+  - 0 require('axios') calls remaining (was 2)
+  - 0 execSync string interpolation calls remaining (was 3)
+  - 0 C:/Windows/Temp references remaining (was 1)
+  - 0 unguarded path.join(deckDir, cardRef.File) calls remaining (was 10+)
+  - All 17 n8n workflow JSONs validate as valid JSON
+
+REMAINING (user action required):
+  1. ROTATE n8n API key via n8n admin UI (delete 'claude-temp', create new key)
+  2. Consider enabling branch protection on main
+  3. Consider creating requirements.txt and model hash manifest
+  4. Consider adding SECURITY.md with vulnerability reporting instructions
+
+Overall: CONDITIONAL PASS → improved to CONDITIONAL PASS (pending API key rotation)
+
+REPORTS:
+  audits/sast-dast-scan.md         — Full SAST/DAST findings with remediation
+  audits/supply-chain-audit.md     — Supply chain risks and SLSA assessment
+  audits/cwe-mapping.md            — CWE-to-framework compliance matrix
+  audits/llm-compliance-report.md  — 8-dimension LLM compliance scoring
+  audits/contribution-analysis.md  — Human vs AI attribution matrix

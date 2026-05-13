@@ -1,0 +1,189 @@
+{
+  "name": "Generate Between Upright Images",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1560,
+        0
+      ],
+      "id": "gbui001-0001-4000-8000-000000000001",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "gbui002-0001",
+              "name": "DeckJsonPath",
+              "value": "D:/data/cards/Standard/Deck.json",
+              "type": "string"
+            },
+            {
+              "id": "gbui002-0002",
+              "name": "FfmpegExe",
+              "value": "D:/ComfyUI_windows_portable/ffmpeg-8.0.1-full_build/bin/ffmpeg.exe",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1320,
+        0
+      ],
+      "id": "gbui001-0002-4000-8000-000000000002",
+      "name": "Set Global Parameters"
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $json.DeckJsonPath }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1080,
+        0
+      ],
+      "id": "gbui001-0003-4000-8000-000000000003",
+      "name": "Read Deck.json"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -840,
+        0
+      ],
+      "id": "gbui001-0004-4000-8000-000000000004",
+      "name": "Parse Deck.json"
+    },
+    {
+      "parameters": {
+        "jsCode": "const fs   = require('fs');\nconst path = require('path');\n\nconst params  = $('Set Global Parameters').first().json;\nconst deckRaw = $input.first().json;\nconst deck    = deckRaw.data || deckRaw;\n\nconst deckDir = deck.Assets.Directory.replace(/\\\\/g, '/');\n\nconst jobs = [];\nlet skipped = 0;\nlet noSource = 0;\n\nfor (const cardRef of deck.Cards || []) {\n  const cardJsonPath = path.resolve(deckDir, cardRef.File).replace(/\\\\/g, '/');\n  if (!cardJsonPath.startsWith(path.resolve(deckDir).replace(/\\\\/g, '/'))) throw new Error('Path traversal detected: ' + cardRef.File);\n  if (!fs.existsSync(cardJsonPath)) {\n    console.warn('[Build Rotation Job List] Missing card JSON: ' + cardJsonPath);\n    continue;\n  }\n\n  const cardData = JSON.parse(fs.readFileSync(cardJsonPath, 'utf8'));\n  const meta     = cardData['data.Cards'];\n  if (!meta) continue;\n\n  const cardName = meta.Card;\n  const cardDir  = ((meta.Directory) || path.join(deckDir, 'Cards')).replace(/\\\\/g, '/');\n\n  // Find the \"between\" orientation record\n  const betweenRec = (meta.records || []).find(function(r) {\n    return r.Orientation === 'between';\n  });\n\n  if (!betweenRec) {\n    console.warn('[Build Rotation Job List] No between record for: ' + cardName);\n    continue;\n  }\n\n  const assets = betweenRec.Assets;\n  if (!assets) {\n    console.warn('[Build Rotation Job List] No Assets in between record for: ' + cardName);\n    continue;\n  }\n\n  const sourceFilename = assets.CardImage;\n  const outputFilename = assets.CardImageUpright;\n\n  if (!sourceFilename) {\n    console.warn('[Build Rotation Job List] No CardImage in between record for: ' + cardName);\n    continue;\n  }\n\n  if (!outputFilename) {\n    console.warn('[Build Rotation Job List] No CardImageUpright in between record for: ' + cardName);\n    continue;\n  }\n\n  const sourcePath = cardDir + '/' + sourceFilename;\n  const outputPath = cardDir + '/' + outputFilename;\n\n  // Skip if output already exists (overridable assets pattern)\n  if (fs.existsSync(outputPath)) {\n    console.warn('[Build Rotation Job List] Skipping existing: ' + outputFilename);\n    skipped++;\n    continue;\n  }\n\n  // Check source image exists\n  if (!fs.existsSync(sourcePath)) {\n    console.warn('[Build Rotation Job List] Source image missing: ' + sourcePath);\n    noSource++;\n    continue;\n  }\n\n  jobs.push({\n    CardName:       cardName,\n    SourcePath:     sourcePath,\n    OutputPath:     outputPath,\n    SourceFilename: sourceFilename,\n    OutputFilename: outputFilename,\n    FfmpegExe:      params.FfmpegExe\n  });\n}\n\nif (jobs.length === 0 && skipped === 0 && noSource === 0) {\n  throw new Error(\n    '[Build Rotation Job List] No jobs created. ' +\n    'Check that deck.Cards is populated and card JSONs have between records with CardImage and CardImageUpright fields.'\n  );\n}\n\nif (jobs.length === 0 && skipped > 0) {\n  throw new Error(\n    '[Build Rotation Job List] All ' + skipped + ' upright images already exist. ' +\n    'Delete CARDIMGUPRIGHT_*_between.png files to regenerate.'\n  );\n}\n\nif (jobs.length === 0 && noSource > 0) {\n  throw new Error(\n    '[Build Rotation Job List] No source images found. ' +\n    noSource + ' CARDIMG_*_between.png files are missing from the Cards directory.'\n  );\n}\n\nconsole.log(\n  '[Build Rotation Job List] Created ' + jobs.length + ' jobs' +\n  ' (' + skipped + ' already exist, ' + noSource + ' missing source, skipped).'\n);\nreturn jobs.map(function(j) { return { json: j }; });\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -600,
+        0
+      ],
+      "id": "gbui001-0005-4000-8000-000000000005",
+      "name": "Build Rotation Job List"
+    },
+    {
+      "parameters": {
+        "jsCode": "const { execFileSync } = require('child_process');\nconst fs = require('fs');\n\nconst allJobs = $input.all().map(function(i) { return i.json; });\nconst results = [];\nconst errors  = [];\n\nif (allJobs.length === 0) {\n  throw new Error('[Rotate Between Images] No jobs received.');\n}\n\nfor (const job of allJobs) {\n  try {\n    // ffmpeg transpose=2 = 90° counter-clockwise = -90° rotation\n    execFileSync(\n      job.FfmpegExe,\n      [\n        '-y',\n        '-i', job.SourcePath,\n        '-vf', 'transpose=2',\n        '-update', '1',\n        job.OutputPath\n      ],\n      { encoding: 'utf8', timeout: 30000 }\n    );\n\n    // Verify output was created\n    if (fs.existsSync(job.OutputPath)) {\n      console.log('[Rotate] OK: ' + job.OutputFilename);\n      results.push({\n        CardName:       job.CardName,\n        SourcePath:     job.SourcePath,\n        OutputPath:     job.OutputPath,\n        OutputFilename: job.OutputFilename,\n        Status:         'OK'\n      });\n    } else {\n      throw new Error('Output file not created');\n    }\n  } catch (e) {\n    const errMsg = ((e.stderr || '') + (e.message || '')).slice(0, 400);\n    console.warn('[Rotate] Error for ' + job.CardName + ': ' + errMsg);\n    errors.push({\n      CardName:       job.CardName,\n      SourcePath:     job.SourcePath,\n      OutputPath:     job.OutputPath,\n      OutputFilename: job.OutputFilename,\n      Status:         'Error',\n      error:          errMsg\n    });\n  }\n}\n\nif (results.length === 0) {\n  throw new Error(\n    '[Rotate Between Images] All ' + errors.length + ' jobs failed. First error: ' +\n    (errors[0] && errors[0].error)\n  );\n}\n\nif (errors.length > 0) {\n  console.warn(\n    '[Rotate Between Images] Completed with ' + errors.length +\n    ' errors (' + results.length + ' succeeded).'\n  );\n}\n\nreturn [...results, ...errors].map(function(r) { return { json: r }; });\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -360,
+        0
+      ],
+      "id": "gbui001-0006-4000-8000-000000000006",
+      "name": "Rotate All Between Images"
+    },
+    {
+      "parameters": {
+        "jsCode": "const all    = $input.all().map(function(i) { return i.json; });\nconst ok     = all.filter(function(j) { return j.Status === 'OK'; });\nconst failed = all.filter(function(j) { return j.Status === 'Error'; });\n\nconsole.log(\n  '[Report] Between upright images: ' + ok.length + ' succeeded, ' +\n  failed.length + ' failed of ' + all.length + ' total.'\n);\n\nif (failed.length > 0) {\n  console.warn('[Report] Failed cards:');\n  failed.forEach(function(f) {\n    console.warn('  ' + f.CardName + ': ' + f.error);\n  });\n}\n\nreturn [{\n  json: {\n    succeeded:   ok.length,\n    failed:      failed.length,\n    total:       all.length,\n    failedCards: failed.map(function(f) { return { card: f.CardName, error: f.error }; })\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -120,
+        0
+      ],
+      "id": "gbui001-0007-4000-8000-000000000007",
+      "name": "Report Results"
+    }
+  ],
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Set Global Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Global Parameters": {
+      "main": [
+        [
+          {
+            "node": "Read Deck.json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Deck.json": {
+      "main": [
+        [
+          {
+            "node": "Parse Deck.json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Deck.json": {
+      "main": [
+        [
+          {
+            "node": "Build Rotation Job List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Rotation Job List": {
+      "main": [
+        [
+          {
+            "node": "Rotate All Between Images",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rotate All Between Images": {
+      "main": [
+        [
+          {
+            "node": "Report Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-03-09T00:00:00.000Z",
+  "versionId": "gbui001-ver1"
+}
